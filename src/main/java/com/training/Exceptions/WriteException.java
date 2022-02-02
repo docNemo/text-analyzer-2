@@ -1,4 +1,4 @@
-package com.training;
+package com.training.Exceptions;
 
 public class WriteException extends RuntimeException {
 

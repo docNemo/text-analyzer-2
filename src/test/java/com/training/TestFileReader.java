@@ -1,5 +1,6 @@
 package com.training;
 
+import com.training.Exceptions.ReaderException;
 import com.training.fileIO.FileReaderChar;
 import org.junit.Test;
 

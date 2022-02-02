@@ -1,5 +1,8 @@
 package com.training;
 
+import com.training.Exceptions.ReaderException;
+import com.training.Exceptions.WriteException;
+
 public class Formatter {
     private static final byte NUM_SPACES = 4;
     IReader reader;

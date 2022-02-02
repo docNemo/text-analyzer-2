@@ -1,6 +1,6 @@
 package com.training.fileIO;
 
-import com.training.ReaderException;
+import com.training.Exceptions.ReaderException;
 import com.training.IReader;
 import java.io.BufferedReader;
 import java.io.IOException;

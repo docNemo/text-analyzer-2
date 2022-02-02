@@ -1,4 +1,4 @@
-package com.training;
+package com.training.Exceptions;
 
 public class ReaderException extends RuntimeException{
     public ReaderException(final String message) {

@@ -1,5 +1,6 @@
 package com.training;
 
+import com.training.Exceptions.AppException;
 import com.training.fileIO.FileReaderChar;
 import com.training.fileIO.FileWriterChar;
 

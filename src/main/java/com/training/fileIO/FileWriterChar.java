@@ -1,7 +1,7 @@
 package com.training.fileIO;
 
 import com.training.IWriter;
-import com.training.WriteException;
+import com.training.Exceptions.WriteException;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
