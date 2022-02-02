@@ -25,7 +25,7 @@ public class FileReaderChar implements IReader, AutoCloseable {
     }
 
     @Override
-    public void close() throws Exception {
+    public void close() {
         reader = null;
     }
 }

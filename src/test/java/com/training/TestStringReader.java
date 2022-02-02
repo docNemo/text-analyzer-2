@@ -8,7 +8,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-public class AppTest {
+public class TestStringReader {
     @Test
     public void testStringReaderHasChar() {
         String expected = "asd; asd; asdasd { asdas asda; }";

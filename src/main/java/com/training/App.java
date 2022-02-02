@@ -18,12 +18,12 @@ import java.io.OutputStreamWriter;
 public class App {
     public static void main(String[] args) {
         try (
-                FileInputStream javaFileInputStream = new FileInputStream("src/asd.txt");
+                FileInputStream javaFileInputStream = new FileInputStream(args[0]);
                 InputStreamReader javaInputStreamReader = new InputStreamReader(javaFileInputStream);
                 BufferedReader javaFileReader = new BufferedReader(javaInputStreamReader);
                 FileReaderChar readerChar = new FileReaderChar(javaFileReader);
 
-                FileOutputStream javaFileOutputStream = new FileOutputStream("src/asd2.txt");
+                FileOutputStream javaFileOutputStream = new FileOutputStream(args[1]);
                 OutputStreamWriter javaOutputStreamReader = new OutputStreamWriter(javaFileOutputStream);
                 BufferedWriter javaFileWriter = new BufferedWriter(javaOutputStreamReader);
                 FileWriterChar fileWriterChar = new FileWriterChar(javaFileWriter);

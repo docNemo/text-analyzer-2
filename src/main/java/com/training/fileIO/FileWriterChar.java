@@ -19,7 +19,7 @@ public class FileWriterChar implements IWriter, AutoCloseable {
     }
 
     @Override
-    public void close() throws Exception {
+    public void close() {
         writer = null;
     }
 }
