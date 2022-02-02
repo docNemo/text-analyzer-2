@@ -1,7 +1,7 @@
 package com.training.fileIO;
 
 import com.training.IWriter;
-
+import com.training.WriteException;
 import java.io.BufferedWriter;
 import java.io.IOException;
 
@@ -13,9 +13,12 @@ public class FileWriterChar implements IWriter, AutoCloseable {
     }
 
     @Override
-    public void writeChar(char ch) throws IOException {
-        char[] chars = {ch};
-        writer.write(Character.toString(ch));
+    public void writeChar(char ch) throws WriteException {
+        try {
+            writer.write(Character.toString(ch));
+        } catch (IOException e) {
+            throw new WriteException("Error when writing character", e);
+        }
     }
 
     @Override

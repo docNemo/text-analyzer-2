@@ -2,39 +2,40 @@ package com.training;
 
 import com.training.fileIO.FileReaderChar;
 import com.training.fileIO.FileWriterChar;
-import com.training.stringIO.StringReaderChar;
-import com.training.stringIO.StringWriterChar;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 
-/**
- * Hello world!
- */
+
 public class App {
     public static void main(String[] args) {
-        try (
-                FileInputStream javaFileInputStream = new FileInputStream(args[0]);
-                InputStreamReader javaInputStreamReader = new InputStreamReader(javaFileInputStream);
-                BufferedReader javaFileReader = new BufferedReader(javaInputStreamReader);
-                FileReaderChar readerChar = new FileReaderChar(javaFileReader);
 
-                FileOutputStream javaFileOutputStream = new FileOutputStream(args[1]);
-                OutputStreamWriter javaOutputStreamReader = new OutputStreamWriter(javaFileOutputStream);
-                BufferedWriter javaFileWriter = new BufferedWriter(javaOutputStreamReader);
-                FileWriterChar fileWriterChar = new FileWriterChar(javaFileWriter);
+        final String pathToInputFile = args[0];
+        final String pathToOutputFile = args[1];
+        try (
+                FileInputStream inputStream = new FileInputStream(pathToInputFile);
+                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+                BufferedReader fileReader = new BufferedReader(inputStreamReader);
+                FileReaderChar readerChar = new FileReaderChar(fileReader);
+
+                FileOutputStream outputStream = new FileOutputStream(pathToOutputFile);
+                OutputStreamWriter outputStreamWriter = new OutputStreamWriter(outputStream);
+                BufferedWriter fileWriter = new BufferedWriter(outputStreamWriter);
+                FileWriterChar fileWriterChar = new FileWriterChar(fileWriter);
 
         ) {
-                while(readerChar.hasChar()) {
-                    fileWriterChar.writeChar(readerChar.readChar());
-                }
+            Formatter formatter = new Formatter(readerChar, fileWriterChar);
+            while (readerChar.hasChar()) {
+                formatter.format();
+            }
 
-        } catch (Exception e) {
-
+        } catch (IOException e) {
+            throw new AppException("Error creating reader and writer", e);
         }
 
     }

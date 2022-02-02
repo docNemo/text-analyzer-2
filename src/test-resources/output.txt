@@ -1,3 +1,5 @@
-asd: asdasda
-asda
-sda
+ {
+    abc;
+    def;
+    jkl( mno, pqr );
+}

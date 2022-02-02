@@ -1,7 +1,6 @@
 package com.training;
 
 import com.training.fileIO.FileReaderChar;
-import com.training.fileIO.FileReaderException;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -31,7 +30,7 @@ public class TestFileReader {
             }
 
         } catch (IOException e) {
-            throw new FileReaderException("Error while reading file in test 1 of file reader" , e);
+            throw new ReaderException("Error while reading file in test 1 of file reader" , e);
         }
         assertEquals(expected, actual.toString());
 
@@ -50,7 +49,7 @@ public class TestFileReader {
             }
 
         } catch (IOException e) {
-            throw new FileReaderException("Error while reading file in test 2 of file reader" , e);
+            throw new ReaderException("Error while reading file in test 2 of file reader" , e);
         }
 
         assertEquals(expected, actual.toString());
