@@ -1,7 +1,5 @@
 package com.training;
 
-import java.io.IOException;
-
 public class Formatter {
     private static final byte NUM_SPACES = 4;
     IReader reader;

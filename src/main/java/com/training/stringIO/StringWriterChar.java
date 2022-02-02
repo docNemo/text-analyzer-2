@@ -2,7 +2,7 @@ package com.training.stringIO;
 
 import com.training.IWriter;
 
-public class StringWriterChar implements IWriter, AutoCloseable {
+public class StringWriterChar implements IWriter {
     private StringBuilder stringForWrite;
 
     public StringWriterChar() {
@@ -16,10 +16,5 @@ public class StringWriterChar implements IWriter, AutoCloseable {
 
     public String getRecordedString() {
         return stringForWrite.toString();
-    }
-
-    @Override
-    public void close() throws Exception {
-
     }
 }

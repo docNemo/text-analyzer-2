@@ -26,7 +26,7 @@ public class App {
                 FileOutputStream outputStream = new FileOutputStream(pathToOutputFile);
                 OutputStreamWriter outputStreamWriter = new OutputStreamWriter(outputStream);
                 BufferedWriter fileWriter = new BufferedWriter(outputStreamWriter);
-                FileWriterChar fileWriterChar = new FileWriterChar(fileWriter);
+                FileWriterChar fileWriterChar = new FileWriterChar(fileWriter)
 
         ) {
             Formatter formatter = new Formatter(readerChar, fileWriterChar);
