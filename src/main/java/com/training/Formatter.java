@@ -31,7 +31,7 @@ public class Formatter {
                     }
                 }
                 case '{' -> {
-                    writeOpeningBrace(newLine, nestingLevel);
+                    writeOpeningBrace(newLine, wasWord, nestingLevel);
                     newLine = true;
                     nestingLevel++;
                 }
@@ -61,8 +61,10 @@ public class Formatter {
         }
     }
 
-    public void writeOpeningBrace(boolean newLine, int nestingLevel) throws WriteException {
-        writer.writeChar(' ');
+    public void writeOpeningBrace(boolean newLine, boolean wasWord, int nestingLevel) throws WriteException {
+        if (wasWord) {
+            writer.writeChar(' ');
+        }
         if (newLine) {
             writeIndent(nestingLevel);
         }
