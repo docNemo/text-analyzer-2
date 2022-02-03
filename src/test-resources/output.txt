@@ -1,5 +1,1 @@
-{
-    abc;
-    def;
-    jkl( mno, pqr );
-}
+( mno, pqr )

@@ -68,11 +68,10 @@ public class Formatter {
     }
 
     public void writeOpeningBrace(boolean newLine, boolean wasWord, int nestingLevel) throws WriteException {
-        if (wasWord) {
-            writer.writeChar(SPACE);
-        }
         if (newLine) {
             writeIndent(nestingLevel);
+        } else if (wasWord) {
+            writer.writeChar(SPACE);
         }
         writer.writeChar(OPENING_BRACE);
         writer.writeChar(NEW_LINE);
@@ -100,4 +99,6 @@ public class Formatter {
         }
         writer.writeChar(character);
     }
+
+
 }
