@@ -1,18 +1,18 @@
 package com.training;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import com.training.stringIO.StringReaderChar;
 import com.training.stringIO.StringWriterChar;
-import org.junit.Before;
-import org.junit.Test;
-
-import static org.junit.Assert.assertEquals;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class TestFormatter {
     Formatter formatter;
     IWriter writer;
     StringBuilder stringInWriter;
 
-    @Before
+    @BeforeEach
     public void createFormatter() {
         IReader reader = new StringReaderChar("");
         stringInWriter = new StringBuilder();

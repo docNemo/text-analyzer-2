@@ -1,10 +1,11 @@
 package com.training;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import com.training.Exceptions.ReaderException;
 import com.training.fileIO.FileReaderChar;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
