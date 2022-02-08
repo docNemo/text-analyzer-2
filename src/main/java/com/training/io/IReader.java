@@ -1,6 +1,6 @@
-package com.training;
+package com.training.io;
 
-import com.training.Exceptions.ReaderException;
+import com.training.exceptions.ReaderException;
 
 public interface IReader {
     boolean hasChar() throws ReaderException;

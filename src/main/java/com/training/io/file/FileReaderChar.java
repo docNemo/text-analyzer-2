@@ -1,11 +1,13 @@
-package com.training.fileIO;
+package com.training.io.file;
 
-import com.training.Exceptions.ReaderException;
-import com.training.IReader;
+import com.training.IClosable;
+import com.training.exceptions.CloseException;
+import com.training.exceptions.ReaderException;
+import com.training.io.IReader;
 import java.io.BufferedReader;
 import java.io.IOException;
 
-public class FileReaderChar implements IReader, AutoCloseable {
+public class FileReaderChar implements IReader, IClosable {
     BufferedReader reader;
 
     public FileReaderChar(BufferedReader reader) {
@@ -24,22 +26,20 @@ public class FileReaderChar implements IReader, AutoCloseable {
     @Override
     public char readChar() throws ReaderException {
         try {
-            char[] buf = new char[1];
-            reader.read(buf);
-            return buf[0];
+            return (char) reader.read();
         } catch (IOException e) {
             throw new ReaderException("Error when reading a character", e);
         }
     }
 
     @Override
-    public void close() throws RuntimeException {
+    public void close() throws CloseException {
         if (reader == null)
             return;
         try {
             reader.close();
         } catch (IOException e) {
-            throw new ReaderException("Error when closing reader", e);
+            throw new CloseException("Error when closing reader", e);
         } finally {
             reader = null;
         }

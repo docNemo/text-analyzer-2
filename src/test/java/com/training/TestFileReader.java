@@ -2,8 +2,10 @@ package com.training;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import com.training.Exceptions.ReaderException;
-import com.training.fileIO.FileReaderChar;
+import com.training.exceptions.AppException;
+import com.training.exceptions.CloseException;
+import com.training.exceptions.ReaderException;
+import com.training.io.file.FileReaderChar;
 import org.junit.jupiter.api.Test;
 
 import java.io.BufferedReader;
@@ -16,8 +18,8 @@ public class TestFileReader {
     @Test
     public void testFileReader() {
         String expected = """
-            as; asd
-            asddsa {} ()""";
+                as; asd
+                asddsa {} ()""";
         String pathToFile = "src/test/resources/testFileReader1.txt";
         StringBuilder actual = new StringBuilder();
 
@@ -31,8 +33,10 @@ public class TestFileReader {
                 actual.append(reader.readChar());
             }
 
+        } catch (CloseException e) {
+            throw new AppException("Error during closing stream of reader in te", e);
         } catch (IOException e) {
-            throw new ReaderException("Error while reading file in test 1 of file reader" , e);
+            throw new ReaderException("Error while reading file in test 1 of file reader", e);
         }
         assertEquals(expected, actual.toString());
 
@@ -50,8 +54,10 @@ public class TestFileReader {
                 actual.append(reader.readChar());
             }
 
+        } catch (CloseException e) {
+            throw new AppException("Error during closing stream of reader in te", e);
         } catch (IOException e) {
-            throw new ReaderException("Error while reading file in test 2 of file reader" , e);
+            throw new ReaderException("Error while reading file in test 2 of file reader", e);
         }
 
         assertEquals(expected, actual.toString());

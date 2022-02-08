@@ -1,8 +1,11 @@
 package com.training;
 
-import com.training.Exceptions.AppException;
-import com.training.fileIO.FileReaderChar;
-import com.training.fileIO.FileWriterChar;
+import com.training.exceptions.AppException;
+import com.training.exceptions.CloseException;
+import com.training.formatter.Formatter;
+import com.training.formatter.IFormatter;
+import com.training.io.file.FileReaderChar;
+import com.training.io.file.FileWriterChar;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -30,12 +33,15 @@ public class App {
                 FileWriterChar fileWriterChar = new FileWriterChar(fileWriter)
 
         ) {
-            Formatter formatter = new Formatter(readerChar, fileWriterChar);
+            IFormatter formatter = new Formatter(readerChar, fileWriterChar);
             while (readerChar.hasChar()) {
                 formatter.format();
             }
 
-        } catch (IOException e) {
+        } catch (CloseException e) {
+            throw new AppException("Error during closing stream", e);
+        }
+        catch (IOException e) {
             throw new AppException("Error creating reader and writer", e);
         }
 

@@ -1,6 +1,6 @@
-package com.training;
+package com.training.io;
 
-import com.training.Exceptions.WriteException;
+import com.training.exceptions.WriteException;
 
 public interface IWriter {
     void writeChar(char ch) throws WriteException;

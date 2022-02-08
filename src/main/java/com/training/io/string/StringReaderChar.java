@@ -1,6 +1,6 @@
-package com.training.stringIO;
+package com.training.io.string;
 
-import com.training.IReader;
+import com.training.io.IReader;
 
 public class StringReaderChar implements IReader {
     private String stringForRead;

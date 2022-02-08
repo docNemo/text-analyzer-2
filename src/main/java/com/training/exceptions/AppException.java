@@ -1,4 +1,4 @@
-package com.training.Exceptions;
+package com.training.exceptions;
 
 public class AppException extends RuntimeException{
     public AppException(final String message) { super(message); }

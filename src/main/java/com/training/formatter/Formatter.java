@@ -1,9 +1,11 @@
-package com.training;
+package com.training.formatter;
 
-import com.training.Exceptions.ReaderException;
-import com.training.Exceptions.WriteException;
+import com.training.exceptions.ReaderException;
+import com.training.exceptions.WriteException;
+import com.training.io.IReader;
+import com.training.io.IWriter;
 
-public class Formatter {
+public class Formatter implements IFormatter {
     private static final byte NUM_SPACES = 4;
     private static final char SPACE = ' ';
     private static final char OPENING_BRACE = '{';
@@ -11,8 +13,8 @@ public class Formatter {
     private static final char SEMICOLON = ';';
     private static final char NEW_LINE = '\n';
 
-    IReader reader;
-    IWriter writer;
+    private IReader reader;
+    private IWriter writer;
 
     public Formatter(IReader reader, IWriter writer) {
         this.reader = reader;

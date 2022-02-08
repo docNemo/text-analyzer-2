@@ -1,6 +1,6 @@
-package com.training.stringIO;
+package com.training.io.string;
 
-import com.training.IWriter;
+import com.training.io.IWriter;
 
 public class StringWriterChar implements IWriter {
     private StringBuilder stringForWrite;
