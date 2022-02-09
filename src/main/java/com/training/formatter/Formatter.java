@@ -1,6 +1,8 @@
 package com.training.formatter;
 
+import com.training.Lexer;
 import com.training.exceptions.ReaderException;
+import com.training.exceptions.UnexpectedLexemeException;
 import com.training.exceptions.WriteException;
 import com.training.io.IReader;
 import com.training.io.IWriter;
@@ -8,10 +10,16 @@ import com.training.io.IWriter;
 public class Formatter implements IFormatter {
     private static final byte NUM_SPACES = 4;
     private static final char SPACE = ' ';
+    private static final String SPACE_TOKEN = "SPACE";
     private static final char OPENING_BRACE = '{';
+    private static final String OPENING_BRACE_TOKEN = "OPENING_BRACE";
     private static final char CLOSING_BRACE = '}';
+    private static final String CLOSING_BRACE_TOKEN = "CLOSING_BRACE";
     private static final char SEMICOLON = ';';
+    private static final String SEMICOLON_TOKEN = "SEMICOLON";
     private static final char NEW_LINE = '\n';
+    private static final String NEW_LINE_TOKEN = "NEW_LINE";
+    private static final String COMMON_CHAR_TOKEN = "COMMON_CHAR";
 
     private IReader reader;
     private IWriter writer;
@@ -26,36 +34,42 @@ public class Formatter implements IFormatter {
         boolean newLine = true;
         int nestingLevel = 0;
 
+        Lexer lexer = new Lexer();
+
         while (reader.hasChar()) {
             char character = reader.readChar();
 
-            switch (character) {
-                case NEW_LINE -> {
+            String[] lexeme = lexer.analyse(character);
+            switch (lexeme[0]) {
+                case NEW_LINE_TOKEN -> {
                     //ignore
                 }
-                case SPACE -> {
+                case SPACE_TOKEN -> {
                     if (wasWord) {
                         wasWord = false;
                     }
                 }
-                case OPENING_BRACE -> {
+                case OPENING_BRACE_TOKEN -> {
                     writeOpeningBrace(newLine, wasWord, nestingLevel);
                     newLine = true;
                     nestingLevel++;
                 }
-                case CLOSING_BRACE -> {
+                case CLOSING_BRACE_TOKEN -> {
                     writeClosingBrace(newLine, nestingLevel);
                     nestingLevel--;
                     newLine = true;
                 }
-                case SEMICOLON -> {
+                case SEMICOLON_TOKEN -> {
                     writeSemicolon();
                     newLine = true;
                 }
-                default -> {
+                case COMMON_CHAR_TOKEN -> {
                     writeCommonChar(newLine, wasWord, nestingLevel, character);
                     newLine = false;
                     wasWord = true;
+                }
+                default -> {
+                    throw new UnexpectedLexemeException("Unexpected lexeme: " + lexeme);
                 }
             }
         }
