@@ -34,14 +34,11 @@ public class App {
 
         ) {
             IFormatter formatter = new Formatter(readerChar, fileWriterChar);
-            while (readerChar.hasChar()) {
-                formatter.format();
-            }
+            formatter.format();
 
         } catch (CloseException e) {
             throw new AppException("Error during closing stream", e);
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             throw new AppException("Error creating reader and writer", e);
         }
 

@@ -4,11 +4,13 @@ import com.training.IClosable;
 import com.training.exceptions.CloseException;
 import com.training.exceptions.ReaderException;
 import com.training.io.IReader;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 
 public class FileReaderChar implements IReader, IClosable {
-    BufferedReader reader;
+    private BufferedReader reader;
+    private int codeChar = -1;
 
     public FileReaderChar(BufferedReader reader) {
         this.reader = reader;
@@ -17,7 +19,10 @@ public class FileReaderChar implements IReader, IClosable {
     @Override
     public boolean hasChar() throws ReaderException {
         try {
-            return reader.ready();
+            if (codeChar == -1) {
+                codeChar = reader.read();
+            }
+            return codeChar != -1;
         } catch (IOException e) {
             throw new ReaderException("error checking read readiness", e);
         }
@@ -26,7 +31,15 @@ public class FileReaderChar implements IReader, IClosable {
     @Override
     public char readChar() throws ReaderException {
         try {
-            return (char) reader.read();
+            if (codeChar != -1) {
+                char result = (char) codeChar;
+                codeChar = -1;
+                return result;
+            } else {
+                codeChar = reader.read();
+                return (char) codeChar;
+            }
+
         } catch (IOException e) {
             throw new ReaderException("Error when reading a character", e);
         }
