@@ -14,14 +14,18 @@ public class StringReaderChar implements IReader {
     @Override
 
     public boolean hasChar() {
-        return indexForRead != stringForRead.length();
+        return indexForRead >= stringForRead.length();
     }
 
     @Override
     public char readChar() {
+        if (indexForRead != stringForRead.length()) {
             char returnableChar = stringForRead.charAt(indexForRead);
             indexForRead++;
             return returnableChar;
+        } else {
+            return (char) -1;
+        }
     }
 
 
