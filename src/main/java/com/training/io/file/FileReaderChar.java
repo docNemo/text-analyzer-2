@@ -10,36 +10,25 @@ import java.io.IOException;
 
 public class FileReaderChar implements IReader, IClosable {
     private BufferedReader reader;
-    private int codeChar = -1;
+    private int codeChar;
 
     public FileReaderChar(BufferedReader reader) {
+
         this.reader = reader;
+        codeChar = readSymbol();
     }
 
     @Override
     public boolean hasChar() throws ReaderException {
-        try {
-            if (codeChar == -1) {
-                codeChar = reader.read();
-            }
-            return codeChar != -1;
-        } catch (IOException e) {
-            throw new ReaderException("error checking read readiness", e);
-        }
+        return codeChar != -1;
     }
 
     @Override
     public char readChar() throws ReaderException {
         try {
-            if (codeChar != -1) {
-                char result = (char) codeChar;
-                codeChar = -1;
-                return result;
-            } else {
-                codeChar = reader.read();
-                return (char) codeChar;
-            }
-
+            int returnableChar = codeChar;
+            codeChar = reader.read();
+            return (char) returnableChar;
         } catch (IOException e) {
             throw new ReaderException("Error when reading a character", e);
         }
@@ -55,6 +44,14 @@ public class FileReaderChar implements IReader, IClosable {
             throw new CloseException("Error when closing reader", e);
         } finally {
             reader = null;
+        }
+    }
+
+    private int readSymbol() throws ReaderException {
+        try {
+            return reader.read();
+        } catch (IOException e) {
+            throw new ReaderException("Can't read symbol", e);
         }
     }
 }

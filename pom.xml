@@ -16,7 +16,7 @@
 
         <!-- Plugins -->
         <maven-surefire.version>2.22.2</maven-surefire.version>
-        <maven-jar.version>3.2.1</maven-jar.version>
+        <maven-jar.version>3.2.0</maven-jar.version>
 
         <!-- Testing -->
         <junit-jupiter.version>5.6.3</junit-jupiter.version>

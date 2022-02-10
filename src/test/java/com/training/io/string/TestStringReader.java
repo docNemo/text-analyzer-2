@@ -1,4 +1,4 @@
-package com.training;
+package com.training.io.string;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
