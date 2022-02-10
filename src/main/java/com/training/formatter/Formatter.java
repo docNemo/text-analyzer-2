@@ -1,6 +1,7 @@
 package com.training.formatter;
 
-import com.training.Lexer;
+import com.training.lexer.Lexeme;
+import com.training.lexer.Lexer;
 import com.training.exceptions.ReaderException;
 import com.training.exceptions.UnexpectedLexemeException;
 import com.training.exceptions.WriteException;
@@ -21,8 +22,8 @@ public class Formatter implements IFormatter {
     private static final String NEW_LINE_TOKEN = "NEW_LINE";
     private static final String COMMON_CHAR_TOKEN = "COMMON_CHAR";
 
-    private IReader reader;
-    private IWriter writer;
+    private final IReader reader;
+    private final IWriter writer;
 
     public Formatter(IReader reader, IWriter writer) {
         this.reader = reader;
@@ -39,8 +40,8 @@ public class Formatter implements IFormatter {
         while (reader.hasChar()) {
             char character = reader.readChar();
 
-            String[] lexeme = lexer.analyse(character);
-            switch (lexeme[0]) {
+            Lexeme lexeme = lexer.analyse(character);
+            switch (lexeme.getName()) {
                 case NEW_LINE_TOKEN -> {
                     //ignore
                 }
@@ -64,18 +65,16 @@ public class Formatter implements IFormatter {
                     newLine = true;
                 }
                 case COMMON_CHAR_TOKEN -> {
-                    writeCommonChar(newLine, wasWord, nestingLevel, character);
+                    writeCommonChar(newLine, wasWord, nestingLevel, lexeme.getLexeme());
                     newLine = false;
                     wasWord = true;
                 }
-                default -> {
-                    throw new UnexpectedLexemeException("Unexpected lexeme: " + lexeme);
-                }
+                default -> throw new UnexpectedLexemeException("Unexpected lexeme: " + lexeme);
             }
         }
     }
 
-    public void writeIndent(int nestingLevel) throws WriteException {
+    void writeIndent(int nestingLevel) throws WriteException {
         int size_indent = NUM_SPACES * nestingLevel;
         while (size_indent > 0) {
             writer.writeChar(SPACE);
@@ -83,7 +82,7 @@ public class Formatter implements IFormatter {
         }
     }
 
-    public void writeOpeningBrace(boolean newLine, boolean wasWord, int nestingLevel) throws WriteException {
+    void writeOpeningBrace(boolean newLine, boolean wasWord, int nestingLevel) throws WriteException {
         if (newLine) {
             writeIndent(nestingLevel);
         } else if (wasWord) {
@@ -93,7 +92,7 @@ public class Formatter implements IFormatter {
         writer.writeChar(NEW_LINE);
     }
 
-    public void writeClosingBrace(boolean newLine, int nestingLevel) throws WriteException {
+    void writeClosingBrace(boolean newLine, int nestingLevel) throws WriteException {
         if (!newLine) {
             writer.writeChar(NEW_LINE);
         }
@@ -102,12 +101,12 @@ public class Formatter implements IFormatter {
         writer.writeChar(NEW_LINE);
     }
 
-    public void writeSemicolon() throws WriteException {
+    void writeSemicolon() throws WriteException {
         writer.writeChar(SEMICOLON);
         writer.writeChar(NEW_LINE);
     }
 
-    public void writeCommonChar(boolean newLine, boolean wasWord, int nestingLevel, char character) throws WriteException {
+    void writeCommonChar(boolean newLine, boolean wasWord, int nestingLevel, char character) throws WriteException {
         if (newLine) {
             writeIndent(nestingLevel);
         } else if (!wasWord) {
@@ -115,6 +114,4 @@ public class Formatter implements IFormatter {
         }
         writer.writeChar(character);
     }
-
-
 }

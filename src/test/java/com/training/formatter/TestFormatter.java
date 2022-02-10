@@ -1,4 +1,4 @@
-package com.training;
+package com.training.formatter;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
