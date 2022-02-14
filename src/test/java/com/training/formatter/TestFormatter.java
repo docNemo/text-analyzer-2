@@ -7,12 +7,15 @@ import com.training.io.IReader;
 import com.training.io.IWriter;
 import com.training.io.string.StringReaderChar;
 import com.training.io.string.StringWriterChar;
+import com.training.lexer.ILexer;
+import com.training.lexer.Lexer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class TestFormatter {
     Formatter formatter;
     IReader reader;
+    ILexer lexer;
     IWriter writer;
     StringBuilder stringInWriter;
 
@@ -21,7 +24,8 @@ public class TestFormatter {
         IReader reader = new StringReaderChar("");
         stringInWriter = new StringBuilder();
         writer = new StringWriterChar(stringInWriter);
-        formatter = new Formatter(reader, writer);
+        lexer = new Lexer(reader);
+        formatter = new Formatter(lexer, writer);
     }
 
     @Test
@@ -47,7 +51,7 @@ public class TestFormatter {
         boolean newLine = false;
         boolean wasWord = false;
         int nestinglevel = 1;
-        formatter.writeOpeningBrace(newLine, wasWord, nestinglevel);
+        formatter.writeOpeningBrace(newLine, wasWord, nestinglevel, "{");
 
         String expected = "{\n";
         String actual = stringInWriter.toString();
@@ -61,7 +65,7 @@ public class TestFormatter {
         int nestinglevel = 1;
         String expected = "    {\n";
 
-        formatter.writeOpeningBrace(newLine, wasWord, nestinglevel);
+        formatter.writeOpeningBrace(newLine, wasWord, nestinglevel, "{");
         String actual = stringInWriter.toString();
         assertEquals(expected, actual);
     }
@@ -73,7 +77,7 @@ public class TestFormatter {
         int nestinglevel = 1;
         String expected = "    {\n";
 
-        formatter.writeOpeningBrace(newLine, wasWord, nestinglevel);
+        formatter.writeOpeningBrace(newLine, wasWord, nestinglevel, "{");
         String actual = stringInWriter.toString();
         assertEquals(expected, actual);
     }
@@ -85,7 +89,7 @@ public class TestFormatter {
         int nestinglevel = 1;
         String expected = " {\n";
 
-        formatter.writeOpeningBrace(newLine, wasWord, nestinglevel);
+        formatter.writeOpeningBrace(newLine, wasWord, nestinglevel, "{");
         String actual = stringInWriter.toString();
         assertEquals(expected, actual);
     }
@@ -94,7 +98,7 @@ public class TestFormatter {
     public void testWriteClosingBrace1() {
         boolean newLine = false;
         int nestingLevel = 2;
-        formatter.writeClosingBrace(newLine, nestingLevel);
+        formatter.writeClosingBrace(newLine, nestingLevel, "}");
         String expected = "\n    }\n";
         String actual = stringInWriter.toString();
         assertEquals(expected, actual);
@@ -104,7 +108,7 @@ public class TestFormatter {
     public void testWriteClosingBrace2() {
         boolean newLine = true;
         int nestingLevel = 1;
-        formatter.writeClosingBrace(newLine, nestingLevel);
+        formatter.writeClosingBrace(newLine, nestingLevel, "}");
         String expected = "}\n";
         String actual = stringInWriter.toString();
         assertEquals(expected, actual);
@@ -112,7 +116,7 @@ public class TestFormatter {
 
     @Test
     public void testWriteSemicolon() {
-        formatter.writeSemicolon();
+        formatter.writeSemicolon(";");
         String expected = ";\n";
         String actual = stringInWriter.toString();
         assertEquals(expected, actual);
@@ -123,10 +127,10 @@ public class TestFormatter {
         boolean newLine = false;
         boolean wasWord = false;
         int nestingLevel = 1;
-        char character = 'f';
+        String testString = "fads";
 
-        formatter.writeCommonChar(newLine, wasWord, nestingLevel, character);
-        String expected = " " + character;
+        formatter.writeCommonChar(newLine, wasWord, nestingLevel, testString);
+        String expected = " " + testString;
         String actual = stringInWriter.toString();
         assertEquals(expected, actual);
     }
@@ -136,10 +140,10 @@ public class TestFormatter {
         boolean newLine = false;
         boolean wasWord = true;
         int nestingLevel = 1;
-        char character = 'f';
+        String testString = "fads";
 
-        formatter.writeCommonChar(newLine, wasWord, nestingLevel, character);
-        String expected = Character.toString(character);
+        formatter.writeCommonChar(newLine, wasWord, nestingLevel, testString);
+        String expected = testString;
         String actual = stringInWriter.toString();
         assertEquals(expected, actual);
     }
@@ -149,10 +153,10 @@ public class TestFormatter {
         boolean newLine = true;
         boolean wasWord = true;
         int nestingLevel = 1;
-        char character = 'f';
+        String testString = "fads";
 
-        formatter.writeCommonChar(newLine, wasWord, nestingLevel, character);
-        String expected = "    " + character;
+        formatter.writeCommonChar(newLine, wasWord, nestingLevel, testString);
+        String expected = "    " + testString;
         String actual = stringInWriter.toString();
         assertEquals(expected, actual);
     }
@@ -162,10 +166,10 @@ public class TestFormatter {
         boolean newLine = true;
         boolean wasWord = false;
         int nestingLevel = 1;
-        char character = 'f';
+        String testString = "fads";
 
-        formatter.writeCommonChar(newLine, wasWord, nestingLevel, character);
-        String expected = "    " + character;
+        formatter.writeCommonChar(newLine, wasWord, nestingLevel, testString);
+        String expected = "    " + testString;
         String actual = stringInWriter.toString();
         assertEquals(expected, actual);
     }
@@ -173,10 +177,12 @@ public class TestFormatter {
     @Test
     public void testFormat() {
         String input = """
-                asd; asd; qew
-                {qwer;
+                asd;                asd;
+                qew
+                {
+                qwer;
                 asdasdas;}
-                
+                                
                 qkjfj;""";
         reader = new StringReaderChar(input);
         String expected = """
@@ -189,7 +195,8 @@ public class TestFormatter {
                 qkjfj;
                 """;
 
-        formatter = new Formatter(reader, writer);
+        lexer = new Lexer(reader);
+        formatter = new Formatter(lexer, writer);
 
         formatter.format();
         String actual = stringInWriter.toString();

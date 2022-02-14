@@ -1,4 +1,4 @@
-( mno, pqr ) asd;
+(mno,pqr)asd;
 asdasd;
 asdasd;
 asdas {

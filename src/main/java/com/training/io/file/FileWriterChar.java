@@ -17,7 +17,16 @@ public class FileWriterChar implements IWriter, IClosable {
     @Override
     public void writeChar(char ch) throws WriteException {
         try {
-            writer.write(Character.toString(ch));
+            writer.write(ch);
+        } catch (IOException e) {
+            throw new WriteException("Error when writing character", e);
+        }
+    }
+
+    @Override
+    public void writeString(String str) throws WriteException {
+        try {
+            writer.write(str);
         } catch (IOException e) {
             throw new WriteException("Error when writing character", e);
         }

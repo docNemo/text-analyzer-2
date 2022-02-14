@@ -1,20 +1,22 @@
-package com.training.lexer;
+package com.training.lexer.token;
 
-public class Lexeme {
+public class Token implements IToken {
 
     private final String name;
-    private final Character lexeme;
+    private final String lexeme;
 
-    public Lexeme(String name, Character lexeme) {
+    public Token(String name, String lexeme) {
         this.name = name;
         this.lexeme = lexeme;
     }
 
+    @Override
     public String getName() {
         return name;
     }
 
-    public Character getLexeme() {
+    @Override
+    public String getLexeme() {
         return lexeme;
     }
 

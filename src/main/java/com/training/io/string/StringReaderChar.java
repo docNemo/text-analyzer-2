@@ -14,7 +14,7 @@ public class StringReaderChar implements IReader {
     @Override
 
     public boolean hasChar() {
-        return indexForRead >= stringForRead.length();
+        return indexForRead < stringForRead.length();
     }
 
     @Override

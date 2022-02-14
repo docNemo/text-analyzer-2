@@ -6,6 +6,8 @@ import com.training.formatter.Formatter;
 import com.training.formatter.IFormatter;
 import com.training.io.file.FileReaderChar;
 import com.training.io.file.FileWriterChar;
+import com.training.lexer.ILexer;
+import com.training.lexer.Lexer;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -33,7 +35,8 @@ public class App {
                 FileWriterChar fileWriterChar = new FileWriterChar(fileWriter)
 
         ) {
-            IFormatter formatter = new Formatter(readerChar, fileWriterChar);
+            ILexer lexer = new Lexer(readerChar);
+            IFormatter formatter = new Formatter(lexer, fileWriterChar);
             formatter.format();
 
         } catch (CloseException e) {
