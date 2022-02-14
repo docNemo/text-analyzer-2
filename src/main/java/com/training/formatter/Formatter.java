@@ -6,8 +6,11 @@ import com.training.exceptions.ReaderException;
 import com.training.exceptions.UnexpectedLexemeException;
 import com.training.exceptions.WriteException;
 import com.training.io.IWriter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Formatter implements IFormatter {
+
     private static final byte NUM_SPACES = 4;
     private static final char SPACE = ' ';
     private static final String OPENING_BRACE_TOKEN = "OPENING_BRACE";
@@ -57,7 +60,9 @@ public class Formatter implements IFormatter {
                     newLine = false;
                     wasWord = true;
                 }
-                default -> throw new UnexpectedLexemeException("Unexpected lexeme: " + token);
+                default -> {
+                    throw new UnexpectedLexemeException("Unexpected lexeme: " + token);
+                }
             }
         }
     }

@@ -12,6 +12,10 @@ public class Lexer implements ILexer{
     private static final char SEMICOLON = ';';
     private static final char NEW_LINE = '\n';
     private static final char SLASH = '/';
+    private static final String COMMENT_TOKEN = "COMMENT";
+    private static final String MULTILINE_COMMENT_TOKEN = "MULTILINE_COMMENT";
+    private static final String COMMON_TOKEN = "COMMON";
+
 
     private final IReader reader;
     private IToken readedToken;
@@ -60,19 +64,19 @@ public class Lexer implements ILexer{
                         char charAfterSlash = reader.readChar();
 
                         yield switch (charAfterSlash) {
-                            case SLASH -> new Token("COMMENT", character + readComment());
-                            case ASTERISK -> new Token("MULTILINE_COMMENT", "/*" + readMultilineComment());
-                            case NEW_LINE, SPACE -> new Token("COMMON", String.valueOf(character));
-                            default -> new Token("COMMON",
+                            case SLASH -> new Token(COMMENT_TOKEN, character + readComment());
+                            case ASTERISK -> new Token(MULTILINE_COMMENT_TOKEN, "/*" + readMultilineComment());
+                            case NEW_LINE, SPACE -> new Token(COMMON_TOKEN, String.valueOf(character));
+                            default -> new Token(COMMON_TOKEN,
                                     character + String.valueOf(charAfterSlash) + readCommon());
                         };
                     } else {
-                        yield new Token("COMMON", String.valueOf(character));
+                        yield new Token(COMMON_TOKEN, String.valueOf(character));
                     }
                 }
                 default -> {
                     readyToken = true;
-                    yield new Token("COMMON", character + readCommon());
+                    yield new Token(COMMON_TOKEN, character + readCommon());
                 }
             };
         }
