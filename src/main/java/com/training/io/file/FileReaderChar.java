@@ -1,6 +1,6 @@
 package com.training.io.file;
 
-import com.training.IClosable;
+import com.training.closable.IClosable;
 import com.training.exceptions.CloseException;
 import com.training.exceptions.ReaderException;
 import com.training.io.IReader;

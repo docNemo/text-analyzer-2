@@ -8,6 +8,8 @@ import com.training.io.file.FileReaderChar;
 import com.training.io.file.FileWriterChar;
 import com.training.lexer.ILexer;
 import com.training.lexer.Lexer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -19,6 +21,8 @@ import java.io.OutputStreamWriter;
 
 
 public class App {
+    private static final Logger logger = LoggerFactory.getLogger(App.class);
+
     public static void main(String[] args) {
 
         final String pathToInputFile = args[0];
@@ -40,8 +44,10 @@ public class App {
             formatter.format();
 
         } catch (CloseException e) {
+            logger.error("Error during closing stream. {} ", e.toString());
             throw new AppException("Error during closing stream", e);
         } catch (IOException e) {
+            logger.error("Error creating reader and writer. {} ", e.toString());
             throw new AppException("Error creating reader and writer", e);
         }
 

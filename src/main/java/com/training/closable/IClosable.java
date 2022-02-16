@@ -1,4 +1,4 @@
-package com.training;
+package com.training.closable;
 
 import com.training.exceptions.CloseException;
 

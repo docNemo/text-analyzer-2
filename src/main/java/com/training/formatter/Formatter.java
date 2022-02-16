@@ -6,8 +6,6 @@ import com.training.exceptions.ReaderException;
 import com.training.exceptions.UnexpectedLexemeException;
 import com.training.exceptions.WriteException;
 import com.training.io.IWriter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class Formatter implements IFormatter {
 
