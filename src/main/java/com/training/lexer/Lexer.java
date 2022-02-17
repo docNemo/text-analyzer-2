@@ -4,7 +4,7 @@ import com.training.io.IReader;
 import com.training.lexer.token.IToken;
 import com.training.lexer.token.Token;
 
-public class Lexer implements ILexer{
+public class Lexer implements ILexer {
     private static final char SPACE = ' ';
     private static final char ASTERISK = '*';
     private static final char OPENING_BRACE = '{';
