@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import com.training.exceptions.AppException;
 import com.training.exceptions.CloseException;
 import com.training.exceptions.ReaderException;
-import com.training.io.file.FileReaderChar;
 import org.junit.jupiter.api.Test;
 
 import java.io.BufferedReader;

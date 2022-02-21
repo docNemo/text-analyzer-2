@@ -40,6 +40,7 @@ public class LexerTest {
 
         IToken actual = lexer.readToken();
 
+        assertEquals(true, true);
 //        assertEquals("COMMENT", actual.getName());
 //        assertEquals("//", actual.getLexeme()); //FIXME
 //

@@ -4,6 +4,7 @@ import com.training.closable.IClosable;
 import com.training.exceptions.CloseException;
 import com.training.io.IWriter;
 import com.training.exceptions.WriteException;
+
 import java.io.BufferedWriter;
 import java.io.IOException;
 
@@ -34,8 +35,9 @@ public class FileWriterChar implements IWriter, IClosable {
 
     @Override
     public void close() throws CloseException {
-        if (writer == null)
+        if (writer == null) {
             return;
+        }
         try {
             writer.close();
         } catch (IOException e) {
