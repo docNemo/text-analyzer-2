@@ -4,8 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import com.training.io.string.StringReaderChar;
-
 import org.junit.jupiter.api.Test;
 
 public class TestStringReader {

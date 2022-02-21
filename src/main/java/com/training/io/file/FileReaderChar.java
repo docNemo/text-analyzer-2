@@ -36,8 +36,9 @@ public class FileReaderChar implements IReader, IClosable {
 
     @Override
     public void close() throws CloseException {
-        if (reader == null)
+        if (reader == null) {
             return;
+        }
         try {
             reader.close();
         } catch (IOException e) {

@@ -2,7 +2,6 @@ package com.training.formatter;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import com.training.formatter.Formatter;
 import com.training.io.IReader;
 import com.training.io.IWriter;
 import com.training.io.string.StringReaderChar;
@@ -21,7 +20,7 @@ public class TestFormatter {
 
     @BeforeEach
     public void createFormatter() {
-        IReader reader = new StringReaderChar("");
+        reader = new StringReaderChar("");
         stringInWriter = new StringBuilder();
         writer = new StringWriterChar(stringInWriter);
         lexer = new Lexer(reader);
