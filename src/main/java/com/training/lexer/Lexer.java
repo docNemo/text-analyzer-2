@@ -49,7 +49,7 @@ public class Lexer implements ILexer {
         IToken nextToken = null;
         boolean readyToken = false;
 
-        while (reader.hasChar() && !readyToken) {
+        while (!readyToken && reader.hasChar()) {
             char character = reader.readChar();
 
             nextToken = switch (character) {
