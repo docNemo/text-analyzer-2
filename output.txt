@@ -1,7 +1,7 @@
-(mno,pqr)asd;
+(mno,pqr)asd;
+asdasd;
 asdasd;
-asdasd;
-asdas {
+asdas {
     asdas;
     asd;
     asdsad {
