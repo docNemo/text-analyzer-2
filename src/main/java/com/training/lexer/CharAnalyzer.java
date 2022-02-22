@@ -20,7 +20,7 @@ public class CharAnalyzer {
             case ASTERISK -> "ASTERISK";
             case SLASH -> "SLASH";
             case DOUBLE_QUOTE -> "DOUBLE_QUOTE";
-            default -> "COMMON_CHAR";
+            default -> "COMMON";
         };
     }
 }

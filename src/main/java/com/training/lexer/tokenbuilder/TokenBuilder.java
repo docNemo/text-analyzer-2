@@ -6,7 +6,8 @@ import com.training.lexer.token.Token;
 public class TokenBuilder implements ITokenBuilder {
     private String nameToken;
     private StringBuilder lexeme = new StringBuilder();
-    private Character nextChar;
+    private IToken nextToken;
+    private char nextChar;
 
     @Override
     public void setNameToken(String nameToken) {
@@ -19,13 +20,33 @@ public class TokenBuilder implements ITokenBuilder {
     }
 
     @Override
-    public Character getNextChar() {
+    public char getNextChar() {
         return nextChar;
     }
 
     @Override
-    public void setNextChar(Character nextChar) {
+    public void setNextChar(char nextChar) {
         this.nextChar = nextChar;
+    }
+
+    @Override
+    public void setNextToken(String name, String lexeme) {
+        this.nextToken = new Token(name, lexeme);
+    }
+
+    @Override
+    public IToken getNextToken() {
+        return nextToken;
+    }
+
+    @Override
+    public void deleteLastChar() {
+        lexeme.deleteCharAt(lexeme.length() - 1);
+    }
+
+    @Override
+    public int lengthLexeme() {
+        return lexeme.length();
     }
 
     @Override

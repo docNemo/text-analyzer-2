@@ -1,5 +1,6 @@
 package com.training.lexer.state.transitions;
 
+import com.training.lexer.CharAnalyzer;
 import com.training.lexer.state.IState;
 import com.training.lexer.state.State;
 import com.training.lexer.state.StatesPair;
@@ -22,108 +23,83 @@ public class StateTransitions implements IStateTransitions {
     public StateTransitions() {
         stateTransitions = new HashMap<>();
 
-        IState init = new State("INIT");
+        IState start = new State("START");
+        IState slash = new State("SLASH");
         IState common = new State("COMMON");
-        IState firstSlash = new State("FIRST_SLASH");
-        IState lineComment = new State("LINE_COMMENT");
-        IState multilineComment = new State("MULTILINE_COMMENT");
+        IState newLine = new State("NEW_LINE");
+        IState space = new State("SPACE");
         IState asterisk = new State("ASTERISK");
-        IState strLiteral = new State("STRING_LITERAL");
+        IState ready = new State("TOKEN_READY");
 
-        //State - Init
-        stateTransitions.put(new StatesPair(init, analyse(OPENING_BRACE)), common);
-        stateTransitions.put(new StatesPair(init, analyse(CLOSING_BRACE)), common);
-        stateTransitions.put(new StatesPair(init, analyse(SEMICOLON)), common);
-        stateTransitions.put(new StatesPair(init, analyse(SLASH)), firstSlash);
-        stateTransitions.put(new StatesPair(init, analyse(ASTERISK)), common);
-        stateTransitions.put(new StatesPair(init, analyse(NEW_LINE)), common);
-        stateTransitions.put(new StatesPair(init, analyse(SPACE)), common);
-        stateTransitions.put(new StatesPair(init, analyse(DOUBLE_QUOTE)), strLiteral);
-        stateTransitions.put(new StatesPair(init, "COMMON_CHAR"), common);
+        //State - Start
+        stateTransitions.put(new StatesPair(start, CharAnalyzer.analyse(OPENING_BRACE)), ready);
+        stateTransitions.put(new StatesPair(start, CharAnalyzer.analyse(CLOSING_BRACE)), ready);
+        stateTransitions.put(new StatesPair(start, CharAnalyzer.analyse(SEMICOLON)), ready);
+        stateTransitions.put(new StatesPair(start, CharAnalyzer.analyse(SLASH)), slash);
+        stateTransitions.put(new StatesPair(start, CharAnalyzer.analyse(ASTERISK)), asterisk);
+        stateTransitions.put(new StatesPair(start, CharAnalyzer.analyse(NEW_LINE)), newLine);
+        stateTransitions.put(new StatesPair(start, CharAnalyzer.analyse(SPACE)), space);
+        stateTransitions.put(new StatesPair(start, CharAnalyzer.analyse(DOUBLE_QUOTE)), ready);
+        stateTransitions.put(new StatesPair(start, "COMMON"), common);
+
+        //State - Slash
+        stateTransitions.put(new StatesPair(slash, CharAnalyzer.analyse(OPENING_BRACE)), ready);
+        stateTransitions.put(new StatesPair(slash, CharAnalyzer.analyse(CLOSING_BRACE)), ready);
+        stateTransitions.put(new StatesPair(slash, CharAnalyzer.analyse(SEMICOLON)), ready);
+        stateTransitions.put(new StatesPair(slash, CharAnalyzer.analyse(SLASH)), ready);
+        stateTransitions.put(new StatesPair(slash, CharAnalyzer.analyse(ASTERISK)), ready);
+        stateTransitions.put(new StatesPair(slash, CharAnalyzer.analyse(NEW_LINE)), ready);
+        stateTransitions.put(new StatesPair(slash, CharAnalyzer.analyse(SPACE)), ready);
+        stateTransitions.put(new StatesPair(slash, CharAnalyzer.analyse(DOUBLE_QUOTE)), ready);
+        stateTransitions.put(new StatesPair(slash, "COMMON"), common);
 
         //State - Common
-        stateTransitions.put(new StatesPair(common, analyse(OPENING_BRACE)), common);
-        stateTransitions.put(new StatesPair(common, analyse(CLOSING_BRACE)), common);
-        stateTransitions.put(new StatesPair(common, analyse(SEMICOLON)), common);
-        stateTransitions.put(new StatesPair(common, analyse(SLASH)), firstSlash);
-        stateTransitions.put(new StatesPair(common, analyse(ASTERISK)), common);
-        stateTransitions.put(new StatesPair(common, analyse(NEW_LINE)), common);
-        stateTransitions.put(new StatesPair(common, analyse(SPACE)), common);
-        stateTransitions.put(new StatesPair(common, analyse(DOUBLE_QUOTE)), strLiteral);
-        stateTransitions.put(new StatesPair(common, "COMMON_CHAR"), common);
+        stateTransitions.put(new StatesPair(common, CharAnalyzer.analyse(OPENING_BRACE)), ready);
+        stateTransitions.put(new StatesPair(common, CharAnalyzer.analyse(CLOSING_BRACE)), ready);
+        stateTransitions.put(new StatesPair(common, CharAnalyzer.analyse(SEMICOLON)), ready);
+        stateTransitions.put(new StatesPair(common, CharAnalyzer.analyse(SLASH)), slash);
+        stateTransitions.put(new StatesPair(common, CharAnalyzer.analyse(ASTERISK)), asterisk);
+        stateTransitions.put(new StatesPair(common, CharAnalyzer.analyse(NEW_LINE)), ready);
+        stateTransitions.put(new StatesPair(common, CharAnalyzer.analyse(SPACE)), ready);
+        stateTransitions.put(new StatesPair(common, CharAnalyzer.analyse(DOUBLE_QUOTE)), ready);
+        stateTransitions.put(new StatesPair(common, "COMMON"), common);
 
-        //State - FirstSlash
-        stateTransitions.put(new StatesPair(firstSlash, analyse(OPENING_BRACE)), common);
-        stateTransitions.put(new StatesPair(firstSlash, analyse(CLOSING_BRACE)), common);
-        stateTransitions.put(new StatesPair(firstSlash, analyse(SEMICOLON)), common);
-        stateTransitions.put(new StatesPair(firstSlash, analyse(SLASH)), lineComment);
-        stateTransitions.put(new StatesPair(firstSlash, analyse(ASTERISK)), multilineComment);
-        stateTransitions.put(new StatesPair(firstSlash, analyse(NEW_LINE)), common);
-        stateTransitions.put(new StatesPair(firstSlash, analyse(SPACE)), common);
-        stateTransitions.put(new StatesPair(firstSlash, analyse(DOUBLE_QUOTE)), strLiteral);
-        stateTransitions.put(new StatesPair(firstSlash, "COMMON_CHAR"), common);
+        //State - newLine
+        stateTransitions.put(new StatesPair(newLine, CharAnalyzer.analyse(OPENING_BRACE)), ready);
+        stateTransitions.put(new StatesPair(newLine, CharAnalyzer.analyse(CLOSING_BRACE)), ready);
+        stateTransitions.put(new StatesPair(newLine, CharAnalyzer.analyse(SEMICOLON)), ready);
+        stateTransitions.put(new StatesPair(newLine, CharAnalyzer.analyse(SLASH)), ready);
+        stateTransitions.put(new StatesPair(newLine, CharAnalyzer.analyse(ASTERISK)), ready);
+        stateTransitions.put(new StatesPair(newLine, CharAnalyzer.analyse(NEW_LINE)), newLine);
+        stateTransitions.put(new StatesPair(newLine, CharAnalyzer.analyse(SPACE)), ready);
+        stateTransitions.put(new StatesPair(newLine, CharAnalyzer.analyse(DOUBLE_QUOTE)), ready);
+        stateTransitions.put(new StatesPair(newLine, "COMMON"), ready);
 
-        //State - LineComment
-        stateTransitions.put(new StatesPair(lineComment, analyse(OPENING_BRACE)), lineComment);
-        stateTransitions.put(new StatesPair(lineComment, analyse(CLOSING_BRACE)), lineComment);
-        stateTransitions.put(new StatesPair(lineComment, analyse(SEMICOLON)), lineComment);
-        stateTransitions.put(new StatesPair(lineComment, analyse(SLASH)), lineComment);
-        stateTransitions.put(new StatesPair(lineComment, analyse(ASTERISK)), lineComment);
-        stateTransitions.put(new StatesPair(lineComment, analyse(NEW_LINE)), common);
-        stateTransitions.put(new StatesPair(lineComment, analyse(SPACE)), lineComment);
-        stateTransitions.put(new StatesPair(lineComment, analyse(DOUBLE_QUOTE)), lineComment);
-        stateTransitions.put(new StatesPair(lineComment, "COMMON_CHAR"), lineComment);
-
-        //State - MultilineComment
-        stateTransitions.put(new StatesPair(multilineComment, analyse(OPENING_BRACE)), multilineComment);
-        stateTransitions.put(new StatesPair(multilineComment, analyse(CLOSING_BRACE)), multilineComment);
-        stateTransitions.put(new StatesPair(multilineComment, analyse(SEMICOLON)), multilineComment);
-        stateTransitions.put(new StatesPair(multilineComment, analyse(SLASH)), multilineComment);
-        stateTransitions.put(new StatesPair(multilineComment, analyse(ASTERISK)), asterisk);
-        stateTransitions.put(new StatesPair(multilineComment, analyse(NEW_LINE)), multilineComment);
-        stateTransitions.put(new StatesPair(multilineComment, analyse(SPACE)), multilineComment);
-        stateTransitions.put(new StatesPair(multilineComment, analyse(DOUBLE_QUOTE)), multilineComment);
-        stateTransitions.put(new StatesPair(multilineComment, "COMMON_CHAR"), multilineComment);
+        //State - Space
+        stateTransitions.put(new StatesPair(space, CharAnalyzer.analyse(OPENING_BRACE)), ready);
+        stateTransitions.put(new StatesPair(space, CharAnalyzer.analyse(CLOSING_BRACE)), ready);
+        stateTransitions.put(new StatesPair(space, CharAnalyzer.analyse(SEMICOLON)), ready);
+        stateTransitions.put(new StatesPair(space, CharAnalyzer.analyse(SLASH)), ready);
+        stateTransitions.put(new StatesPair(space, CharAnalyzer.analyse(ASTERISK)), ready);
+        stateTransitions.put(new StatesPair(space, CharAnalyzer.analyse(NEW_LINE)), ready);
+        stateTransitions.put(new StatesPair(space, CharAnalyzer.analyse(SPACE)), space);
+        stateTransitions.put(new StatesPair(space, CharAnalyzer.analyse(DOUBLE_QUOTE)), ready);
+        stateTransitions.put(new StatesPair(space, "COMMON"), ready);
 
         //State - Asterisk
-        stateTransitions.put(new StatesPair(asterisk, analyse(OPENING_BRACE)), multilineComment);
-        stateTransitions.put(new StatesPair(asterisk, analyse(CLOSING_BRACE)), multilineComment);
-        stateTransitions.put(new StatesPair(asterisk, analyse(SEMICOLON)), multilineComment);
-        stateTransitions.put(new StatesPair(asterisk, analyse(SLASH)), common);
-        stateTransitions.put(new StatesPair(asterisk, analyse(ASTERISK)), multilineComment);
-        stateTransitions.put(new StatesPair(asterisk, analyse(NEW_LINE)), multilineComment);
-        stateTransitions.put(new StatesPair(asterisk, analyse(SPACE)), multilineComment);
-        stateTransitions.put(new StatesPair(asterisk, analyse(DOUBLE_QUOTE)), multilineComment);
-        stateTransitions.put(new StatesPair(asterisk, "COMMON_CHAR"), multilineComment);
-
-        //State - StrLiteral
-        stateTransitions.put(new StatesPair(strLiteral, analyse(OPENING_BRACE)), multilineComment);
-        stateTransitions.put(new StatesPair(strLiteral, analyse(CLOSING_BRACE)), multilineComment);
-        stateTransitions.put(new StatesPair(strLiteral, analyse(SEMICOLON)), multilineComment);
-        stateTransitions.put(new StatesPair(strLiteral, analyse(SLASH)), common);
-        stateTransitions.put(new StatesPair(strLiteral, analyse(ASTERISK)), multilineComment);
-        stateTransitions.put(new StatesPair(strLiteral, analyse(NEW_LINE)), common);
-        stateTransitions.put(new StatesPair(strLiteral, analyse(SPACE)), multilineComment);
-        stateTransitions.put(new StatesPair(strLiteral, analyse(DOUBLE_QUOTE)), common);
-        stateTransitions.put(new StatesPair(strLiteral, "COMMON_CHAR"), multilineComment);
+        stateTransitions.put(new StatesPair(asterisk, CharAnalyzer.analyse(OPENING_BRACE)), ready);
+        stateTransitions.put(new StatesPair(asterisk, CharAnalyzer.analyse(CLOSING_BRACE)), ready);
+        stateTransitions.put(new StatesPair(asterisk, CharAnalyzer.analyse(SEMICOLON)), ready);
+        stateTransitions.put(new StatesPair(asterisk, CharAnalyzer.analyse(SLASH)), ready);
+        stateTransitions.put(new StatesPair(asterisk, CharAnalyzer.analyse(ASTERISK)), asterisk);
+        stateTransitions.put(new StatesPair(asterisk, CharAnalyzer.analyse(NEW_LINE)), ready);
+        stateTransitions.put(new StatesPair(asterisk, CharAnalyzer.analyse(SPACE)), ready);
+        stateTransitions.put(new StatesPair(asterisk, CharAnalyzer.analyse(DOUBLE_QUOTE)), ready);
+        stateTransitions.put(new StatesPair(asterisk, "COMMON"), common);
     }
 
     @Override
     public IState nextState(IState currentState, char character) {
-        return stateTransitions.get(new StatesPair(currentState, analyse(character)));
-    }
-
-    String analyse(char character) {
-        return switch (character) {
-            case NEW_LINE -> "NEW_LINE";
-            case SPACE -> "SPACE";
-            case OPENING_BRACE -> "OPENING_BRACE";
-            case CLOSING_BRACE -> "CLOSING_BRACE";
-            case SEMICOLON -> "SEMICOLON";
-            case ASTERISK -> "ASTERISK";
-            case SLASH -> "SLASH";
-            case DOUBLE_QUOTE -> "DOUBLE_QUOTE";
-            default -> "COMMON_CHAR";
-        };
+        return stateTransitions.get(new StatesPair(currentState, CharAnalyzer.analyse(character)));
     }
 }

@@ -1,28 +1,31 @@
 package com.training.lexer;
 
 import com.training.io.IReader;
+import com.training.lexer.command.ICommand;
+import com.training.lexer.command.repository.CommandRepository;
+import com.training.lexer.command.repository.ICommandRepository;
+import com.training.lexer.state.IState;
+import com.training.lexer.state.State;
+import com.training.lexer.state.transitions.IStateTransitions;
+import com.training.lexer.state.transitions.StateTransitions;
 import com.training.lexer.token.IToken;
-import com.training.lexer.token.Token;
+import com.training.lexer.tokenbuilder.ITokenBuilder;
+import com.training.lexer.tokenbuilder.TokenBuilder;
 
 public class Lexer implements ILexer {
-    private static final char SPACE = ' ';
-    private static final char ASTERISK = '*';
-    private static final char OPENING_BRACE = '{';
-    private static final char CLOSING_BRACE = '}';
-    private static final char SEMICOLON = ';';
-    private static final char NEW_LINE = '\n';
-    private static final char SLASH = '/';
-    private static final String COMMENT_TOKEN = "COMMENT";
-    private static final String MULTILINE_COMMENT_TOKEN = "MULTILINE_COMMENT";
-    private static final String COMMON_TOKEN = "COMMON";
 
 
     private final IReader reader;
+    private final ICommandRepository commandRepository;
+    private final IStateTransitions stateTransitions;
     private IToken readedToken;
     private IToken extraToken; //maybe after reading common lexeme
+    private char nextChar;
 
     public Lexer(IReader reader) {
         this.reader = reader;
+        commandRepository = new CommandRepository();
+        stateTransitions = new StateTransitions();
         readedToken = readToken();
     }
 
@@ -46,94 +49,30 @@ public class Lexer implements ILexer {
     }
 
     IToken readToken() {
-        IToken nextToken = null;
-        boolean readyToken = false;
+        IState state = new State("START");
 
-        while (!readyToken && reader.hasChar()) {
-            char character = reader.readChar();
+        ITokenBuilder tokenBuilder = new TokenBuilder();
 
-            nextToken = switch (character) {
-                case SPACE, NEW_LINE -> null;
-                case OPENING_BRACE, CLOSING_BRACE, SEMICOLON ->  {
-                    readyToken = true;
-                    yield new Token(analyse(character), String.valueOf(character));
-                }
-                case SLASH -> {
-                    readyToken = true;
-                    if (reader.hasChar()) {
-                        char charAfterSlash = reader.readChar();
-
-                        yield switch (charAfterSlash) {
-                            case SLASH -> new Token(COMMENT_TOKEN, character + readComment());
-                            case ASTERISK -> new Token(MULTILINE_COMMENT_TOKEN, "/*" + readMultilineComment());
-                            case NEW_LINE, SPACE -> new Token(COMMON_TOKEN, String.valueOf(character));
-                            default -> new Token(COMMON_TOKEN,
-                                    character + String.valueOf(charAfterSlash) + readCommon());
-                        };
-                    } else {
-                        yield new Token(COMMON_TOKEN, String.valueOf(character));
-                    }
-                }
-                default -> {
-                    readyToken = true;
-                    yield new Token(COMMON_TOKEN, character + readCommon());
-                }
-            };
-        }
-
-        return nextToken;
-    }
-
-    String readCommon() {
-        StringBuilder commonLexeme = new StringBuilder();
-
-        while (reader.hasChar()) {
-            char currentChar = reader.readChar();
-            if (analyse(currentChar).equals("COMMON_CHAR")) {
-                commonLexeme.append(currentChar);
-            } else if (currentChar != SPACE && currentChar != NEW_LINE) {
-                extraToken = new Token(analyse(currentChar), String.valueOf(currentChar));
-                return commonLexeme.toString();
-            }
-        }
-        return commonLexeme.toString();
-    }
-
-    String readComment() {
-        char currentChar;
-        StringBuilder commentLine = new StringBuilder();
-
-        while (reader.hasChar()) {
-            currentChar = reader.readChar();
-            if (currentChar != '\n') {
-                commentLine.append(currentChar);
+        while(!state.getName().equals("TOKEN_READY") && reader.hasChar()) {
+            char character;
+            if (nextChar != 0) {
+                character = nextChar;
+                nextChar = 0;
             } else {
-                return commentLine.toString();
+                character = reader.readChar();
             }
+
+            ICommand command = commandRepository.getCommand(state, character);
+            command.execute(character, tokenBuilder);
+            state = stateTransitions.nextState(state, character);
         }
-        return commentLine.toString();
-    }
-
-    String readMultilineComment() {
-        StringBuilder comment = new StringBuilder();
-
-        while (
-                !comment.substring(comment.length() - 2).equals("*/")
-                && reader.hasChar()
-        ) {
-            comment.append(reader.readChar());
+        if (tokenBuilder.getNextToken() != null) {
+            extraToken = tokenBuilder.getNextToken();
         }
-        return comment.toString();
+        if (tokenBuilder.getNextChar() != 0) {
+            nextChar = tokenBuilder.getNextChar();
+        }
+        return tokenBuilder.getToken();
     }
 
-    public String analyse(char character) {
-        return switch (character) {
-            case NEW_LINE -> "NEW_LINE";
-            case SPACE -> "SPACE";
-            case OPENING_BRACE -> "OPENING_BRACE";
-            case CLOSING_BRACE -> "CLOSING_BRACE";
-            case SEMICOLON -> "SEMICOLON";
-            default -> "COMMON_CHAR";
-        };
-    }
 }

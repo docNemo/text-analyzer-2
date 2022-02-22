@@ -11,12 +11,17 @@ public class Formatter implements IFormatter {
 
     private static final byte NUM_SPACES = 4;
     private static final char SPACE = ' ';
+    private static final char NEW_LINE = '\n';
     private static final String OPENING_BRACE_TOKEN = "OPENING_BRACE";
     private static final String CLOSING_BRACE_TOKEN = "CLOSING_BRACE";
     private static final String SEMICOLON_TOKEN = "SEMICOLON";
-    private static final char NEW_LINE = '\n';
-    private static final String COMMENT_TOKEN = "COMMENT";
-    private static final String MULTILINE_COMMENT_TOKEN = "MULTILINE_COMMENT";
+    private static final String SLASH_TOKEN = "SLASH";
+    private static final String NEW_LINE_TOKEN = "NEW_LINE";
+    private static final String SPACE_TOKEN = "SPACE";
+    private static final String DOUBLE_QUOTE_TOKEN = "DOUBLE_QUOTE";
+    private static final String LINE_COMMENT_TOKEN = "LINE_COMMENT";
+    private static final String OPENING_MULTILINE_COMMENT_TOKEN = "OPENING_MULTILINE_COMMENT";
+    private static final String CLOSING_MULTILINE_COMMENT_TOKEN = "CLOSING_MULTILINE_COMMENT";
     private static final String COMMON_TOKEN = "COMMON";
 
     private final ILexer lexer;
@@ -30,6 +35,7 @@ public class Formatter implements IFormatter {
     public void format() throws ReaderException, WriteException {
         boolean wasWord = false;
         boolean newLine = true;
+        boolean lineComment = false;
         int nestingLevel = 0;
 
         while (lexer.hasNextToken()) {
@@ -50,8 +56,9 @@ public class Formatter implements IFormatter {
                     writeSemicolon(token.getLexeme());
                     newLine = true;
                 }
-                case COMMENT_TOKEN, MULTILINE_COMMENT_TOKEN -> {
+                case LINE_COMMENT_TOKEN -> {
                     writer.writeString(token.getLexeme());
+                    lineComment = true;
                 }
                 case COMMON_TOKEN -> {
                     writeCommonChar(newLine, wasWord, nestingLevel, token.getLexeme());
