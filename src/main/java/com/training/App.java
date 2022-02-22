@@ -24,9 +24,6 @@ public class App {
     private static final Logger logger = LoggerFactory.getLogger(App.class);
 
     public static void main(String[] args) {
-        
-        logger.debug("debug...");
-
         final String pathToInputFile = args[0];
         final String pathToOutputFile = args[1];
         try (
