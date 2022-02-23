@@ -27,151 +27,151 @@ public class TestFormatter {
         formatter = new Formatter(lexer, writer);
     }
 
-    @Test
-    public void testWriteIndent1() {
-        String extended = "";
-        int nestinglevel = -1;
-        formatter.writeIndent(nestinglevel);
-        String actual = stringInWriter.toString();
-        assertEquals(extended, actual);
-    }
-
-    @Test
-    public void testWriteIndent2() {
-        String extended = "        ";
-        int nestinglevel = 2;
-        formatter.writeIndent(nestinglevel);
-        String actual = stringInWriter.toString();
-        assertEquals(extended, actual);
-    }
-
-    @Test
-    public void testWriteOpeningBrace1() {
-        boolean newLine = false;
-        boolean wasWord = false;
-        int nestinglevel = 1;
-        formatter.writeOpeningBrace(newLine, wasWord, nestinglevel, "{");
-
-        String expected = "{\n";
-        String actual = stringInWriter.toString();
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    public void testWriteOpeningBrace2() {
-        boolean newLine = true;
-        boolean wasWord = false;
-        int nestinglevel = 1;
-        String expected = "    {\n";
-
-        formatter.writeOpeningBrace(newLine, wasWord, nestinglevel, "{");
-        String actual = stringInWriter.toString();
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    public void testWriteOpeningBrace3() {
-        boolean newLine = true;
-        boolean wasWord = true;
-        int nestinglevel = 1;
-        String expected = "    {\n";
-
-        formatter.writeOpeningBrace(newLine, wasWord, nestinglevel, "{");
-        String actual = stringInWriter.toString();
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    public void testWriteOpeningBrace4() {
-        boolean newLine = false;
-        boolean wasWord = true;
-        int nestinglevel = 1;
-        String expected = " {\n";
-
-        formatter.writeOpeningBrace(newLine, wasWord, nestinglevel, "{");
-        String actual = stringInWriter.toString();
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    public void testWriteClosingBrace1() {
-        boolean newLine = false;
-        int nestingLevel = 2;
-        formatter.writeClosingBrace(newLine, nestingLevel, "}");
-        String expected = "\n    }\n";
-        String actual = stringInWriter.toString();
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    public void testWriteClosingBrace2() {
-        boolean newLine = true;
-        int nestingLevel = 1;
-        formatter.writeClosingBrace(newLine, nestingLevel, "}");
-        String expected = "}\n";
-        String actual = stringInWriter.toString();
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    public void testWriteSemicolon() {
-        formatter.writeSemicolon(";");
-        String expected = ";\n";
-        String actual = stringInWriter.toString();
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    public void testWriteCommonChar1() {
-        boolean newLine = false;
-        boolean wasWord = false;
-        int nestingLevel = 1;
-        String testString = "fads";
-
-        formatter.writeCommonChar(newLine, wasWord, nestingLevel, testString);
-        String expected = " " + testString;
-        String actual = stringInWriter.toString();
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    public void testWriteCommonChar2() {
-        boolean newLine = false;
-        boolean wasWord = true;
-        int nestingLevel = 1;
-        String testString = "fads";
-
-        formatter.writeCommonChar(newLine, wasWord, nestingLevel, testString);
-        String expected = testString;
-        String actual = stringInWriter.toString();
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    public void testWriteCommonChar3() {
-        boolean newLine = true;
-        boolean wasWord = true;
-        int nestingLevel = 1;
-        String testString = "fads";
-
-        formatter.writeCommonChar(newLine, wasWord, nestingLevel, testString);
-        String expected = "    " + testString;
-        String actual = stringInWriter.toString();
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    public void testWriteCommonChar4() {
-        boolean newLine = true;
-        boolean wasWord = false;
-        int nestingLevel = 1;
-        String testString = "fads";
-
-        formatter.writeCommonChar(newLine, wasWord, nestingLevel, testString);
-        String expected = "    " + testString;
-        String actual = stringInWriter.toString();
-        assertEquals(expected, actual);
-    }
+//    @Test
+//    public void testWriteIndent1() {
+//        String extended = "";
+//        int nestinglevel = -1;
+//        formatter.writeIndent(nestinglevel);
+//        String actual = stringInWriter.toString();
+//        assertEquals(extended, actual);
+//    }
+//
+//    @Test
+//    public void testWriteIndent2() {
+//        String extended = "        ";
+//        int nestinglevel = 2;
+//        formatter.writeIndent(nestinglevel);
+//        String actual = stringInWriter.toString();
+//        assertEquals(extended, actual);
+//    }
+//
+//    @Test
+//    public void testWriteOpeningBrace1() {
+//        boolean newLine = false;
+//        boolean wasWord = false;
+//        int nestinglevel = 1;
+//        formatter.writeOpeningBrace(newLine, wasWord, nestinglevel, "{");
+//
+//        String expected = "{\n";
+//        String actual = stringInWriter.toString();
+//        assertEquals(expected, actual);
+//    }
+//
+//    @Test
+//    public void testWriteOpeningBrace2() {
+//        boolean newLine = true;
+//        boolean wasWord = false;
+//        int nestinglevel = 1;
+//        String expected = "    {\n";
+//
+//        formatter.writeOpeningBrace(newLine, wasWord, nestinglevel, "{");
+//        String actual = stringInWriter.toString();
+//        assertEquals(expected, actual);
+//    }
+//
+//    @Test
+//    public void testWriteOpeningBrace3() {
+//        boolean newLine = true;
+//        boolean wasWord = true;
+//        int nestinglevel = 1;
+//        String expected = "    {\n";
+//
+//        formatter.writeOpeningBrace(newLine, wasWord, nestinglevel, "{");
+//        String actual = stringInWriter.toString();
+//        assertEquals(expected, actual);
+//    }
+//
+//    @Test
+//    public void testWriteOpeningBrace4() {
+//        boolean newLine = false;
+//        boolean wasWord = true;
+//        int nestinglevel = 1;
+//        String expected = " {\n";
+//
+//        formatter.writeOpeningBrace(newLine, wasWord, nestinglevel, "{");
+//        String actual = stringInWriter.toString();
+//        assertEquals(expected, actual);
+//    }
+//
+//    @Test
+//    public void testWriteClosingBrace1() {
+//        boolean newLine = false;
+//        int nestingLevel = 2;
+//        formatter.writeClosingBrace(newLine, nestingLevel, "}");
+//        String expected = "\n    }\n";
+//        String actual = stringInWriter.toString();
+//        assertEquals(expected, actual);
+//    }
+//
+//    @Test
+//    public void testWriteClosingBrace2() {
+//        boolean newLine = true;
+//        int nestingLevel = 1;
+//        formatter.writeClosingBrace(newLine, nestingLevel, "}");
+//        String expected = "}\n";
+//        String actual = stringInWriter.toString();
+//        assertEquals(expected, actual);
+//    }
+//
+//    @Test
+//    public void testWriteSemicolon() {
+//        formatter.writeSemicolon(";");
+//        String expected = ";\n";
+//        String actual = stringInWriter.toString();
+//        assertEquals(expected, actual);
+//    }
+//
+//    @Test
+//    public void testWriteCommonChar1() {
+//        boolean newLine = false;
+//        boolean wasWord = false;
+//        int nestingLevel = 1;
+//        String testString = "fads";
+//
+//        formatter.writeCommonChar(newLine, wasWord, nestingLevel, testString);
+//        String expected = " " + testString;
+//        String actual = stringInWriter.toString();
+//        assertEquals(expected, actual);
+//    }
+//
+//    @Test
+//    public void testWriteCommonChar2() {
+//        boolean newLine = false;
+//        boolean wasWord = true;
+//        int nestingLevel = 1;
+//        String testString = "fads";
+//
+//        formatter.writeCommonChar(newLine, wasWord, nestingLevel, testString);
+//        String expected = testString;
+//        String actual = stringInWriter.toString();
+//        assertEquals(expected, actual);
+//    }
+//
+//    @Test
+//    public void testWriteCommonChar3() {
+//        boolean newLine = true;
+//        boolean wasWord = true;
+//        int nestingLevel = 1;
+//        String testString = "fads";
+//
+//        formatter.writeCommonChar(newLine, wasWord, nestingLevel, testString);
+//        String expected = "    " + testString;
+//        String actual = stringInWriter.toString();
+//        assertEquals(expected, actual);
+//    }
+//
+//    @Test
+//    public void testWriteCommonChar4() {
+//        boolean newLine = true;
+//        boolean wasWord = false;
+//        int nestingLevel = 1;
+//        String testString = "fads";
+//
+//        formatter.writeCommonChar(newLine, wasWord, nestingLevel, testString);
+//        String expected = "    " + testString;
+//        String actual = stringInWriter.toString();
+//        assertEquals(expected, actual);
+//    }
 
     @Test
     public void testFormat() {

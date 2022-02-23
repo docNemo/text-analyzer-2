@@ -10,9 +10,9 @@ import com.training.lexer.command.implementations.CreateOpeningMultilineComment;
 import com.training.lexer.command.implementations.CreateToken;
 import com.training.lexer.command.implementations.CreateWithNextChar;
 import com.training.lexer.command.implementations.CreateWithNextToken;
-import com.training.lexer.state.IState;
-import com.training.lexer.state.State;
-import com.training.lexer.state.StatesPair;
+import com.training.state.IState;
+import com.training.state.State;
+import com.training.state.StatesPair;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,115 +1,56 @@
 package com.training.formatter;
 
+import com.training.formatter.command.ICommandFormatter;
+import com.training.formatter.command.repository.CommandRepositoryFormatter;
+import com.training.formatter.command.repository.ICommandRepositoryFormatter;
+import com.training.formatter.transitions.IStateTransitionsFormatter;
+import com.training.formatter.transitions.StateTransitionsFormatter;
 import com.training.lexer.ILexer;
 import com.training.lexer.token.IToken;
 import com.training.exceptions.ReaderException;
-import com.training.exceptions.UnexpectedLexemeException;
 import com.training.exceptions.WriteException;
 import com.training.io.IWriter;
+import com.training.state.IState;
+import com.training.state.State;
 
 public class Formatter implements IFormatter {
 
     private static final byte NUM_SPACES = 4;
-    private static final char SPACE = ' ';
-    private static final char NEW_LINE = '\n';
-    private static final String OPENING_BRACE_TOKEN = "OPENING_BRACE";
-    private static final String CLOSING_BRACE_TOKEN = "CLOSING_BRACE";
-    private static final String SEMICOLON_TOKEN = "SEMICOLON";
-    private static final String SLASH_TOKEN = "SLASH";
-    private static final String NEW_LINE_TOKEN = "NEW_LINE";
-    private static final String SPACE_TOKEN = "SPACE";
-    private static final String DOUBLE_QUOTE_TOKEN = "DOUBLE_QUOTE";
-    private static final String LINE_COMMENT_TOKEN = "LINE_COMMENT";
-    private static final String OPENING_MULTILINE_COMMENT_TOKEN = "OPENING_MULTILINE_COMMENT";
-    private static final String CLOSING_MULTILINE_COMMENT_TOKEN = "CLOSING_MULTILINE_COMMENT";
-    private static final String COMMON_TOKEN = "COMMON";
+
 
     private final ILexer lexer;
     private final IWriter writer;
+    private final ICommandRepositoryFormatter commandRepository;
+    private final IStateTransitionsFormatter stateTransitions;
+
 
     public Formatter(ILexer lexer, IWriter writer) {
         this.lexer = lexer;
         this.writer = writer;
+        commandRepository = new CommandRepositoryFormatter();
+        stateTransitions = new StateTransitionsFormatter();
     }
 
     public void format() throws ReaderException, WriteException {
-        boolean wasWord = false;
-        boolean newLine = true;
-        boolean lineComment = false;
         int nestingLevel = 0;
-
+        IState state = new State("START");
         while (lexer.hasNextToken()) {
             IToken token = lexer.getToken();
-
-            switch (token.getName()) {
-                case OPENING_BRACE_TOKEN -> {
-                    writeOpeningBrace(newLine, wasWord, nestingLevel, token.getLexeme());
-                    newLine = true;
-                    nestingLevel++;
-                }
-                case CLOSING_BRACE_TOKEN -> {
-                    writeClosingBrace(newLine, nestingLevel, token.getLexeme());
-                    nestingLevel--;
-                    newLine = true;
-                }
-                case SEMICOLON_TOKEN -> {
-                    writeSemicolon(token.getLexeme());
-                    newLine = true;
-                }
-                case LINE_COMMENT_TOKEN -> {
-                    writer.writeString(token.getLexeme());
-                    lineComment = true;
-                }
-                case COMMON_TOKEN -> {
-                    writeCommonChar(newLine, wasWord, nestingLevel, token.getLexeme());
-                    newLine = false;
-                    wasWord = true;
-                }
-                default -> {
-                    throw new UnexpectedLexemeException("Unexpected lexeme: " + token);
-                }
+            if (token.getName().equals("CLOSING_BRACE")) {
+                nestingLevel--;
             }
+            ICommandFormatter command = commandRepository.getCommand(state, token);
+            command.execute(token, getIndent(nestingLevel), writer);
+            state = stateTransitions.nextState(state, token);
+            if (token.getName().equals("OPENING_BRACE")) {
+                nestingLevel++;
+            }
+
         }
     }
 
-    void writeIndent(int nestingLevel) throws WriteException {
+    String getIndent(int nestingLevel) throws WriteException {
         int size_indent = NUM_SPACES * nestingLevel;
-        while (size_indent > 0) {
-            writer.writeChar(SPACE);
-            size_indent--;
-        }
-    }
-
-    void writeOpeningBrace(boolean newLine, boolean wasWord, int nestingLevel, String lexeme) throws WriteException {
-        if (newLine) {
-            writeIndent(nestingLevel);
-        } else if (wasWord) {
-            writer.writeChar(SPACE);
-        }
-        writer.writeString(lexeme);
-        writer.writeChar(NEW_LINE);
-    }
-
-    void writeClosingBrace(boolean newLine, int nestingLevel, String lexeme) throws WriteException {
-        if (!newLine) {
-            writer.writeChar(NEW_LINE);
-        }
-        writeIndent(nestingLevel - 1);
-        writer.writeString(lexeme);
-        writer.writeChar(NEW_LINE);
-    }
-
-    void writeSemicolon(String lexeme) throws WriteException {
-        writer.writeString(lexeme);
-        writer.writeChar(NEW_LINE);
-    }
-
-    void writeCommonChar(boolean newLine, boolean wasWord, int nestingLevel, String lexeme) throws WriteException {
-        if (newLine) {
-            writeIndent(nestingLevel);
-        } else if (!wasWord) {
-            writer.writeChar(SPACE);
-        }
-        writer.writeString(lexeme);
+        return " ".repeat(size_indent);
     }
 }

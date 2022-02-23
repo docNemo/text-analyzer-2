@@ -1,9 +1,9 @@
-package com.training.lexer.state.transitions;
+package com.training.lexer.transitions;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import com.training.lexer.state.IState;
-import com.training.lexer.state.State;
+import com.training.state.IState;
+import com.training.state.State;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

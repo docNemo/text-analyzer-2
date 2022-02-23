@@ -1,14 +1,14 @@
-package com.training.lexer.state;
+package com.training.state;
 
 import java.util.Objects;
 
 public class StatesPair {
     IState state;
-    String typeChar;
+    String type;
 
-    public  StatesPair(IState state, String typeChar) {
+    public  StatesPair(IState state, String type) {
         this.state = state;
-        this.typeChar = typeChar;
+        this.type = type;
     }
 
     @Override
@@ -16,11 +16,11 @@ public class StatesPair {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         StatesPair that = (StatesPair) o;
-        return Objects.equals(state, that.state) && Objects.equals(typeChar, that.typeChar);
+        return Objects.equals(state, that.state) && Objects.equals(type, that.type);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(state, typeChar);
+        return Objects.hash(state, type);
     }
 }

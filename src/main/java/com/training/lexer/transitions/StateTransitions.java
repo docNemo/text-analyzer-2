@@ -1,9 +1,9 @@
-package com.training.lexer.state.transitions;
+package com.training.lexer.transitions;
 
 import com.training.lexer.CharAnalyzer;
-import com.training.lexer.state.IState;
-import com.training.lexer.state.State;
-import com.training.lexer.state.StatesPair;
+import com.training.state.IState;
+import com.training.state.State;
+import com.training.state.StatesPair;
 
 import java.util.HashMap;
 import java.util.Map;

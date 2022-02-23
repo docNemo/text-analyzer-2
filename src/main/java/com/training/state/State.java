@@ -1,4 +1,4 @@
-package com.training.lexer.state;
+package com.training.state;
 
 import java.util.Objects;
 

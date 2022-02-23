@@ -4,10 +4,10 @@ import com.training.io.IReader;
 import com.training.lexer.command.ICommand;
 import com.training.lexer.command.repository.CommandRepository;
 import com.training.lexer.command.repository.ICommandRepository;
-import com.training.lexer.state.IState;
-import com.training.lexer.state.State;
-import com.training.lexer.state.transitions.IStateTransitions;
-import com.training.lexer.state.transitions.StateTransitions;
+import com.training.state.IState;
+import com.training.state.State;
+import com.training.lexer.transitions.IStateTransitions;
+import com.training.lexer.transitions.StateTransitions;
 import com.training.lexer.token.IToken;
 import com.training.lexer.tokenbuilder.ITokenBuilder;
 import com.training.lexer.tokenbuilder.TokenBuilder;
@@ -72,7 +72,7 @@ public class Lexer implements ILexer {
         if (tokenBuilder.getNextChar() != 0) {
             nextChar = tokenBuilder.getNextChar();
         }
-        return tokenBuilder.getToken();
+        return tokenBuilder.getToken().getName() != null ? tokenBuilder.getToken() : null;
     }
 
 }
