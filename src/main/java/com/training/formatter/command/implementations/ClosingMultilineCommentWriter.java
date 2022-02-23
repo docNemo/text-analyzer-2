@@ -7,6 +7,6 @@ import com.training.lexer.token.IToken;
 public class ClosingMultilineCommentWriter implements ICommandFormatter {
     @Override
     public void execute(IToken token, String indent, IWriter writer) {
-        writer.writeString(token.getLexeme() + '\n');
+        writer.writeString(token.getLexeme());
     }
 }

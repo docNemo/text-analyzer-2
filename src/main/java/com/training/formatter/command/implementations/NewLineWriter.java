@@ -9,8 +9,6 @@ public class NewLineWriter implements ICommandFormatter {
     public void execute(IToken token, String indent, IWriter writer) {
         if (token.getLexeme().length() > 2) {
             writer.writeString("\n\n");
-        } else {
-            writer.writeString(token.getLexeme());
         }
     }
 }

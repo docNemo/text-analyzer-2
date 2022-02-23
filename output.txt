@@ -1,14 +1,21 @@
 ( mno, pqr ) asd;
 asdasd;
-asdasd = "sadasd";
-//asdasdasd{}
- asdas {
+asdasd = "sadasd";//asdasdasd{}
+asdas {
+    asdas;
+    asd;
+    asdsad {
+        asd;
+    }
+}/* asd{}a;\
+  sdd */
+asd;
+asdasd;
+asdasd = "sadasd";//asdasdasd
+asdas {
     asdas;
     asd;
     asdsad {
         asd;
     }
 }
-/* asd{}a;\
-  sdd */
- asd;

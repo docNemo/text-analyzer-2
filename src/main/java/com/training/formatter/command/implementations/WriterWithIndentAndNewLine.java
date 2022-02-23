@@ -4,9 +4,9 @@ import com.training.formatter.command.ICommandFormatter;
 import com.training.io.IWriter;
 import com.training.lexer.token.IToken;
 
-public class WriterWithindent implements ICommandFormatter {
+public class WriterWithIndentAndNewLine implements ICommandFormatter {
     @Override
     public void execute(IToken token, String indent, IWriter writer) {
-        writer.writeString(indent + token.getLexeme());
+        writer.writeString("\n" + indent + token.getLexeme());
     }
 }

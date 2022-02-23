@@ -34,7 +34,7 @@ public class StateTransitionsFormatter implements IStateTransitionsFormatter {
         stateTransitions.put(new StatesPair(start, "COMMON"), code);
         stateTransitions.put(new StatesPair(start, "LINE_COMMENT"), lineComment);
         stateTransitions.put(new StatesPair(start, "OPENING_MULTILINE_COMMENT"), multilineComment);
-        stateTransitions.put(new StatesPair(start, "CLOSING_MULTILINE_COMMENT"), code);
+        stateTransitions.put(new StatesPair(start, "CLOSING_MULTILINE_COMMENT"), newLine);
         //State - Code
         stateTransitions.put(new StatesPair(code, "OPENING_BRACE"), newLine);
         stateTransitions.put(new StatesPair(code, "CLOSING_BRACE"), newLine);
@@ -46,14 +46,14 @@ public class StateTransitionsFormatter implements IStateTransitionsFormatter {
         stateTransitions.put(new StatesPair(code, "COMMON"), code);
         stateTransitions.put(new StatesPair(code, "LINE_COMMENT"), lineComment);
         stateTransitions.put(new StatesPair(code, "OPENING_MULTILINE_COMMENT"), multilineComment);
-        stateTransitions.put(new StatesPair(code, "CLOSING_MULTILINE_COMMENT"), code);
+        stateTransitions.put(new StatesPair(code, "CLOSING_MULTILINE_COMMENT"), newLine);
 
         //State - LineComment
         stateTransitions.put(new StatesPair(lineComment, "OPENING_BRACE"), lineComment);
         stateTransitions.put(new StatesPair(lineComment, "CLOSING_BRACE"), lineComment);
         stateTransitions.put(new StatesPair(lineComment, "SEMICOLON"), lineComment);
         stateTransitions.put(new StatesPair(lineComment, "SLASH"), lineComment);
-        stateTransitions.put(new StatesPair(lineComment, "NEW_LINE"), code);
+        stateTransitions.put(new StatesPair(lineComment, "NEW_LINE"), newLine);
         stateTransitions.put(new StatesPair(lineComment, "SPACE"), lineComment);
         stateTransitions.put(new StatesPair(lineComment, "DOUBLE_QUOTE"), lineComment);
         stateTransitions.put(new StatesPair(lineComment, "COMMON"), lineComment);
@@ -72,7 +72,7 @@ public class StateTransitionsFormatter implements IStateTransitionsFormatter {
         stateTransitions.put(new StatesPair(multilineComment, "COMMON"), multilineComment);
         stateTransitions.put(new StatesPair(multilineComment, "LINE_COMMENT"), multilineComment);
         stateTransitions.put(new StatesPair(multilineComment, "OPENING_MULTILINE_COMMENT"), multilineComment);
-        stateTransitions.put(new StatesPair(multilineComment, "CLOSING_MULTILINE_COMMENT"), code);
+        stateTransitions.put(new StatesPair(multilineComment, "CLOSING_MULTILINE_COMMENT"), newLine);
 
         //State - String Literal
         stateTransitions.put(new StatesPair(stringLiteral, "OPENING_BRACE"), stringLiteral);
@@ -98,7 +98,7 @@ public class StateTransitionsFormatter implements IStateTransitionsFormatter {
         stateTransitions.put(new StatesPair(newLine, "COMMON"), code);
         stateTransitions.put(new StatesPair(newLine, "LINE_COMMENT"), lineComment);
         stateTransitions.put(new StatesPair(newLine, "OPENING_MULTILINE_COMMENT"), multilineComment);
-        stateTransitions.put(new StatesPair(newLine, "CLOSING_MULTILINE_COMMENT"), code);
+        stateTransitions.put(new StatesPair(newLine, "CLOSING_MULTILINE_COMMENT"), newLine);
     }
 
     @Override
