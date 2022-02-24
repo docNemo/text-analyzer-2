@@ -102,9 +102,9 @@ public class CommandRepositoryFormatter implements ICommandRepositoryFormatter {
         commands.put(new StatesPair(newLine, "SPACE"), new Ignore());
         commands.put(new StatesPair(newLine, "DOUBLE_QUOTE"), new WriterWithIndentAndNewLine());
         commands.put(new StatesPair(newLine, "COMMON"), new WriterWithIndentAndNewLine());
-        commands.put(new StatesPair(newLine, "LINE_COMMENT"), new WriterWithIndent());
-        commands.put(new StatesPair(newLine, "OPENING_MULTILINE_COMMENT"), new WriterWithIndentAndNewLine());
-        commands.put(new StatesPair(newLine, "CLOSING_MULTILINE_COMMENT"), new WriterWithIndentAndNewLine());
+        commands.put(new StatesPair(newLine, "LINE_COMMENT"), new Writer());
+        commands.put(new StatesPair(newLine, "OPENING_MULTILINE_COMMENT"), new Writer());
+        commands.put(new StatesPair(newLine, "CLOSING_MULTILINE_COMMENT"), new Writer());
     }
 
     @Override

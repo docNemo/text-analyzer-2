@@ -1,6 +1,8 @@
 ( mno, pqr ) asd;
-asdasd;
-asdasd = "sadasd";//asdasdasd{}
+{
+    asdasd;
+    asdasd = "sadasd";//asdasdasd{}
+}
 asdas {
     asdas;
     asd;
@@ -11,8 +13,10 @@ asdas {
 /* asd{}a;\
   sdd */
 asd;
+
 asdasd;
 asdasd = "sadasd";// asdasdasd
+
 asdas {
     asdas;
     asd;
