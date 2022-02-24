@@ -36,7 +36,7 @@ public class Formatter implements IFormatter {
         IState state = new State("START");
         while (lexer.hasNextToken()) {
             IToken token = lexer.getToken();
-            if (token.getName().equals("CLOSING_BRACE")) {
+            if (nestingLevel > 0 && token.getName().equals("CLOSING_BRACE")) {
                 nestingLevel--;
             }
             ICommandFormatter command = commandRepository.getCommand(state, token);

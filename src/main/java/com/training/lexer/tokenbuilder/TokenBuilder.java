@@ -30,8 +30,8 @@ public class TokenBuilder implements ITokenBuilder {
     }
 
     @Override
-    public void setNextToken(String name, String lexeme) {
-        this.nextToken = new Token(name, lexeme);
+    public void setNextToken(String nameNextToken, String lexemeNextToken) {
+        this.nextToken = new Token(nameNextToken, lexemeNextToken);
     }
 
     @Override

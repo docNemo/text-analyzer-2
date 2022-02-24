@@ -36,41 +36,41 @@ public class LexerTest {
         lexer = new Lexer(reader);
     }
 
-//    @Test
-//    void test1() {
-//        when(reader.hasChar())
-//                .thenReturn(true)
-//                .thenReturn(true)
-//                .thenReturn(true)
-//                .thenReturn(true)
-//                .thenReturn(true)
-//                .thenReturn(false);
-//        when(reader.readChar())
-//                .thenReturn('/')
-//                .thenReturn('/')
-//                .thenReturn(' ')
-//                .thenReturn('f')
-//                .thenReturn('\n');
-//
-//        IToken actual = lexer.readToken();
-//
-//        assertEquals(true, true);
-//        assertEquals("LINE_COMMENT", actual.getName());
-//        assertEquals("//", actual.getLexeme()); //FIXME
-//
-//        actual = lexer.readToken();
-//
-//        assertEquals("SPACE", actual.getName());
-//        assertEquals(" ", actual.getLexeme()); //FIXME
-//
-//        actual = lexer.readToken();
-//
-//        assertEquals("COMMON", actual.getName());
-//        assertEquals("f", actual.getLexeme());
-//
-////        verify(reader, times(6)).hasChar(); //FIXME hasChar called 7 times
-////        verify(reader, times(5)).readChar();
-//    }
+    @Test
+    void test1() {
+        when(reader.hasChar())
+                .thenReturn(true)
+                .thenReturn(true)
+                .thenReturn(true)
+                .thenReturn(true)
+                .thenReturn(true)
+                .thenReturn(false);
+        when(reader.readChar())
+                .thenReturn('/')
+                .thenReturn('/')
+                .thenReturn(' ')
+                .thenReturn('f')
+                .thenReturn('\n');
+
+        IToken actual = lexer.readToken();
+
+        assertEquals(true, true);
+        assertEquals("LINE_COMMENT", actual.getName());
+        assertEquals("//", actual.getLexeme());
+
+        actual = lexer.readToken();
+
+        assertEquals("SPACE", actual.getName());
+        assertEquals(" ", actual.getLexeme());
+
+        actual = lexer.readToken();
+
+        assertEquals("COMMON", actual.getName());
+        assertEquals("f", actual.getLexeme());
+
+        verify(reader, times(6)).hasChar(); //FIXME hasChar called 7 times
+        verify(reader, times(5)).readChar();
+    }
 
     @Test
     void test2() {

@@ -7,11 +7,12 @@ asdas {
     asdsad {
         asd;
     }
-}/* asd{}a;\
+}
+/* asd{}a;\
   sdd */
 asd;
 asdasd;
-asdasd = "sadasd";//asdasdasd
+asdasd = "sadasd";// asdasdasd
 asdas {
     asdas;
     asd;

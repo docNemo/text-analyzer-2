@@ -13,8 +13,12 @@ public class StatesPair {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         StatesPair that = (StatesPair) o;
         return Objects.equals(state, that.state) && Objects.equals(type, that.type);
     }

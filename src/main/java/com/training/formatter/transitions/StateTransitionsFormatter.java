@@ -1,8 +1,6 @@
 package com.training.formatter.transitions;
 
-import com.training.lexer.CharAnalyzer;
 import com.training.lexer.token.IToken;
-import com.training.lexer.transitions.IStateTransitions;
 import com.training.state.IState;
 import com.training.state.State;
 import com.training.state.StatesPair;

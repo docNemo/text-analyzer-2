@@ -50,7 +50,7 @@ public class CommandRepositoryFormatter implements ICommandRepositoryFormatter {
         commands.put(new StatesPair(code, "SPACE"), new Ignore());
         commands.put(new StatesPair(code, "DOUBLE_QUOTE"), new WriterAfterSpace());
         commands.put(new StatesPair(code, "COMMON"), new WriterAfterSpace());
-        commands.put(new StatesPair(code, "LINE_COMMENT"), new Writer());
+        commands.put(new StatesPair(code, "LINE_COMMENT"), new WriterAfterSpace());
         commands.put(new StatesPair(code, "OPENING_MULTILINE_COMMENT"), new Writer());
         commands.put(new StatesPair(code, "CLOSING_MULTILINE_COMMENT"), new Writer());
 
@@ -98,12 +98,12 @@ public class CommandRepositoryFormatter implements ICommandRepositoryFormatter {
         commands.put(new StatesPair(newLine, "CLOSING_BRACE"), new WriterWithIndentAndNewLine());
         commands.put(new StatesPair(newLine, "SEMICOLON"), new WriterWithIndentAndNewLine());
         commands.put(new StatesPair(newLine, "SLASH"), new WriterWithIndentAndNewLine());
-        commands.put(new StatesPair(newLine, "NEW_LINE"), new Ignore());
+        commands.put(new StatesPair(newLine, "NEW_LINE"), new NewLineWriter());
         commands.put(new StatesPair(newLine, "SPACE"), new Ignore());
         commands.put(new StatesPair(newLine, "DOUBLE_QUOTE"), new WriterWithIndentAndNewLine());
         commands.put(new StatesPair(newLine, "COMMON"), new WriterWithIndentAndNewLine());
         commands.put(new StatesPair(newLine, "LINE_COMMENT"), new WriterWithIndent());
-        commands.put(new StatesPair(newLine, "OPENING_MULTILINE_COMMENT"), new WriterWithIndent());
+        commands.put(new StatesPair(newLine, "OPENING_MULTILINE_COMMENT"), new WriterWithIndentAndNewLine());
         commands.put(new StatesPair(newLine, "CLOSING_MULTILINE_COMMENT"), new WriterWithIndentAndNewLine());
     }
 
