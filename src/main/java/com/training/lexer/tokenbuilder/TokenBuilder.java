@@ -5,9 +5,14 @@ import com.training.lexer.token.Token;
 
 public class TokenBuilder implements ITokenBuilder {
     private String nameToken;
-    private StringBuilder lexeme = new StringBuilder();
-    private IToken nextToken;
-    private char nextChar;
+    private StringBuilder lexeme;
+    private String postponeBuffer;
+
+    public TokenBuilder() {
+        nameToken = "";
+        lexeme = new StringBuilder();
+        postponeBuffer = "";
+    }
 
     @Override
     public void setNameToken(String nameToken) {
@@ -20,23 +25,23 @@ public class TokenBuilder implements ITokenBuilder {
     }
 
     @Override
-    public char getNextChar() {
-        return nextChar;
+    public String getPostponeBuffer() {
+        return postponeBuffer;
     }
 
     @Override
-    public void setNextChar(char nextChar) {
-        this.nextChar = nextChar;
+    public void setPostponeBuffer(String postponeStr) {
+        this.postponeBuffer = postponeStr;
     }
 
     @Override
-    public void setNextToken(String nameNextToken, String lexemeNextToken) {
-        this.nextToken = new Token(nameNextToken, lexemeNextToken);
+    public void setEmptyPostponeBuffer(){
+        postponeBuffer = "";
     }
 
-    @Override
-    public IToken getNextToken() {
-        return nextToken;
+    public void newLexeme() {
+        nameToken = "";
+        lexeme = new StringBuilder();
     }
 
     @Override

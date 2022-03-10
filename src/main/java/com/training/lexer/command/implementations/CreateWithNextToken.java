@@ -7,6 +7,6 @@ import com.training.lexer.tokenbuilder.ITokenBuilder;
 public class CreateWithNextToken implements ICommand {
     @Override
     public void execute(char character, ITokenBuilder builder) {
-        builder.setNextToken(CharAnalyzer.analyse(character), String.valueOf(character));
+        builder.setPostponeBuffer(String.valueOf(character));
     }
 }

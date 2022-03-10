@@ -5,10 +5,10 @@ import com.training.lexer.token.IToken;
 public interface ITokenBuilder {
     void setNameToken(String nameToken);
     void appendToLexeme(char character);
-    char getNextChar();
-    void setNextChar(char nextChar);
-    void setNextToken(String name, String lexeme);
-    IToken getNextToken();
+    String getPostponeBuffer();
+    void setPostponeBuffer(String postponeStr);
+    void setEmptyPostponeBuffer();
+    void newLexeme();
     void deleteLastChar();
     int lengthLexeme();
     IToken getToken();

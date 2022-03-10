@@ -38,7 +38,6 @@ public class CommandRepository implements ICommandRepository {
         IState newLine = new State("NEW_LINE");
         IState space = new State("SPACE");
         IState asterisk = new State("ASTERISK");
-        IState ready = new State("TOKEN_READY");
 
         //State - Start
         commands.put(new StatesPair(start, CharAnalyzer.analyse(OPENING_BRACE)), new CreateToken());

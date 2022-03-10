@@ -11,7 +11,7 @@ public class CreateClosingMultilineComment implements ICommand {
             builder.setNameToken("CLOSING_MULTILINE_COMMENT");
         } else {
             builder.deleteLastChar();
-            builder.setNextToken("CLOSING_MULTILINE_COMMENT", "*/");
+            builder.setPostponeBuffer("*/");
         }
     }
 }

@@ -1,6 +1,7 @@
 package com.training.lexer;
 
 import com.training.io.IReader;
+import com.training.io.string.StringReaderChar;
 import com.training.lexer.command.ICommand;
 import com.training.lexer.command.repository.CommandRepository;
 import com.training.lexer.command.repository.ICommandRepository;
@@ -19,13 +20,13 @@ public class Lexer implements ILexer {
     private final ICommandRepository commandRepository;
     private final IStateTransitions stateTransitions;
     private IToken readedToken;
-    private IToken extraToken; //maybe after reading common lexeme
-    private char nextChar;
+    private ITokenBuilder tokenBuilder;
 
     public Lexer(IReader reader) {
         this.reader = reader;
         commandRepository = new CommandRepository();
         stateTransitions = new StateTransitions();
+        tokenBuilder = new TokenBuilder();
         readedToken = readToken();
     }
 
@@ -37,42 +38,36 @@ public class Lexer implements ILexer {
     @Override
     public IToken getToken() {
         IToken returnableToken = readedToken;
-
-        if (extraToken != null) {
-            readedToken = extraToken;
-            extraToken = null;
-        } else {
-            readedToken = readToken();
-        }
+        readedToken = readToken();
 
         return returnableToken;
     }
 
     IToken readToken() {
         IState state = new State("START");
+        tokenBuilder.newLexeme();
 
-        ITokenBuilder tokenBuilder = new TokenBuilder();
+        IReader postponeReader = new StringReaderChar(tokenBuilder.getPostponeBuffer());
 
-        while(!state.getName().equals("TOKEN_READY") && reader.hasChar()) {
-            char character;
-            if (nextChar != 0) {
-                character = nextChar;
-                nextChar = 0;
-            } else {
-                character = reader.readChar();
-            }
+        while (state != null && postponeReader.hasChar()) {
+            state = step(postponeReader, state, tokenBuilder);
+        }
 
-            ICommand command = commandRepository.getCommand(state, character);
-            command.execute(character, tokenBuilder);
-            state = stateTransitions.nextState(state, character);
+        tokenBuilder.setEmptyPostponeBuffer();
+
+        while (state != null && reader.hasChar()) {
+            state = step(reader, state, tokenBuilder);
         }
-        if (tokenBuilder.getNextToken() != null) {
-            extraToken = tokenBuilder.getNextToken();
-        }
-        if (tokenBuilder.getNextChar() != 0) {
-            nextChar = tokenBuilder.getNextChar();
-        }
-        return tokenBuilder.getToken().getName() != null ? tokenBuilder.getToken() : null;
+
+        return !tokenBuilder.getToken().getName().equals("") ? tokenBuilder.getToken() : null;
+    }
+
+    private IState step(IReader reader, IState state, ITokenBuilder tokenBuilder) {
+        char character = reader.readChar();
+
+        ICommand command = commandRepository.getCommand(state, character);
+        command.execute(character, tokenBuilder);
+        return stateTransitions.nextState(state, character);
     }
 
 }

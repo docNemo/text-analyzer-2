@@ -2,11 +2,15 @@ package com.training.formatter.command.repository;
 
 import com.training.formatter.command.ICommandFormatter;
 import com.training.formatter.command.implementations.ClosingBraceWriter;
+import com.training.formatter.command.implementations.ClosingBraceWriterAfterCode;
+import com.training.formatter.command.implementations.ClosingBraceWriterWithIndent;
 import com.training.formatter.command.implementations.Ignore;
 import com.training.formatter.command.implementations.NewLineWriter;
+import com.training.formatter.command.implementations.OpeningBraceWriter;
+import com.training.formatter.command.implementations.OpeningBraceWriterAfterCode;
+import com.training.formatter.command.implementations.OpeningBraceWriterWithIndent;
 import com.training.formatter.command.implementations.Writer;
 import com.training.formatter.command.implementations.WriterAfterSpace;
-import com.training.formatter.command.implementations.WriterWithIndent;
 import com.training.formatter.command.implementations.WriterWithIndentAndNewLine;
 import com.training.lexer.token.IToken;
 import com.training.state.IState;
@@ -30,8 +34,8 @@ public class CommandRepositoryFormatter implements ICommandRepositoryFormatter {
         IState newLine = new State("NEW_LINE");
 
         //State - Start
-        commands.put(new StatesPair(start, "OPENING_BRACE"), new Writer());
-        commands.put(new StatesPair(start, "CLOSING_BRACE"), new Writer());
+        commands.put(new StatesPair(start, "OPENING_BRACE"), new OpeningBraceWriter());
+        commands.put(new StatesPair(start, "CLOSING_BRACE"), new ClosingBraceWriter());
         commands.put(new StatesPair(start, "SEMICOLON"), new Writer());
         commands.put(new StatesPair(start, "SLASH"), new Writer());
         commands.put(new StatesPair(start, "NEW_LINE"), new Ignore());
@@ -42,8 +46,8 @@ public class CommandRepositoryFormatter implements ICommandRepositoryFormatter {
         commands.put(new StatesPair(start, "OPENING_MULTILINE_COMMENT"), new Writer());
         commands.put(new StatesPair(start, "CLOSING_MULTILINE_COMMENT"), new Writer());
         //State - Code
-        commands.put(new StatesPair(code, "OPENING_BRACE"), new WriterAfterSpace());
-        commands.put(new StatesPair(code, "CLOSING_BRACE"), new ClosingBraceWriter());
+        commands.put(new StatesPair(code, "OPENING_BRACE"), new OpeningBraceWriterAfterCode());
+        commands.put(new StatesPair(code, "CLOSING_BRACE"), new ClosingBraceWriterAfterCode());
         commands.put(new StatesPair(code, "SEMICOLON"), new Writer());
         commands.put(new StatesPair(code, "SLASH"), new WriterAfterSpace());
         commands.put(new StatesPair(code, "NEW_LINE"), new Ignore());
@@ -94,8 +98,8 @@ public class CommandRepositoryFormatter implements ICommandRepositoryFormatter {
         commands.put(new StatesPair(stringLiteral, "CLOSING_MULTILINE_COMMENT"), new Writer());
 
         //State - New line
-        commands.put(new StatesPair(newLine, "OPENING_BRACE"), new WriterWithIndentAndNewLine());
-        commands.put(new StatesPair(newLine, "CLOSING_BRACE"), new WriterWithIndentAndNewLine());
+        commands.put(new StatesPair(newLine, "OPENING_BRACE"), new OpeningBraceWriterWithIndent());
+        commands.put(new StatesPair(newLine, "CLOSING_BRACE"), new ClosingBraceWriterWithIndent());
         commands.put(new StatesPair(newLine, "SEMICOLON"), new WriterWithIndentAndNewLine());
         commands.put(new StatesPair(newLine, "SLASH"), new WriterWithIndentAndNewLine());
         commands.put(new StatesPair(newLine, "NEW_LINE"), new NewLineWriter());
