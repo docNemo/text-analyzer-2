@@ -191,8 +191,8 @@ public class TestFormatter {
                     qwer;
                     asdasdas;
                 }
-                qkjfj;
-                """;
+                
+                qkjfj;""";
 
         lexer = new Lexer(reader);
         formatter = new Formatter(lexer, writer);

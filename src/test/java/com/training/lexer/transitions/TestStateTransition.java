@@ -22,9 +22,4 @@ public class TestStateTransition {
         IState actual = stateTransitions.nextState(state, ch);
         assertEquals("ASTERISK", actual.getName());
     }
-
-    @Test
-    void test2() {
-
-    }
 }
