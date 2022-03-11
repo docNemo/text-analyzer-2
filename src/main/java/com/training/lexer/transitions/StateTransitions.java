@@ -25,7 +25,6 @@ public class StateTransitions implements IStateTransitions {
         IState newLine = new State("NEW_LINE");
         IState space = new State("SPACE");
         IState asterisk = new State("ASTERISK");
-        IState ready = new State("TOKEN_READY");
 
         //State - Start
         stateTransitions.put(new StatesPair(start, SLASH), slash);
