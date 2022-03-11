@@ -68,7 +68,7 @@ public class LexerTest {
         assertEquals("COMMON", actual.getName());
         assertEquals("f", actual.getLexeme());
 
-        verify(reader, times(6)).hasChar(); //FIXME hasChar called 7 times
+        verify(reader, times(6)).hasChar();
         verify(reader, times(5)).readChar();
     }
 
@@ -96,7 +96,7 @@ public class LexerTest {
         assertEquals("DOUBLE_QUOTE", actual.getName());
         assertEquals("\"", actual.getLexeme());
 
-//        verify(reader, times(6)).hasChar(); //FIXME hasChar called 7 times
+//        verify(reader, times(6)).hasChar();
 //        verify(reader, times(5)).readChar();
     }
 }

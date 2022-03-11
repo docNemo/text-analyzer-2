@@ -32,6 +32,7 @@ public class CommandRepositoryFormatter implements ICommandRepositoryFormatter {
         IState multilineComment = new State("MULTILINE_COMMENT");
         IState stringLiteral = new State("STRING_LITERAL");
         IState newLine = new State("NEW_LINE");
+        IState trueNewLine = new State("TRUE_NEW_LINE");
 
         //State - Start
         commands.put(new StatesPair(start, "OPENING_BRACE"), new OpeningBraceWriter());
@@ -109,6 +110,19 @@ public class CommandRepositoryFormatter implements ICommandRepositoryFormatter {
         commands.put(new StatesPair(newLine, "LINE_COMMENT"), new Writer());
         commands.put(new StatesPair(newLine, "OPENING_MULTILINE_COMMENT"), new Writer());
         commands.put(new StatesPair(newLine, "CLOSING_MULTILINE_COMMENT"), new Writer());
+
+        //State - True New line
+        commands.put(new StatesPair(trueNewLine, "OPENING_BRACE"), new OpeningBraceWriterWithIndent());
+        commands.put(new StatesPair(trueNewLine, "CLOSING_BRACE"), new ClosingBraceWriterWithIndent());
+        commands.put(new StatesPair(trueNewLine, "SEMICOLON"), new WriterWithIndentAndNewLine());
+        commands.put(new StatesPair(trueNewLine, "SLASH"), new WriterWithIndentAndNewLine());
+        commands.put(new StatesPair(trueNewLine, "NEW_LINE"), new NewLineWriter());
+        commands.put(new StatesPair(trueNewLine, "SPACE"), new Ignore());
+        commands.put(new StatesPair(trueNewLine, "DOUBLE_QUOTE"), new WriterWithIndentAndNewLine());
+        commands.put(new StatesPair(trueNewLine, "COMMON"), new WriterWithIndentAndNewLine());
+        commands.put(new StatesPair(trueNewLine, "LINE_COMMENT"), new WriterWithIndentAndNewLine());
+        commands.put(new StatesPair(trueNewLine, "OPENING_MULTILINE_COMMENT"), new Writer());
+        commands.put(new StatesPair(trueNewLine, "CLOSING_MULTILINE_COMMENT"), new Writer());
     }
 
     @Override

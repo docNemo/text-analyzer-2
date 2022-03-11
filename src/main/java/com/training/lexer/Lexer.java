@@ -62,11 +62,11 @@ public class Lexer implements ILexer {
         return !tokenBuilder.getToken().getName().equals("") ? tokenBuilder.getToken() : null;
     }
 
-    private IState step(IReader reader, IState state, ITokenBuilder tokenBuilder) {
-        char character = reader.readChar();
+    private IState step(IReader readerOnStep, IState state, ITokenBuilder builder) {
+        char character = readerOnStep.readChar();
 
         ICommand command = commandRepository.getCommand(state, character);
-        command.execute(character, tokenBuilder);
+        command.execute(character, builder);
         return stateTransitions.nextState(state, character);
     }
 

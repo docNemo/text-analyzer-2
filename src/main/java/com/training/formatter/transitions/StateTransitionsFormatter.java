@@ -20,19 +20,21 @@ public class StateTransitionsFormatter implements IStateTransitionsFormatter {
         IState multilineComment = new State("MULTILINE_COMMENT");
         IState stringLiteral = new State("STRING_LITERAL");
         IState newLine = new State("NEW_LINE");
+        IState trueNewLine = new State("TRUE_NEW_LINE");
 
         //State - Start
         stateTransitions.put(new StatesPair(start, "OPENING_BRACE"), newLine);
         stateTransitions.put(new StatesPair(start, "CLOSING_BRACE"), newLine);
         stateTransitions.put(new StatesPair(start, "SEMICOLON"), newLine);
         stateTransitions.put(new StatesPair(start, "SLASH"), code);
-        stateTransitions.put(new StatesPair(start, "NEW_LINE"), newLine);
+        stateTransitions.put(new StatesPair(start, "NEW_LINE"), trueNewLine);
         stateTransitions.put(new StatesPair(start, "SPACE"), newLine);
         stateTransitions.put(new StatesPair(start, "DOUBLE_QUOTE"), stringLiteral);
         stateTransitions.put(new StatesPair(start, "COMMON"), code);
         stateTransitions.put(new StatesPair(start, "LINE_COMMENT"), lineComment);
         stateTransitions.put(new StatesPair(start, "OPENING_MULTILINE_COMMENT"), multilineComment);
         stateTransitions.put(new StatesPair(start, "CLOSING_MULTILINE_COMMENT"), newLine);
+
         //State - Code
         stateTransitions.put(new StatesPair(code, "OPENING_BRACE"), newLine);
         stateTransitions.put(new StatesPair(code, "CLOSING_BRACE"), newLine);
@@ -51,7 +53,7 @@ public class StateTransitionsFormatter implements IStateTransitionsFormatter {
         stateTransitions.put(new StatesPair(lineComment, "CLOSING_BRACE"), lineComment);
         stateTransitions.put(new StatesPair(lineComment, "SEMICOLON"), lineComment);
         stateTransitions.put(new StatesPair(lineComment, "SLASH"), lineComment);
-        stateTransitions.put(new StatesPair(lineComment, "NEW_LINE"), newLine);
+        stateTransitions.put(new StatesPair(lineComment, "NEW_LINE"), trueNewLine);
         stateTransitions.put(new StatesPair(lineComment, "SPACE"), lineComment);
         stateTransitions.put(new StatesPair(lineComment, "DOUBLE_QUOTE"), lineComment);
         stateTransitions.put(new StatesPair(lineComment, "COMMON"), lineComment);
@@ -90,13 +92,26 @@ public class StateTransitionsFormatter implements IStateTransitionsFormatter {
         stateTransitions.put(new StatesPair(newLine, "CLOSING_BRACE"), newLine);
         stateTransitions.put(new StatesPair(newLine, "SEMICOLON"), newLine);
         stateTransitions.put(new StatesPair(newLine, "SLASH"), code);
-        stateTransitions.put(new StatesPair(newLine, "NEW_LINE"), newLine);
+        stateTransitions.put(new StatesPair(newLine, "NEW_LINE"), trueNewLine);
         stateTransitions.put(new StatesPair(newLine, "SPACE"), newLine);
         stateTransitions.put(new StatesPair(newLine, "DOUBLE_QUOTE"), stringLiteral);
         stateTransitions.put(new StatesPair(newLine, "COMMON"), code);
         stateTransitions.put(new StatesPair(newLine, "LINE_COMMENT"), lineComment);
         stateTransitions.put(new StatesPair(newLine, "OPENING_MULTILINE_COMMENT"), multilineComment);
         stateTransitions.put(new StatesPair(newLine, "CLOSING_MULTILINE_COMMENT"), newLine);
+
+        //State - True New line
+        stateTransitions.put(new StatesPair(trueNewLine, "OPENING_BRACE"), newLine);
+        stateTransitions.put(new StatesPair(trueNewLine, "CLOSING_BRACE"), newLine);
+        stateTransitions.put(new StatesPair(trueNewLine, "SEMICOLON"), newLine);
+        stateTransitions.put(new StatesPair(trueNewLine, "SLASH"), code);
+        stateTransitions.put(new StatesPair(trueNewLine, "NEW_LINE"), trueNewLine);
+        stateTransitions.put(new StatesPair(trueNewLine, "SPACE"), trueNewLine);
+        stateTransitions.put(new StatesPair(trueNewLine, "DOUBLE_QUOTE"), stringLiteral);
+        stateTransitions.put(new StatesPair(trueNewLine, "COMMON"), code);
+        stateTransitions.put(new StatesPair(trueNewLine, "LINE_COMMENT"), lineComment);
+        stateTransitions.put(new StatesPair(trueNewLine, "OPENING_MULTILINE_COMMENT"), multilineComment);
+        stateTransitions.put(new StatesPair(trueNewLine, "CLOSING_MULTILINE_COMMENT"), newLine);
     }
 
     @Override
