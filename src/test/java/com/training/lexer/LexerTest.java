@@ -69,6 +69,11 @@ public class LexerTest {
         assertEquals("COMMON", actual.getName());
         assertEquals("f", actual.getLexeme());
 
+        actual = lexer.getToken();
+
+        assertEquals("NEW_LINE", actual.getName());
+        assertEquals("\n", actual.getLexeme());
+
         verify(reader, times(6)).hasChar();
         verify(reader, times(5)).readChar();
     }

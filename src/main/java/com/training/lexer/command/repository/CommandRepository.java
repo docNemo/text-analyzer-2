@@ -2,7 +2,6 @@ package com.training.lexer.command.repository;
 
 import com.training.lexer.command.ICommand;
 import com.training.lexer.command.implementations.CreateClosingMultilineComment;
-import com.training.lexer.command.implementations.CreateFirstAsterisk;
 import com.training.lexer.command.implementations.CreateLineComment;
 import com.training.lexer.command.implementations.CreateMultiCharToken;
 import com.training.lexer.command.implementations.CreateOpeningMultilineComment;
@@ -85,7 +84,7 @@ public class CommandRepository implements ICommandRepository {
         commands.put(new StatesPair<>(newLine, CLOSING_BRACE), new CreateWithNextToken());
         commands.put(new StatesPair<>(newLine, SEMICOLON), new CreateWithNextToken());
         commands.put(new StatesPair<>(newLine, SLASH), new CreateWithNextChar());
-        commands.put(new StatesPair<>(newLine, ASTERISK), new Ignore());
+        commands.put(new StatesPair<>(newLine, ASTERISK), new CreateWithNextChar());
         commands.put(new StatesPair<>(newLine, NEW_LINE), new CreateMultiCharToken());
         commands.put(new StatesPair<>(newLine, SPACE), new CreateWithNextChar());
         commands.put(new StatesPair<>(newLine, DOUBLE_QUOTE), new CreateWithNextToken());
@@ -96,7 +95,7 @@ public class CommandRepository implements ICommandRepository {
         commands.put(new StatesPair<>(space, CLOSING_BRACE), new CreateWithNextToken());
         commands.put(new StatesPair<>(space, SEMICOLON), new CreateWithNextToken());
         commands.put(new StatesPair<>(space, SLASH), new CreateWithNextChar());
-        commands.put(new StatesPair<>(space, ASTERISK), new Ignore());
+        commands.put(new StatesPair<>(space, ASTERISK), new CreateWithNextChar());
         commands.put(new StatesPair<>(space, NEW_LINE), new CreateWithNextChar());
         commands.put(new StatesPair<>(space, SPACE), new CreateMultiCharToken());
         commands.put(new StatesPair<>(space, DOUBLE_QUOTE), new CreateWithNextToken());
