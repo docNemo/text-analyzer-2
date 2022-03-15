@@ -39,8 +39,8 @@ public class App {
 
         ) {
             ILexer lexer = new Lexer(readerChar);
-            IFormatter formatter = new Formatter(lexer, fileWriterChar);
-            formatter.format();
+            IFormatter formatter = new Formatter();
+            formatter.format(lexer, fileWriterChar);
 
         } catch (CloseException e) {
             logger.error("Error during closing stream. {} ", e.toString());

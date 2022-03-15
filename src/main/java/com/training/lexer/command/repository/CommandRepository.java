@@ -7,6 +7,7 @@ import com.training.lexer.command.implementations.CreateLineComment;
 import com.training.lexer.command.implementations.CreateMultiCharToken;
 import com.training.lexer.command.implementations.CreateOpeningMultilineComment;
 import com.training.lexer.command.implementations.CreateTokenClosingBrace;
+import com.training.lexer.command.implementations.CreateTokenCommon;
 import com.training.lexer.command.implementations.CreateTokenDoubleQuote;
 import com.training.lexer.command.implementations.CreateTokenNewLine;
 import com.training.lexer.command.implementations.CreateTokenOpeningBrace;
@@ -15,6 +16,8 @@ import com.training.lexer.command.implementations.CreateTokenSlash;
 import com.training.lexer.command.implementations.CreateTokenSpace;
 import com.training.lexer.command.implementations.CreateWithNextChar;
 import com.training.lexer.command.implementations.CreateWithNextToken;
+import com.training.lexer.command.implementations.CreateWithNextTokenAsterisk;
+import com.training.lexer.command.implementations.Ignore;
 import com.training.state.IState;
 import com.training.state.State;
 import com.training.state.StatesPair;
@@ -42,16 +45,18 @@ public class CommandRepository implements ICommandRepository {
         IState newLine = new State("NEW_LINE");
         IState space = new State("SPACE");
         IState asterisk = new State("ASTERISK");
+        IState common = new State("COMMON");
 
         //State - Start
         commands.put(new StatesPair<>(start, OPENING_BRACE), new CreateTokenOpeningBrace());
         commands.put(new StatesPair<>(start, CLOSING_BRACE), new CreateTokenClosingBrace());
         commands.put(new StatesPair<>(start, SEMICOLON), new CreateTokenSemicolon());
         commands.put(new StatesPair<>(start, SLASH), new CreateTokenSlash());
-        commands.put(new StatesPair<>(start, ASTERISK), new CreateFirstAsterisk());
+        commands.put(new StatesPair<>(start, ASTERISK), new Ignore());
         commands.put(new StatesPair<>(start, NEW_LINE), new CreateTokenNewLine());
         commands.put(new StatesPair<>(start, SPACE), new CreateTokenSpace());
         commands.put(new StatesPair<>(start, DOUBLE_QUOTE), new CreateTokenDoubleQuote());
+        commands.put(new StatesPair<>(start, null), new CreateTokenCommon());
 
         //State - Slash
         commands.put(new StatesPair<>(slash, OPENING_BRACE), new CreateWithNextToken());
@@ -62,37 +67,51 @@ public class CommandRepository implements ICommandRepository {
         commands.put(new StatesPair<>(slash, NEW_LINE), new CreateWithNextChar());
         commands.put(new StatesPair<>(slash, SPACE), new CreateWithNextChar());
         commands.put(new StatesPair<>(slash, DOUBLE_QUOTE), new CreateWithNextToken());
+        commands.put(new StatesPair<>(slash, null), new CreateMultiCharToken());
+
+        //State - Common
+        commands.put(new StatesPair<>(common, OPENING_BRACE), new CreateWithNextToken());
+        commands.put(new StatesPair<>(common, CLOSING_BRACE), new CreateWithNextToken());
+        commands.put(new StatesPair<>(common, SEMICOLON), new CreateWithNextToken());
+        commands.put(new StatesPair<>(common, SLASH), new CreateWithNextChar());
+        commands.put(new StatesPair<>(common, ASTERISK), new Ignore());
+        commands.put(new StatesPair<>(common, NEW_LINE), new CreateWithNextChar());
+        commands.put(new StatesPair<>(common, SPACE), new CreateWithNextChar());
+        commands.put(new StatesPair<>(common, DOUBLE_QUOTE), new CreateWithNextToken());
+        commands.put(new StatesPair<>(common, null), new CreateMultiCharToken());
 
         //State - newLine
         commands.put(new StatesPair<>(newLine, OPENING_BRACE), new CreateWithNextToken());
         commands.put(new StatesPair<>(newLine, CLOSING_BRACE), new CreateWithNextToken());
         commands.put(new StatesPair<>(newLine, SEMICOLON), new CreateWithNextToken());
         commands.put(new StatesPair<>(newLine, SLASH), new CreateWithNextChar());
-        commands.put(new StatesPair<>(newLine, ASTERISK), new CreateWithNextChar());
+        commands.put(new StatesPair<>(newLine, ASTERISK), new Ignore());
         commands.put(new StatesPair<>(newLine, NEW_LINE), new CreateMultiCharToken());
         commands.put(new StatesPair<>(newLine, SPACE), new CreateWithNextChar());
         commands.put(new StatesPair<>(newLine, DOUBLE_QUOTE), new CreateWithNextToken());
+        commands.put(new StatesPair<>(newLine, null), new CreateWithNextChar());
 
         //State - Space
         commands.put(new StatesPair<>(space, OPENING_BRACE), new CreateWithNextToken());
         commands.put(new StatesPair<>(space, CLOSING_BRACE), new CreateWithNextToken());
         commands.put(new StatesPair<>(space, SEMICOLON), new CreateWithNextToken());
         commands.put(new StatesPair<>(space, SLASH), new CreateWithNextChar());
-        commands.put(new StatesPair<>(space, ASTERISK), new CreateWithNextChar());
+        commands.put(new StatesPair<>(space, ASTERISK), new Ignore());
         commands.put(new StatesPair<>(space, NEW_LINE), new CreateWithNextChar());
         commands.put(new StatesPair<>(space, SPACE), new CreateMultiCharToken());
         commands.put(new StatesPair<>(space, DOUBLE_QUOTE), new CreateWithNextToken());
         commands.put(new StatesPair<>(space, null), new CreateWithNextChar());
 
         //State - Asterisk
-        commands.put(new StatesPair<>(asterisk, OPENING_BRACE), new CreateWithNextToken());
-        commands.put(new StatesPair<>(asterisk, CLOSING_BRACE), new CreateWithNextToken());
-        commands.put(new StatesPair<>(asterisk, SEMICOLON), new CreateWithNextToken());
+        commands.put(new StatesPair<>(asterisk, OPENING_BRACE), new CreateWithNextTokenAsterisk());
+        commands.put(new StatesPair<>(asterisk, CLOSING_BRACE), new CreateWithNextTokenAsterisk());
+        commands.put(new StatesPair<>(asterisk, SEMICOLON), new CreateWithNextTokenAsterisk());
         commands.put(new StatesPair<>(asterisk, SLASH), new CreateClosingMultilineComment());
         commands.put(new StatesPair<>(asterisk, ASTERISK), new CreateMultiCharToken());
-        commands.put(new StatesPair<>(asterisk, NEW_LINE), new CreateWithNextChar());
-        commands.put(new StatesPair<>(asterisk, SPACE), new CreateWithNextChar());
-        commands.put(new StatesPair<>(asterisk, DOUBLE_QUOTE), new CreateWithNextToken());
+        commands.put(new StatesPair<>(asterisk, NEW_LINE), new CreateWithNextTokenAsterisk());
+        commands.put(new StatesPair<>(asterisk, SPACE), new CreateWithNextTokenAsterisk());
+        commands.put(new StatesPair<>(asterisk, DOUBLE_QUOTE), new CreateWithNextTokenAsterisk());
+        commands.put(new StatesPair<>(asterisk, null), new CreateWithNextTokenAsterisk());
     }
 
     @Override

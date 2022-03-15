@@ -24,7 +24,7 @@ public class TestFormatter {
         stringInWriter = new StringBuilder();
         writer = new StringWriterChar(stringInWriter);
         lexer = new Lexer(reader);
-        formatter = new Formatter(lexer, writer);
+        formatter = new Formatter();
     }
 
 //    @Test
@@ -195,9 +195,9 @@ public class TestFormatter {
                 qkjfj;""";
 
         lexer = new Lexer(reader);
-        formatter = new Formatter(lexer, writer);
+        formatter = new Formatter();
 
-        formatter.format();
+        formatter.format(lexer, writer);
         String actual = stringInWriter.toString();
         assertEquals(expected, actual);
     }

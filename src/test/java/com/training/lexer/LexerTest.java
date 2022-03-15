@@ -53,18 +53,18 @@ public class LexerTest {
                 .thenReturn('f')
                 .thenReturn('\n');
 
-        IToken actual = lexer.readToken();
+        IToken actual = lexer.getToken();
 
         assertTrue(true);
         assertEquals("LINE_COMMENT", actual.getName());
         assertEquals("//", actual.getLexeme());
 
-        actual = lexer.readToken();
+        actual = lexer.getToken();
 
         assertEquals("SPACE", actual.getName());
         assertEquals(" ", actual.getLexeme());
 
-        actual = lexer.readToken();
+        actual = lexer.getToken();
 
         assertEquals("COMMON", actual.getName());
         assertEquals("f", actual.getLexeme());
