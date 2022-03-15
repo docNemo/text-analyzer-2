@@ -15,11 +15,9 @@ import com.training.lexer.tokenbuilder.TokenBuilder;
 
 public class Lexer implements ILexer {
 
-
     private final IReader reader;
     private final ICommandRepository commandRepository;
     private final IStateTransitions stateTransitions;
-    private IToken readedToken;
     private ITokenBuilder tokenBuilder;
 
     public Lexer(IReader reader) {
@@ -27,23 +25,15 @@ public class Lexer implements ILexer {
         commandRepository = new CommandRepository();
         stateTransitions = new StateTransitions();
         tokenBuilder = new TokenBuilder();
-        readedToken = readToken();
     }
 
     @Override
     public boolean hasNextToken() {
-        return readedToken != null;
+        return tokenBuilder.getPostponeBuffer().length() > 0 || reader.hasChar();
     }
 
     @Override
     public IToken getToken() {
-        IToken returnableToken = readedToken;
-        readedToken = readToken();
-
-        return returnableToken;
-    }
-
-    IToken readToken() {
         IState state = new State("START");
         tokenBuilder.newLexeme();
 
@@ -59,7 +49,7 @@ public class Lexer implements ILexer {
             state = step(reader, state, tokenBuilder);
         }
 
-        return !tokenBuilder.getToken().getName().equals("") ? tokenBuilder.getToken() : null;
+        return tokenBuilder.getToken();
     }
 
     private IState step(IReader readerOnStep, IState state, ITokenBuilder builder) {
