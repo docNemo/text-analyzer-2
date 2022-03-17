@@ -7,7 +7,6 @@ public class CreateTokenCommonAddedAsteriskWithNextChar implements ICommand {
     @Override
     public void execute(char character, ITokenBuilder builder) {
         builder.appendToLexeme('*');
-        builder.setNameToken("COMMON");
         builder.setPostponeBuffer(String.valueOf(character));
     }
 }

@@ -6,7 +6,6 @@ import com.training.lexer.tokenbuilder.ITokenBuilder;
 public class CreateTokenCommonWithNextClosingMultilineComment implements ICommand {
     @Override
     public void execute(char character, ITokenBuilder builder) {
-        builder.setNameToken("COMMON");
         builder.setPostponeBuffer("*/");
     }
 }

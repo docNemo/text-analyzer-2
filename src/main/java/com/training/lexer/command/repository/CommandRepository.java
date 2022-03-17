@@ -2,17 +2,17 @@ package com.training.lexer.command.repository;
 
 import com.training.lexer.command.ICommand;
 import com.training.lexer.command.implementations.CreateTokenClosingMultilineComment;
-import com.training.lexer.command.implementations.CreateTokenCommon;
+import com.training.lexer.command.implementations.SetTokenCommon;
 import com.training.lexer.command.implementations.CreateTokenLineComment;
 import com.training.lexer.command.implementations.AddedToLexeme;
-import com.training.lexer.command.implementations.CreateTokenNewLine;
+import com.training.lexer.command.implementations.SetTokenNewLine;
 import com.training.lexer.command.implementations.CreateTokenClosingBrace;
 import com.training.lexer.command.implementations.CreateTokenDoubleQuote;
 import com.training.lexer.command.implementations.CreateTokenOpeningBrace;
 import com.training.lexer.command.implementations.CreateTokenOpeningMultilineComment;
 import com.training.lexer.command.implementations.CreateTokenSemicolon;
-import com.training.lexer.command.implementations.CreateTokenSlash;
-import com.training.lexer.command.implementations.CreateTokenSpace;
+import com.training.lexer.command.implementations.SetTokenSlash;
+import com.training.lexer.command.implementations.SetTokenSpace;
 import com.training.lexer.command.implementations.CreateTokenCommonAddedAsteriskWithNextChar;
 import com.training.lexer.command.implementations.CreateTokenCommonWithNextClosingMultilineComment;
 import com.training.lexer.command.implementations.CreateTokenWithNextChar;
@@ -51,12 +51,12 @@ public class CommandRepository implements ICommandRepository {
         commands.put(new StatesPair<>(start, OPENING_BRACE), new CreateTokenOpeningBrace());
         commands.put(new StatesPair<>(start, CLOSING_BRACE), new CreateTokenClosingBrace());
         commands.put(new StatesPair<>(start, SEMICOLON), new CreateTokenSemicolon());
-        commands.put(new StatesPair<>(start, SLASH), new CreateTokenSlash());
-        commands.put(new StatesPair<>(start, ASTERISK), new CreateTokenCommon());
-        commands.put(new StatesPair<>(start, NEW_LINE), new CreateTokenNewLine());
-        commands.put(new StatesPair<>(start, SPACE), new CreateTokenSpace());
+        commands.put(new StatesPair<>(start, SLASH), new SetTokenSlash());
+        commands.put(new StatesPair<>(start, ASTERISK), new SetTokenCommon());
+        commands.put(new StatesPair<>(start, NEW_LINE), new SetTokenNewLine());
+        commands.put(new StatesPair<>(start, SPACE), new SetTokenSpace());
         commands.put(new StatesPair<>(start, DOUBLE_QUOTE), new CreateTokenDoubleQuote());
-        commands.put(new StatesPair<>(start, null), new CreateTokenCommon());
+        commands.put(new StatesPair<>(start, null), new SetTokenCommon());
 
         //State - Slash
         commands.put(new StatesPair<>(slash, OPENING_BRACE), new CreateTokenWithNextChar());
