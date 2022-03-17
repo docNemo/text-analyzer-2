@@ -20,7 +20,9 @@ public class ContextFormatter implements IContextFormatter {
 
     @Override
     public void decrementIndent() {
-        nestingLevel--;
+        if (nestingLevel > 0) {
+            nestingLevel--;
+        }
     }
 
     @Override
