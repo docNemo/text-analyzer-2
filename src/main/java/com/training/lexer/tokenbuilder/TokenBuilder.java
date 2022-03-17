@@ -21,7 +21,7 @@ public class TokenBuilder implements ITokenBuilder {
 
     @Override
     public void appendToLexeme(char character) {
-        lexeme.append(character);
+        this.lexeme.append(character);
     }
 
     @Override
@@ -36,7 +36,7 @@ public class TokenBuilder implements ITokenBuilder {
 
     @Override
     public void setEmptyPostponeBuffer(){
-        postponeBuffer = "";
+        this.postponeBuffer = "";
     }
 
     public void newLexeme() {
@@ -46,7 +46,7 @@ public class TokenBuilder implements ITokenBuilder {
 
     @Override
     public void deleteLastChar() {
-        lexeme.deleteCharAt(lexeme.length() - 1);
+        this.lexeme.deleteCharAt(lexeme.length() - 1);
     }
 
     @Override

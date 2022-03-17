@@ -3,10 +3,10 @@ package com.training.lexer.command.implementations;
 import com.training.lexer.command.ICommand;
 import com.training.lexer.tokenbuilder.ITokenBuilder;
 
-public class CreateLineComment implements ICommand {
+public class CreateTokenSlashWithNextChar implements ICommand {
     @Override
     public void execute(char character, ITokenBuilder builder) {
-        builder.appendToLexeme(character);
-        builder.setNameToken("LINE_COMMENT");
+        builder.setNameToken("SLASH");
+        builder.setPostponeBuffer(String.valueOf(character));
     }
 }

@@ -20,6 +20,6 @@ public class TestStateTransition {
         IState state = new State("START");
         char ch = '*';
         IState actual = stateTransitions.nextState(state, ch);
-        assertEquals("ASTERISK", actual.getName());
+        assertEquals("FIRST_ASTERISK", actual.getName());
     }
 }

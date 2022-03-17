@@ -27,6 +27,7 @@ public class StateTransitions implements IStateTransitions {
         IState common = new State("COMMON");
         IState newLine = new State("NEW_LINE");
         IState space = new State("SPACE");
+        IState firstAsterisk = new State("FIRST_ASTERISK");
         IState asterisk = new State("ASTERISK");
         IState ready = new State("ready");
 
@@ -35,7 +36,7 @@ public class StateTransitions implements IStateTransitions {
         stateTransitions.put(new StatesPair<>(start, CLOSING_BRACE), ready);
         stateTransitions.put(new StatesPair<>(start, SEMICOLON), ready);
         stateTransitions.put(new StatesPair<>(start, SLASH), slash);
-        stateTransitions.put(new StatesPair<>(start, ASTERISK), asterisk);
+        stateTransitions.put(new StatesPair<>(start, ASTERISK), firstAsterisk);
         stateTransitions.put(new StatesPair<>(start, NEW_LINE), newLine);
         stateTransitions.put(new StatesPair<>(start, SPACE), space);
         stateTransitions.put(new StatesPair<>(start, DOUBLE_QUOTE), ready);
@@ -84,6 +85,17 @@ public class StateTransitions implements IStateTransitions {
         stateTransitions.put(new StatesPair<>(space, SPACE), space);
         stateTransitions.put(new StatesPair<>(space, DOUBLE_QUOTE), ready);
         stateTransitions.put(new StatesPair<>(space, null), ready);
+
+        //State - First Asterisk
+        stateTransitions.put(new StatesPair<>(firstAsterisk, OPENING_BRACE), ready);
+        stateTransitions.put(new StatesPair<>(firstAsterisk, CLOSING_BRACE), ready);
+        stateTransitions.put(new StatesPair<>(firstAsterisk, SEMICOLON), ready);
+        stateTransitions.put(new StatesPair<>(firstAsterisk, SLASH), ready);
+        stateTransitions.put(new StatesPair<>(firstAsterisk, ASTERISK), asterisk);
+        stateTransitions.put(new StatesPair<>(firstAsterisk, NEW_LINE), ready);
+        stateTransitions.put(new StatesPair<>(firstAsterisk, SPACE), ready);
+        stateTransitions.put(new StatesPair<>(firstAsterisk, DOUBLE_QUOTE), ready);
+        stateTransitions.put(new StatesPair<>(firstAsterisk, null), common);
 
         //State - Asterisk
         stateTransitions.put(new StatesPair<>(asterisk, OPENING_BRACE), ready);

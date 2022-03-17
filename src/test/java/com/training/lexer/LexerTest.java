@@ -20,20 +20,6 @@ public class LexerTest {
     @BeforeEach
     void setUp() {
         reader = mock(IReader.class);
-
-//        when(reader.hasChar())
-//                .thenReturn(true)
-//                .thenReturn(true)
-//                .thenReturn(true)
-//                .thenReturn(true)
-//                .thenReturn(true)
-//                .thenReturn(false);
-//        when(reader.readChar())
-//                .thenReturn('"')
-//                .thenReturn('/')
-//                .thenReturn(' ')
-//                .thenReturn('"')
-//                .thenReturn('\n');
         lexer = new Lexer(reader);
     }
 
@@ -78,31 +64,50 @@ public class LexerTest {
         verify(reader, times(5)).readChar();
     }
 
-//    @Test
-//    void test2() {
-//
-//        IToken actual = lexer.getToken();
-//
-//        assertEquals(true, true);
-//        assertEquals("DOUBLE_QUOTE", actual.getName());
-//        assertEquals("\"", actual.getLexeme());
-//
-//        actual = lexer.getToken();
-//
-//        assertEquals("SLASH", actual.getName());
-//        assertEquals("/", actual.getLexeme());
-//
-//        actual = lexer.getToken();
-//
-//        assertEquals("SPACE", actual.getName());
-//        assertEquals(" ", actual.getLexeme());
-//
-//        actual = lexer.getToken();
-//
-//        assertEquals("DOUBLE_QUOTE", actual.getName());
-//        assertEquals("\"", actual.getLexeme());
+    @Test
+    void test2() {
 
-//        verify(reader, times(6)).hasChar();
-//        verify(reader, times(5)).readChar();
-//    }
+        when(reader.hasChar())
+                .thenReturn(true)
+                .thenReturn(true)
+                .thenReturn(true)
+                .thenReturn(true)
+                .thenReturn(true)
+                .thenReturn(false);
+        when(reader.readChar())
+                .thenReturn('"')
+                .thenReturn('/')
+                .thenReturn(' ')
+                .thenReturn('"')
+                .thenReturn('\n');
+
+        IToken actual = lexer.getToken();
+
+        assertEquals(true, true);
+        assertEquals("DOUBLE_QUOTE", actual.getName());
+        assertEquals("\"", actual.getLexeme());
+
+        actual = lexer.getToken();
+
+        assertEquals("SLASH", actual.getName());
+        assertEquals("/", actual.getLexeme());
+
+        actual = lexer.getToken();
+
+        assertEquals("SPACE", actual.getName());
+        assertEquals(" ", actual.getLexeme());
+
+        actual = lexer.getToken();
+
+        assertEquals("DOUBLE_QUOTE", actual.getName());
+        assertEquals("\"", actual.getLexeme());
+
+        actual = lexer.getToken();
+
+        assertEquals("NEW_LINE", actual.getName());
+        assertEquals("\n", actual.getLexeme());
+
+        verify(reader, times(6)).hasChar();
+        verify(reader, times(5)).readChar();
+    }
 }
