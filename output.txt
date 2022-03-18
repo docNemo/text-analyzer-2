@@ -1,4 +1,6 @@
-}
+{
+    {
+    }
 }
 }
 ( mno, pqr ) asd;
@@ -19,12 +21,12 @@ asd;
 //hhgffgh
 
 asdasd;
-asdasd = "sadasd";// asdasdasd
+asdasd = "sadasd";//asdasdasd
 
 asdas {
     asdas;
     asd;
     asdsad {
-        asd;//asdasd
+        asd;//asdasd}}
     }
 }

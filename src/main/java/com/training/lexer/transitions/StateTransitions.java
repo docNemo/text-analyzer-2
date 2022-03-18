@@ -29,7 +29,7 @@ public class StateTransitions implements IStateTransitions {
         IState space = new State("SPACE");
         IState firstAsterisk = new State("FIRST_ASTERISK");
         IState asterisk = new State("ASTERISK");
-        IState ready = new State("ready");
+        IState ready = new State("READY");
 
         //State - Start
         stateTransitions.put(new StatesPair<>(start, OPENING_BRACE), ready);
@@ -117,7 +117,7 @@ public class StateTransitions implements IStateTransitions {
         if (nextState == null) {
             nextState = stateTransitions.get(new StatesPair<>(currentState, (Character) null));
         }
-        if (nextState.getName().equals("ready")) {
+        if (nextState.getName().equals("READY")) {
             nextState = null;
         }
 
