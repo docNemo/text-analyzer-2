@@ -1,3 +1,7 @@
+while{}
+    while*
+    whiles*
+
 {{}}}(
     mno,
     pqr

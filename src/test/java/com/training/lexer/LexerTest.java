@@ -1,7 +1,6 @@
 package com.training.lexer;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -41,7 +40,6 @@ public class LexerTest {
 
         IToken actual = lexer.getToken();
 
-        assertTrue(true);
         assertEquals("LINE_COMMENT", actual.getName());
         assertEquals("//", actual.getLexeme());
 
@@ -83,7 +81,6 @@ public class LexerTest {
 
         IToken actual = lexer.getToken();
 
-        assertEquals(true, true);
         assertEquals("DOUBLE_QUOTE", actual.getName());
         assertEquals("\"", actual.getLexeme());
 
@@ -109,5 +106,45 @@ public class LexerTest {
 
         verify(reader, times(6)).hasChar();
         verify(reader, times(5)).readChar();
+    }
+
+    @Test
+    void test3() {
+
+        when(reader.hasChar())
+                .thenReturn(true)
+                .thenReturn(true)
+                .thenReturn(true)
+                .thenReturn(true)
+                .thenReturn(true)
+                .thenReturn(true)
+                .thenReturn(true)
+                .thenReturn(false);
+        when(reader.readChar())
+                .thenReturn('w')
+                .thenReturn('h')
+                .thenReturn('i')
+                .thenReturn('l')
+                .thenReturn('e')
+                .thenReturn('{')
+                .thenReturn('\n');
+
+        IToken actual = lexer.getToken();
+
+        assertEquals("WHILE", actual.getName());
+        assertEquals("while", actual.getLexeme());
+
+        actual = lexer.getToken();
+
+        assertEquals("OPENING_BRACE", actual.getName());
+        assertEquals("{", actual.getLexeme());
+
+        actual = lexer.getToken();
+
+        assertEquals("NEW_LINE", actual.getName());
+        assertEquals("\n", actual.getLexeme());
+
+        verify(reader, times(8)).hasChar();
+        verify(reader, times(7)).readChar();
     }
 }

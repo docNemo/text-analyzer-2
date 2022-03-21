@@ -30,6 +30,11 @@ public class StateTransitions implements IStateTransitions {
         IState firstAsterisk = new State("FIRST_ASTERISK");
         IState asterisk = new State("ASTERISK");
         IState ready = new State("READY");
+        IState stateW = new State("w");
+        IState stateH = new State("h");
+        IState stateI = new State("i");
+        IState stateL = new State("l");
+        IState stateE = new State("e");
 
         //State - Start
         stateTransitions.put(new StatesPair<>(start, OPENING_BRACE), ready);
@@ -40,7 +45,67 @@ public class StateTransitions implements IStateTransitions {
         stateTransitions.put(new StatesPair<>(start, NEW_LINE), newLine);
         stateTransitions.put(new StatesPair<>(start, SPACE), space);
         stateTransitions.put(new StatesPair<>(start, DOUBLE_QUOTE), ready);
+        stateTransitions.put(new StatesPair<>(start, 'w'), stateW);
         stateTransitions.put(new StatesPair<>(start, null), common);
+
+        //State - W
+        stateTransitions.put(new StatesPair<>(stateW, OPENING_BRACE), ready);
+        stateTransitions.put(new StatesPair<>(stateW, CLOSING_BRACE), ready);
+        stateTransitions.put(new StatesPair<>(stateW, SEMICOLON), ready);
+        stateTransitions.put(new StatesPair<>(stateW, SLASH), ready);
+        stateTransitions.put(new StatesPair<>(stateW, ASTERISK), ready);
+        stateTransitions.put(new StatesPair<>(stateW, NEW_LINE), ready);
+        stateTransitions.put(new StatesPair<>(stateW, SPACE), ready);
+        stateTransitions.put(new StatesPair<>(stateW, DOUBLE_QUOTE), ready);
+        stateTransitions.put(new StatesPair<>(stateW, 'h'), stateH);
+        stateTransitions.put(new StatesPair<>(stateW, null), common);
+
+        //State - H
+        stateTransitions.put(new StatesPair<>(stateH, OPENING_BRACE), ready);
+        stateTransitions.put(new StatesPair<>(stateH, CLOSING_BRACE), ready);
+        stateTransitions.put(new StatesPair<>(stateH, SEMICOLON), ready);
+        stateTransitions.put(new StatesPair<>(stateH, SLASH), ready);
+        stateTransitions.put(new StatesPair<>(stateH, ASTERISK), ready);
+        stateTransitions.put(new StatesPair<>(stateH, NEW_LINE), ready);
+        stateTransitions.put(new StatesPair<>(stateH, SPACE), ready);
+        stateTransitions.put(new StatesPair<>(stateH, DOUBLE_QUOTE), ready);
+        stateTransitions.put(new StatesPair<>(stateH, 'i'), stateI);
+        stateTransitions.put(new StatesPair<>(stateH, null), common);
+
+        //State - I
+        stateTransitions.put(new StatesPair<>(stateI, OPENING_BRACE), ready);
+        stateTransitions.put(new StatesPair<>(stateI, CLOSING_BRACE), ready);
+        stateTransitions.put(new StatesPair<>(stateI, SEMICOLON), ready);
+        stateTransitions.put(new StatesPair<>(stateI, SLASH), ready);
+        stateTransitions.put(new StatesPair<>(stateI, ASTERISK), ready);
+        stateTransitions.put(new StatesPair<>(stateI, NEW_LINE), ready);
+        stateTransitions.put(new StatesPair<>(stateI, SPACE), ready);
+        stateTransitions.put(new StatesPair<>(stateI, DOUBLE_QUOTE), ready);
+        stateTransitions.put(new StatesPair<>(stateI, 'l'), stateL);
+        stateTransitions.put(new StatesPair<>(stateI, null), common);
+
+        //State - L
+        stateTransitions.put(new StatesPair<>(stateL, OPENING_BRACE), ready);
+        stateTransitions.put(new StatesPair<>(stateL, CLOSING_BRACE), ready);
+        stateTransitions.put(new StatesPair<>(stateL, SEMICOLON), ready);
+        stateTransitions.put(new StatesPair<>(stateL, SLASH), ready);
+        stateTransitions.put(new StatesPair<>(stateL, ASTERISK), ready);
+        stateTransitions.put(new StatesPair<>(stateL, NEW_LINE), ready);
+        stateTransitions.put(new StatesPair<>(stateL, SPACE), ready);
+        stateTransitions.put(new StatesPair<>(stateL, DOUBLE_QUOTE), ready);
+        stateTransitions.put(new StatesPair<>(stateL, 'e'), stateE);
+        stateTransitions.put(new StatesPair<>(stateL, null), common);
+
+        //State - E
+        stateTransitions.put(new StatesPair<>(stateE, OPENING_BRACE), ready);
+        stateTransitions.put(new StatesPair<>(stateE, CLOSING_BRACE), ready);
+        stateTransitions.put(new StatesPair<>(stateE, SEMICOLON), ready);
+        stateTransitions.put(new StatesPair<>(stateE, SLASH), ready);
+        stateTransitions.put(new StatesPair<>(stateE, ASTERISK), ready);
+        stateTransitions.put(new StatesPair<>(stateE, NEW_LINE), ready);
+        stateTransitions.put(new StatesPair<>(stateE, SPACE), ready);
+        stateTransitions.put(new StatesPair<>(stateE, DOUBLE_QUOTE), ready);
+        stateTransitions.put(new StatesPair<>(stateE, null), common);
 
         //State - Slash
         stateTransitions.put(new StatesPair<>(slash, OPENING_BRACE), ready);
@@ -112,7 +177,6 @@ public class StateTransitions implements IStateTransitions {
     @Override
     public IState nextState(IState currentState, char character) {
         IState nextState = stateTransitions.get(new StatesPair<>(currentState, character));
-
 
         if (nextState == null) {
             nextState = stateTransitions.get(new StatesPair<>(currentState, (Character) null));

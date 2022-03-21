@@ -2,6 +2,7 @@ package com.training.lexer.command.repository;
 
 import com.training.lexer.command.ICommand;
 import com.training.lexer.command.implementations.CreateTokenClosingMultilineComment;
+import com.training.lexer.command.implementations.CreateTokenWhileWithNextChar;
 import com.training.lexer.command.implementations.SetTokenCommon;
 import com.training.lexer.command.implementations.CreateTokenLineComment;
 import com.training.lexer.command.implementations.AddedToLexeme;
@@ -46,6 +47,11 @@ public class CommandRepository implements ICommandRepository {
         IState firstAsterisk = new State("FIRST_ASTERISK");
         IState asterisk = new State("ASTERISK");
         IState common = new State("COMMON");
+        IState stateW = new State("w");
+        IState stateH = new State("h");
+        IState stateI = new State("i");
+        IState stateL = new State("l");
+        IState stateE = new State("e");
 
         //State - Start
         commands.put(new StatesPair<>(start, OPENING_BRACE), new CreateTokenOpeningBrace());
@@ -56,7 +62,67 @@ public class CommandRepository implements ICommandRepository {
         commands.put(new StatesPair<>(start, NEW_LINE), new SetTokenNewLine());
         commands.put(new StatesPair<>(start, SPACE), new SetTokenSpace());
         commands.put(new StatesPair<>(start, DOUBLE_QUOTE), new CreateTokenDoubleQuote());
+        commands.put(new StatesPair<>(start, 'w'), new SetTokenCommon());
         commands.put(new StatesPair<>(start, null), new SetTokenCommon());
+
+        //State - W
+        commands.put(new StatesPair<>(stateW, OPENING_BRACE), new CreateTokenOpeningBrace());
+        commands.put(new StatesPair<>(stateW, CLOSING_BRACE), new CreateTokenClosingBrace());
+        commands.put(new StatesPair<>(stateW, SEMICOLON), new CreateTokenSemicolon());
+        commands.put(new StatesPair<>(stateW, SLASH), new SetTokenSlash());
+        commands.put(new StatesPair<>(stateW, ASTERISK), new SetTokenCommon());
+        commands.put(new StatesPair<>(stateW, NEW_LINE), new SetTokenNewLine());
+        commands.put(new StatesPair<>(stateW, SPACE), new SetTokenSpace());
+        commands.put(new StatesPair<>(stateW, DOUBLE_QUOTE), new CreateTokenDoubleQuote());
+        commands.put(new StatesPair<>(stateW, 'h'), new AddedToLexeme());
+        commands.put(new StatesPair<>(stateW, null), new AddedToLexeme());
+
+        //State - H
+        commands.put(new StatesPair<>(stateH, OPENING_BRACE), new CreateTokenOpeningBrace());
+        commands.put(new StatesPair<>(stateH, CLOSING_BRACE), new CreateTokenClosingBrace());
+        commands.put(new StatesPair<>(stateH, SEMICOLON), new CreateTokenSemicolon());
+        commands.put(new StatesPair<>(stateH, SLASH), new SetTokenSlash());
+        commands.put(new StatesPair<>(stateH, ASTERISK), new SetTokenCommon());
+        commands.put(new StatesPair<>(stateH, NEW_LINE), new SetTokenNewLine());
+        commands.put(new StatesPair<>(stateH, SPACE), new SetTokenSpace());
+        commands.put(new StatesPair<>(stateH, DOUBLE_QUOTE), new CreateTokenDoubleQuote());
+        commands.put(new StatesPair<>(stateH, 'i'), new AddedToLexeme());
+        commands.put(new StatesPair<>(stateH, null), new AddedToLexeme());
+
+        //State - I
+        commands.put(new StatesPair<>(stateI, OPENING_BRACE), new CreateTokenOpeningBrace());
+        commands.put(new StatesPair<>(stateI, CLOSING_BRACE), new CreateTokenClosingBrace());
+        commands.put(new StatesPair<>(stateI, SEMICOLON), new CreateTokenSemicolon());
+        commands.put(new StatesPair<>(stateI, SLASH), new SetTokenSlash());
+        commands.put(new StatesPair<>(stateI, ASTERISK), new SetTokenCommon());
+        commands.put(new StatesPair<>(stateI, NEW_LINE), new SetTokenNewLine());
+        commands.put(new StatesPair<>(stateI, SPACE), new SetTokenSpace());
+        commands.put(new StatesPair<>(stateI, DOUBLE_QUOTE), new CreateTokenDoubleQuote());
+        commands.put(new StatesPair<>(stateI, 'l'), new AddedToLexeme());
+        commands.put(new StatesPair<>(stateI, null), new AddedToLexeme());
+
+        //State - L
+        commands.put(new StatesPair<>(stateL, OPENING_BRACE), new CreateTokenOpeningBrace());
+        commands.put(new StatesPair<>(stateL, CLOSING_BRACE), new CreateTokenClosingBrace());
+        commands.put(new StatesPair<>(stateL, SEMICOLON), new CreateTokenSemicolon());
+        commands.put(new StatesPair<>(stateL, SLASH), new SetTokenSlash());
+        commands.put(new StatesPair<>(stateL, ASTERISK), new SetTokenCommon());
+        commands.put(new StatesPair<>(stateL, NEW_LINE), new SetTokenNewLine());
+        commands.put(new StatesPair<>(stateL, SPACE), new SetTokenSpace());
+        commands.put(new StatesPair<>(stateL, DOUBLE_QUOTE), new CreateTokenDoubleQuote());
+        commands.put(new StatesPair<>(stateL, 'e'), new AddedToLexeme());
+        commands.put(new StatesPair<>(stateL, null), new AddedToLexeme());
+
+        //State - E
+        commands.put(new StatesPair<>(stateE, OPENING_BRACE), new CreateTokenWhileWithNextChar());
+        commands.put(new StatesPair<>(stateE, CLOSING_BRACE), new CreateTokenWhileWithNextChar());
+        commands.put(new StatesPair<>(stateE, SEMICOLON), new CreateTokenWhileWithNextChar());
+        commands.put(new StatesPair<>(stateE, SLASH), new CreateTokenWhileWithNextChar());
+        commands.put(new StatesPair<>(stateE, ASTERISK), new CreateTokenWhileWithNextChar());
+        commands.put(new StatesPair<>(stateE, NEW_LINE), new CreateTokenWhileWithNextChar());
+        commands.put(new StatesPair<>(stateE, SPACE), new CreateTokenWhileWithNextChar());
+        commands.put(new StatesPair<>(stateE, DOUBLE_QUOTE), new CreateTokenWhileWithNextChar());
+        commands.put(new StatesPair<>(stateE, null), new AddedToLexeme());
 
         //State - Slash
         commands.put(new StatesPair<>(slash, OPENING_BRACE), new CreateTokenWithNextChar());

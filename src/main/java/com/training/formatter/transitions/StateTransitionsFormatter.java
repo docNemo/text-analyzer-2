@@ -31,6 +31,7 @@ public class StateTransitionsFormatter implements IStateTransitionsFormatter {
         stateTransitions.put(new StatesPair<>(start, "SPACE"), newLine);
         stateTransitions.put(new StatesPair<>(start, "DOUBLE_QUOTE"), stringLiteral);
         stateTransitions.put(new StatesPair<>(start, "COMMON"), code);
+        stateTransitions.put(new StatesPair<>(start, "WHILE"), code);
         stateTransitions.put(new StatesPair<>(start, "LINE_COMMENT"), lineComment);
         stateTransitions.put(new StatesPair<>(start, "OPENING_MULTILINE_COMMENT"), multilineComment);
         stateTransitions.put(new StatesPair<>(start, "CLOSING_MULTILINE_COMMENT"), newLine);
@@ -44,6 +45,7 @@ public class StateTransitionsFormatter implements IStateTransitionsFormatter {
         stateTransitions.put(new StatesPair<>(code, "SPACE"), code);
         stateTransitions.put(new StatesPair<>(code, "DOUBLE_QUOTE"), stringLiteral);
         stateTransitions.put(new StatesPair<>(code, "COMMON"), code);
+        stateTransitions.put(new StatesPair<>(code, "WHILE"), code);
         stateTransitions.put(new StatesPair<>(code, "LINE_COMMENT"), lineComment);
         stateTransitions.put(new StatesPair<>(code, "OPENING_MULTILINE_COMMENT"), multilineComment);
         stateTransitions.put(new StatesPair<>(code, "CLOSING_MULTILINE_COMMENT"), newLine);
@@ -57,6 +59,7 @@ public class StateTransitionsFormatter implements IStateTransitionsFormatter {
         stateTransitions.put(new StatesPair<>(lineComment, "SPACE"), lineComment);
         stateTransitions.put(new StatesPair<>(lineComment, "DOUBLE_QUOTE"), lineComment);
         stateTransitions.put(new StatesPair<>(lineComment, "COMMON"), lineComment);
+        stateTransitions.put(new StatesPair<>(lineComment, "WHILE"), lineComment);
         stateTransitions.put(new StatesPair<>(lineComment, "LINE_COMMENT"), lineComment);
         stateTransitions.put(new StatesPair<>(lineComment, "OPENING_MULTILINE_COMMENT"), lineComment);
         stateTransitions.put(new StatesPair<>(lineComment, "CLOSING_MULTILINE_COMMENT"), lineComment);
@@ -70,6 +73,7 @@ public class StateTransitionsFormatter implements IStateTransitionsFormatter {
         stateTransitions.put(new StatesPair<>(multilineComment, "SPACE"), multilineComment);
         stateTransitions.put(new StatesPair<>(multilineComment, "DOUBLE_QUOTE"), multilineComment);
         stateTransitions.put(new StatesPair<>(multilineComment, "COMMON"), multilineComment);
+        stateTransitions.put(new StatesPair<>(multilineComment, "WHILE"), multilineComment);
         stateTransitions.put(new StatesPair<>(multilineComment, "LINE_COMMENT"), multilineComment);
         stateTransitions.put(new StatesPair<>(multilineComment, "OPENING_MULTILINE_COMMENT"), multilineComment);
         stateTransitions.put(new StatesPair<>(multilineComment, "CLOSING_MULTILINE_COMMENT"), newLine);
@@ -83,6 +87,7 @@ public class StateTransitionsFormatter implements IStateTransitionsFormatter {
         stateTransitions.put(new StatesPair<>(stringLiteral, "SPACE"), stringLiteral);
         stateTransitions.put(new StatesPair<>(stringLiteral, "DOUBLE_QUOTE"), code);
         stateTransitions.put(new StatesPair<>(stringLiteral, "COMMON"), stringLiteral);
+        stateTransitions.put(new StatesPair<>(stringLiteral, "WHILE"), stringLiteral);
         stateTransitions.put(new StatesPair<>(stringLiteral, "LINE_COMMENT"), stringLiteral);
         stateTransitions.put(new StatesPair<>(stringLiteral, "OPENING_MULTILINE_COMMENT"), stringLiteral);
         stateTransitions.put(new StatesPair<>(stringLiteral, "CLOSING_MULTILINE_COMMENT"), stringLiteral);
@@ -96,6 +101,7 @@ public class StateTransitionsFormatter implements IStateTransitionsFormatter {
         stateTransitions.put(new StatesPair<>(newLine, "SPACE"), newLine);
         stateTransitions.put(new StatesPair<>(newLine, "DOUBLE_QUOTE"), stringLiteral);
         stateTransitions.put(new StatesPair<>(newLine, "COMMON"), code);
+        stateTransitions.put(new StatesPair<>(newLine, "WHILE"), code);
         stateTransitions.put(new StatesPair<>(newLine, "LINE_COMMENT"), lineComment);
         stateTransitions.put(new StatesPair<>(newLine, "OPENING_MULTILINE_COMMENT"), multilineComment);
         stateTransitions.put(new StatesPair<>(newLine, "CLOSING_MULTILINE_COMMENT"), newLine);
@@ -109,6 +115,7 @@ public class StateTransitionsFormatter implements IStateTransitionsFormatter {
         stateTransitions.put(new StatesPair<>(trueNewLine, "SPACE"), trueNewLine);
         stateTransitions.put(new StatesPair<>(trueNewLine, "DOUBLE_QUOTE"), stringLiteral);
         stateTransitions.put(new StatesPair<>(trueNewLine, "COMMON"), code);
+        stateTransitions.put(new StatesPair<>(trueNewLine, "WHILE"), code);
         stateTransitions.put(new StatesPair<>(trueNewLine, "LINE_COMMENT"), lineComment);
         stateTransitions.put(new StatesPair<>(trueNewLine, "OPENING_MULTILINE_COMMENT"), multilineComment);
         stateTransitions.put(new StatesPair<>(trueNewLine, "CLOSING_MULTILINE_COMMENT"), newLine);
