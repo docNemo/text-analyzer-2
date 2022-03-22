@@ -6,12 +6,12 @@ import com.training.lexer.token.Token;
 public class TokenBuilder implements ITokenBuilder {
     private String nameToken;
     private StringBuilder lexeme;
-    private String postponeBuffer;
+    private StringBuilder postponeBuffer;
 
     public TokenBuilder() {
         nameToken = "";
         lexeme = new StringBuilder();
-        postponeBuffer = "";
+        postponeBuffer = new StringBuilder();
     }
 
     @Override
@@ -25,33 +25,24 @@ public class TokenBuilder implements ITokenBuilder {
     }
 
     @Override
-    public String getPostponeBuffer() {
+    public StringBuilder getPostponeBuffer() {
         return postponeBuffer;
     }
 
     @Override
-    public void setPostponeBuffer(String postponeStr) {
-        this.postponeBuffer = postponeStr;
+    public void appendPostponeBuffer(char character) {
+        this.postponeBuffer.append(character);
     }
 
     @Override
     public void setEmptyPostponeBuffer(){
-        this.postponeBuffer = "";
+        this.postponeBuffer = new StringBuilder();
     }
 
+    @Override
     public void newLexeme() {
         nameToken = "";
         lexeme = new StringBuilder();
-    }
-
-    @Override
-    public void deleteLastChar() {
-        this.lexeme.deleteCharAt(lexeme.length() - 1);
-    }
-
-    @Override
-    public int lengthLexeme() {
-        return lexeme.length();
     }
 
     @Override

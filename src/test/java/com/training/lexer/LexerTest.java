@@ -2,11 +2,9 @@ package com.training.lexer;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 import com.training.io.IReader;
+import com.training.io.string.StringReaderChar;
 import com.training.lexer.token.IToken;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -23,128 +21,59 @@ public class LexerTest {
     }
 
     @Test
-    void test1() {
-        when(reader.hasChar())
-                .thenReturn(true)
-                .thenReturn(true)
-                .thenReturn(true)
-                .thenReturn(true)
-                .thenReturn(true)
-                .thenReturn(false);
-        when(reader.readChar())
-                .thenReturn('/')
-                .thenReturn('/')
-                .thenReturn(' ')
-                .thenReturn('f')
-                .thenReturn('\n');
+    void test123123() {
+        reader = new StringReaderChar("// f\n");
+        lexer = new Lexer(reader);
 
         IToken actual = lexer.getToken();
 
-        assertEquals("LINE_COMMENT", actual.getName());
+        assertEquals("onelinecomment", actual.getName());
         assertEquals("//", actual.getLexeme());
 
         actual = lexer.getToken();
 
-        assertEquals("SPACE", actual.getName());
+        assertEquals("space", actual.getName());
         assertEquals(" ", actual.getLexeme());
 
         actual = lexer.getToken();
 
-        assertEquals("COMMON", actual.getName());
+        assertEquals("char", actual.getName());
         assertEquals("f", actual.getLexeme());
 
         actual = lexer.getToken();
 
-        assertEquals("NEW_LINE", actual.getName());
+        assertEquals("newline", actual.getName());
         assertEquals("\n", actual.getLexeme());
-
-        verify(reader, times(6)).hasChar();
-        verify(reader, times(5)).readChar();
     }
 
     @Test
-    void test2() {
-
-        when(reader.hasChar())
-                .thenReturn(true)
-                .thenReturn(true)
-                .thenReturn(true)
-                .thenReturn(true)
-                .thenReturn(true)
-                .thenReturn(false);
-        when(reader.readChar())
-                .thenReturn('"')
-                .thenReturn('/')
-                .thenReturn(' ')
-                .thenReturn('"')
-                .thenReturn('\n');
+    void test112323123() {
+        reader = new StringReaderChar("\"/ \"\n");
+        lexer = new Lexer(reader);
 
         IToken actual = lexer.getToken();
 
-        assertEquals("DOUBLE_QUOTE", actual.getName());
+        assertEquals("quotemark", actual.getName());
         assertEquals("\"", actual.getLexeme());
 
         actual = lexer.getToken();
 
-        assertEquals("SLASH", actual.getName());
+        assertEquals("char", actual.getName());
         assertEquals("/", actual.getLexeme());
 
         actual = lexer.getToken();
 
-        assertEquals("SPACE", actual.getName());
+        assertEquals("space", actual.getName());
         assertEquals(" ", actual.getLexeme());
 
         actual = lexer.getToken();
 
-        assertEquals("DOUBLE_QUOTE", actual.getName());
+        assertEquals("quotemark", actual.getName());
         assertEquals("\"", actual.getLexeme());
 
         actual = lexer.getToken();
 
-        assertEquals("NEW_LINE", actual.getName());
+        assertEquals("newline", actual.getName());
         assertEquals("\n", actual.getLexeme());
-
-        verify(reader, times(6)).hasChar();
-        verify(reader, times(5)).readChar();
-    }
-
-    @Test
-    void test3() {
-
-        when(reader.hasChar())
-                .thenReturn(true)
-                .thenReturn(true)
-                .thenReturn(true)
-                .thenReturn(true)
-                .thenReturn(true)
-                .thenReturn(true)
-                .thenReturn(true)
-                .thenReturn(false);
-        when(reader.readChar())
-                .thenReturn('w')
-                .thenReturn('h')
-                .thenReturn('i')
-                .thenReturn('l')
-                .thenReturn('e')
-                .thenReturn('{')
-                .thenReturn('\n');
-
-        IToken actual = lexer.getToken();
-
-        assertEquals("WHILE", actual.getName());
-        assertEquals("while", actual.getLexeme());
-
-        actual = lexer.getToken();
-
-        assertEquals("OPENING_BRACE", actual.getName());
-        assertEquals("{", actual.getLexeme());
-
-        actual = lexer.getToken();
-
-        assertEquals("NEW_LINE", actual.getName());
-        assertEquals("\n", actual.getLexeme());
-
-        verify(reader, times(8)).hasChar();
-        verify(reader, times(7)).readChar();
     }
 }

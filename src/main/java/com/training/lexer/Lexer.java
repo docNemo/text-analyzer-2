@@ -18,7 +18,7 @@ public class Lexer implements ILexer {
     private final IReader reader;
     private final ICommandRepository commandRepository;
     private final IStateTransitions stateTransitions;
-    private ITokenBuilder tokenBuilder;
+    private final ITokenBuilder tokenBuilder;
 
     public Lexer(IReader reader) {
         this.reader = reader;
@@ -34,18 +34,18 @@ public class Lexer implements ILexer {
 
     @Override
     public IToken getToken() {
-        IState state = new State("START");
+        IState state = new State("start");
         tokenBuilder.newLexeme();
 
-        IReader postponeReader = new StringReaderChar(tokenBuilder.getPostponeBuffer());
+        IReader postponeReader = new StringReaderChar(tokenBuilder.getPostponeBuffer().toString());
 
-        while (state != null && postponeReader.hasChar()) {
+        while (postponeReader.hasChar() && state != null) {
             state = step(postponeReader, state, tokenBuilder);
         }
 
         tokenBuilder.setEmptyPostponeBuffer();
 
-        while (state != null && reader.hasChar()) {
+        while (reader.hasChar() && state != null) {
             state = step(reader, state, tokenBuilder);
         }
 

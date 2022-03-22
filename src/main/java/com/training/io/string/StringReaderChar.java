@@ -1,9 +1,10 @@
 package com.training.io.string;
 
+import com.training.exceptions.ReaderException;
 import com.training.io.IReader;
 
 public class StringReaderChar implements IReader {
-    private String stringForRead;
+    private final String stringForRead;
     private int indexForRead;
 
     public StringReaderChar(String stringForRead) {
@@ -19,12 +20,10 @@ public class StringReaderChar implements IReader {
 
     @Override
     public char readChar() {
-        if (indexForRead != stringForRead.length()) {
-            char returnableChar = stringForRead.charAt(indexForRead);
-            indexForRead++;
-            return returnableChar;
-        } else {
-            return (char) -1;
+        try {
+            return stringForRead.charAt(indexForRead++);
+        } catch (IndexOutOfBoundsException e) {
+            throw new ReaderException("Char at " + indexForRead + " can not read", e);
         }
     }
 
