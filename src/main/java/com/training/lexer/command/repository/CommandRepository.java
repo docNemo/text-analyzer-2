@@ -1,11 +1,13 @@
 package com.training.lexer.command.repository;
 
 import com.training.lexer.command.ICommand;
+import com.training.lexer.command.implementations.AppendLexeme;
 import com.training.lexer.command.implementations.AppendPostpone;
 import com.training.lexer.command.implementations.Char;
 import com.training.lexer.command.implementations.CloseBrace;
 import com.training.lexer.command.implementations.CloseBracket;
 import com.training.lexer.command.implementations.CloseMultiLineComment;
+import com.training.lexer.command.implementations.For;
 import com.training.lexer.command.implementations.Newline;
 import com.training.lexer.command.implementations.OneLineComment;
 import com.training.lexer.command.implementations.OpenBrace;
@@ -40,6 +42,15 @@ public class CommandRepository implements ICommandRepository {
         commands.put(new StatesPair<>(new State("start"), ' '), new Space());
         commands.put(new StatesPair<>(new State("start"), '/'), new Char());
         commands.put(new StatesPair<>(new State("start"), '"'), new Quotemark());
+        commands.put(new StatesPair<>(new State("start"), 'f'), new Char());
+
+        //for f
+        commands.put(new StatesPair<>(new State("forF"), null), new AppendPostpone());
+        commands.put(new StatesPair<>(new State("forF"), 'o'), new AppendLexeme());
+
+        //for o
+        commands.put(new StatesPair<>(new State("forO"), null), new AppendPostpone());
+        commands.put(new StatesPair<>(new State("forO"), 'r'), new For());
 
         //spacing
         commands.put(new StatesPair<>(new State("spacing"), null), new AppendPostpone());

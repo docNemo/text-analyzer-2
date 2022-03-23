@@ -17,9 +17,9 @@ public class TestStateTransition {
 
     @Test
     void test1() {
-        IState state = new State("START");
+        IState state = new State("start");
         char ch = '*';
         IState actual = stateTransitions.nextState(state, ch);
-        assertEquals("FIRST_ASTERISK", actual.getName());
+        assertEquals("asterisk", actual.getName());
     }
 }
