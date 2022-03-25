@@ -5,19 +5,11 @@ import com.training.formatter.command.implementations.CloseBrace;
 import com.training.formatter.command.implementations.CloseBraceOnNewLine;
 import com.training.formatter.command.implementations.Lexeme;
 import com.training.formatter.command.implementations.LexemeOnNewLine;
-import com.training.formatter.command.implementations.CloseMultilineComment;
-import com.training.formatter.command.implementations.For;
-import com.training.formatter.command.implementations.ForAfterChar;
 import com.training.formatter.command.implementations.Ignore;
-import com.training.formatter.command.implementations.Lexeme;
-import com.training.formatter.command.implementations.LexemeOnNewLine;
 import com.training.formatter.command.implementations.LexemeWithSpace;
 import com.training.formatter.command.implementations.OpenBrace;
 import com.training.formatter.command.implementations.OpenBraceOnNewLine;
-import com.training.formatter.command.implementations.OpenBraceAfterChar;
-import com.training.formatter.command.implementations.OpenBracket;
-import com.training.formatter.command.implementations.OpenBracketAfterChar;
-import com.training.formatter.command.implementations.OpenBracketOnNewLine;
+import com.training.formatter.command.implementations.OpenBraceWithSpace;
 import com.training.formatter.command.implementations.Semicolon;
 import com.training.lexer.token.IToken;
 import com.training.state.IState;
@@ -39,10 +31,10 @@ public class CommandRepositoryFormatter implements ICommandRepositoryFormatter {
         commands.put(new StatesPair<>(new State("start"), "closebracket"), new Lexeme());
         commands.put(new StatesPair<>(new State("start"), "openbrace"), new OpenBrace());
         commands.put(new StatesPair<>(new State("start"), "closebrace"), new CloseBrace());
-        commands.put(new StatesPair<>(new State("start"), "closemultilinecomment"), new CloseMultilineComment());
+        commands.put(new StatesPair<>(new State("start"), "closemultilinecomment"), new Lexeme());
         commands.put(new StatesPair<>(new State("start"), "newline"), new Lexeme());
         commands.put(new StatesPair<>(new State("start"), "semicolon"), new Semicolon());
-        commands.put(new StatesPair<>(new State("start"), "for"), new For());
+        commands.put(new StatesPair<>(new State("start"), "for"), new Lexeme());
         commands.put(new StatesPair<>(new State("start"), "onelinecomment"), new Lexeme());
         commands.put(new StatesPair<>(new State("start"), "openmultilinecomment"), new Lexeme());
         commands.put(new StatesPair<>(new State("start"), "quotemark"), new Lexeme());
@@ -51,14 +43,14 @@ public class CommandRepositoryFormatter implements ICommandRepositoryFormatter {
 
         // char
         commands.put(new StatesPair<>(new State("char"), "char"), new Lexeme());
-        commands.put(new StatesPair<>(new State("char"), "openbracket"), new OpenBracketAfterChar());
+        commands.put(new StatesPair<>(new State("char"), "openbracket"), new LexemeWithSpace());
         commands.put(new StatesPair<>(new State("char"), "closebracket"), new Lexeme());
-        commands.put(new StatesPair<>(new State("char"), "openbrace"), new OpenBraceAfterChar());
+        commands.put(new StatesPair<>(new State("char"), "openbrace"), new OpenBraceWithSpace());
         commands.put(new StatesPair<>(new State("char"), "closebrace"), new CloseBraceOnNewLine());
-        commands.put(new StatesPair<>(new State("char"), "closemultilinecomment"), new CloseMultilineComment());
+        commands.put(new StatesPair<>(new State("char"), "closemultilinecomment"), new Lexeme());
         commands.put(new StatesPair<>(new State("char"), "newline"), new Ignore());
         commands.put(new StatesPair<>(new State("char"), "semicolon"), new Semicolon());
-        commands.put(new StatesPair<>(new State("char"), "for"), new ForAfterChar());
+        commands.put(new StatesPair<>(new State("char"), "for"), new LexemeWithSpace());
         commands.put(new StatesPair<>(new State("char"), "onelinecomment"), new Lexeme());
         commands.put(new StatesPair<>(new State("char"), "openmultilinecomment"), new Lexeme());
         commands.put(new StatesPair<>(new State("char"), "quotemark"), new Lexeme());
@@ -67,14 +59,14 @@ public class CommandRepositoryFormatter implements ICommandRepositoryFormatter {
 
         // openbracket
         commands.put(new StatesPair<>(new State("openbracket"), "char"), new Lexeme());
-        commands.put(new StatesPair<>(new State("openbracket"), "openbracket"), new OpenBracket());
+        commands.put(new StatesPair<>(new State("openbracket"), "openbracket"), new Lexeme());
         commands.put(new StatesPair<>(new State("openbracket"), "closebracket"), new Lexeme());
-        commands.put(new StatesPair<>(new State("openbracket"), "openbrace"), new OpenBracketAfterChar());
+        commands.put(new StatesPair<>(new State("openbracket"), "openbrace"), new LexemeWithSpace());
         commands.put(new StatesPair<>(new State("openbracket"), "closebrace"), new CloseBraceOnNewLine());
-        commands.put(new StatesPair<>(new State("openbracket"), "closemultilinecomment"), new CloseMultilineComment());
+        commands.put(new StatesPair<>(new State("openbracket"), "closemultilinecomment"), new Lexeme());
         commands.put(new StatesPair<>(new State("openbracket"), "newline"), new Ignore());
         commands.put(new StatesPair<>(new State("openbracket"), "semicolon"), new Semicolon());
-        commands.put(new StatesPair<>(new State("openbracket"), "for"), new ForAfterChar());
+        commands.put(new StatesPair<>(new State("openbracket"), "for"), new LexemeWithSpace());
         commands.put(new StatesPair<>(new State("openbracket"), "onelinecomment"), new Lexeme());
         commands.put(new StatesPair<>(new State("openbracket"), "openmultilinecomment"), new Lexeme());
         commands.put(new StatesPair<>(new State("openbracket"), "quotemark"), new Lexeme());
@@ -83,14 +75,14 @@ public class CommandRepositoryFormatter implements ICommandRepositoryFormatter {
 
         // space
         commands.put(new StatesPair<>(new State("space"), "char"), new LexemeWithSpace());
-        commands.put(new StatesPair<>(new State("space"), "openbracket"), new OpenBracket());
+        commands.put(new StatesPair<>(new State("space"), "openbracket"), new Lexeme());
         commands.put(new StatesPair<>(new State("space"), "closebracket"), new Lexeme());
-        commands.put(new StatesPair<>(new State("space"), "openbrace"), new OpenBraceAfterChar());
+        commands.put(new StatesPair<>(new State("space"), "openbrace"), new OpenBraceWithSpace());
         commands.put(new StatesPair<>(new State("space"), "closebrace"), new CloseBraceOnNewLine());
-        commands.put(new StatesPair<>(new State("space"), "closemultilinecomment"), new CloseMultilineComment());
+        commands.put(new StatesPair<>(new State("space"), "closemultilinecomment"), new Lexeme());
         commands.put(new StatesPair<>(new State("space"), "newline"), new Ignore());
         commands.put(new StatesPair<>(new State("space"), "semicolon"), new Semicolon());
-        commands.put(new StatesPair<>(new State("space"), "for"), new For());
+        commands.put(new StatesPair<>(new State("space"), "for"), new Lexeme());
         commands.put(new StatesPair<>(new State("space"), "onelinecomment"), new LexemeWithSpace());
         commands.put(new StatesPair<>(new State("space"), "openmultilinecomment"), new LexemeWithSpace());
         commands.put(new StatesPair<>(new State("space"), "quotemark"), new LexemeWithSpace());
@@ -99,7 +91,7 @@ public class CommandRepositoryFormatter implements ICommandRepositoryFormatter {
         
         // new line
         commands.put(new StatesPair<>(new State("newline"), "char"), new LexemeOnNewLine());
-        commands.put(new StatesPair<>(new State("newline"), "openbracket"), new OpenBracketOnNewLine());
+        commands.put(new StatesPair<>(new State("newline"), "openbracket"), new LexemeOnNewLine());
         commands.put(new StatesPair<>(new State("newline"), "closebracket"), new LexemeOnNewLine());
         commands.put(new StatesPair<>(new State("newline"), "openbrace"), new OpenBraceOnNewLine());
         commands.put(new StatesPair<>(new State("newline"), "closebrace"), new CloseBraceOnNewLine());
@@ -115,7 +107,7 @@ public class CommandRepositoryFormatter implements ICommandRepositoryFormatter {
 
         // true new line
         commands.put(new StatesPair<>(new State("truenewline"), "char"), new LexemeOnNewLine());
-        commands.put(new StatesPair<>(new State("truenewline"), "openbracket"), new OpenBracketOnNewLine());
+        commands.put(new StatesPair<>(new State("truenewline"), "openbracket"), new LexemeOnNewLine());
         commands.put(new StatesPair<>(new State("truenewline"), "closebracket"), new LexemeOnNewLine());
         commands.put(new StatesPair<>(new State("truenewline"), "openbrace"), new OpenBraceOnNewLine());
         commands.put(new StatesPair<>(new State("truenewline"), "closebrace"), new CloseBraceOnNewLine());
@@ -131,7 +123,7 @@ public class CommandRepositoryFormatter implements ICommandRepositoryFormatter {
 
         // second new line
         commands.put(new StatesPair<>(new State("secondnewline"), "char"), new LexemeOnNewLine());
-        commands.put(new StatesPair<>(new State("secondnewline"), "openbracket"), new OpenBracketOnNewLine());
+        commands.put(new StatesPair<>(new State("secondnewline"), "openbracket"), new LexemeOnNewLine());
         commands.put(new StatesPair<>(new State("secondnewline"), "closebracket"), new LexemeOnNewLine());
         commands.put(new StatesPair<>(new State("secondnewline"), "openbrace"), new OpenBraceOnNewLine());
         commands.put(new StatesPair<>(new State("secondnewline"), "closebrace"), new CloseBraceOnNewLine());
@@ -147,14 +139,14 @@ public class CommandRepositoryFormatter implements ICommandRepositoryFormatter {
 
         // for
         commands.put(new StatesPair<>(new State("for"), "char"), new LexemeWithSpace());
-        commands.put(new StatesPair<>(new State("for"), "openbracket"), new OpenBracketAfterChar());
+        commands.put(new StatesPair<>(new State("for"), "openbracket"), new LexemeWithSpace());
         commands.put(new StatesPair<>(new State("for"), "closebracket"), new LexemeWithSpace());
-        commands.put(new StatesPair<>(new State("for"), "openbrace"), new OpenBraceAfterChar());
+        commands.put(new StatesPair<>(new State("for"), "openbrace"), new OpenBraceWithSpace());
         commands.put(new StatesPair<>(new State("for"), "closebrace"), new CloseBraceOnNewLine());
-        commands.put(new StatesPair<>(new State("for"), "closemultilinecomment"), new CloseMultilineComment());
+        commands.put(new StatesPair<>(new State("for"), "closemultilinecomment"), new Lexeme());
         commands.put(new StatesPair<>(new State("for"), "newline"), new Ignore());
         commands.put(new StatesPair<>(new State("for"), "semicolon"), new Semicolon());
-        commands.put(new StatesPair<>(new State("for"), "for"), new ForAfterChar());
+        commands.put(new StatesPair<>(new State("for"), "for"), new LexemeWithSpace());
         commands.put(new StatesPair<>(new State("for"), "onelinecomment"), new LexemeWithSpace());
         commands.put(new StatesPair<>(new State("for"), "openmultilinecomment"), new LexemeWithSpace());
         commands.put(new StatesPair<>(new State("for"), "quotemark"), new LexemeWithSpace());

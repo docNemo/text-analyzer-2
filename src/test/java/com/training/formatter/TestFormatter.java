@@ -222,4 +222,24 @@ public class TestFormatter {
         assertEquals(expected, actual);
     }
 
+    @Test
+    void testBracketsOnNewLine() {
+        String input = """
+                {(
+                ad,
+                asddas
+                )""";
+        reader = new StringReaderChar(input);
+        String expected = """
+                {
+                    (ad,asddas)""";
+
+        lexer = new Lexer(reader);
+        formatter = new Formatter();
+
+        formatter.format(lexer, writer);
+        String actual = stringInWriter.toString();
+        assertEquals(expected, actual);
+    }
+
 }
