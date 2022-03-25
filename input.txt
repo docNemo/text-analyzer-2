@@ -11,6 +11,8 @@
   asd;
   //hhgffgh
 
+asda for() asdadsf for* fors*
+
   asdasd;asdasd = "sadasd";//asdasdasd
 
     asdas{asdas;asd;asdsad{asd;//asdasd}}

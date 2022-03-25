@@ -16,11 +16,11 @@ asdas {
     }
 }
 /* asd{}a;\
-  sdd 
+  sdd */
+asd;
+//hhgffgh
 
-asd;//hhgffgh
-
-asdasd;
+asda for () asdadsf for * fors* asdasd;
 asdasd = "sadasd";//asdasdasd
 
 asdas {
