@@ -34,7 +34,21 @@ public class StateTransitions implements IStateTransitions {
 
         //for o
         stateTransitions.put(new StatesPair<>(new State("forO"), null), null);
-        stateTransitions.put(new StatesPair<>(new State("forO"), 'r'), null);
+        stateTransitions.put(new StatesPair<>(new State("forO"), 'r'), new State("forR"));
+
+        //for r
+        stateTransitions.put(new StatesPair<>(new State("forR"), null), null);
+        stateTransitions.put(new StatesPair<>(new State("forR"), ';'), null);
+        stateTransitions.put(new StatesPair<>(new State("forR"), '\n'), null);
+        stateTransitions.put(new StatesPair<>(new State("forR"), '('), null);
+        stateTransitions.put(new StatesPair<>(new State("forR"), ')'), null);
+        stateTransitions.put(new StatesPair<>(new State("forR"), '}'), null);
+        stateTransitions.put(new StatesPair<>(new State("forR"), '{'), null);
+        stateTransitions.put(new StatesPair<>(new State("forR"), ' '), null);
+        stateTransitions.put(new StatesPair<>(new State("forR"), '/'), null);
+        stateTransitions.put(new StatesPair<>(new State("forR"), '*'), null);
+        stateTransitions.put(new StatesPair<>(new State("forR"), '"'), null);
+        stateTransitions.put(new StatesPair<>(new State("forR"), 'f'), null);
 
         //spacing
         stateTransitions.put(new StatesPair<>(new State("spacing"), null), null);

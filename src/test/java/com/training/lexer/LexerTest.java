@@ -100,4 +100,35 @@ public class LexerTest {
         assertEquals("space", actual.getName());
         assertEquals(" ", actual.getLexeme());
     }
+
+    @Test
+    void testNotFor() {
+        reader = new StringReaderChar("fors df ");
+        lexer = new Lexer(reader);
+
+        IToken actual = lexer.getToken();
+
+        assertEquals("char", actual.getName());
+        assertEquals("fors", actual.getLexeme());
+
+        actual = lexer.getToken();
+
+        assertEquals("space", actual.getName());
+        assertEquals(" ", actual.getLexeme());
+
+        actual = lexer.getToken();
+
+        assertEquals("char", actual.getName());
+        assertEquals("d", actual.getLexeme());
+
+        actual = lexer.getToken();
+
+        assertEquals("char", actual.getName());
+        assertEquals("f", actual.getLexeme());
+
+        actual = lexer.getToken();
+
+        assertEquals("space", actual.getName());
+        assertEquals(" ", actual.getLexeme());
+    }
 }

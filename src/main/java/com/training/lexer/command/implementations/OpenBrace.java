@@ -7,6 +7,6 @@ public class OpenBrace implements ICommand {
     @Override
     public void execute(char character, ITokenBuilder builder) {
         builder.appendToLexeme(character);
-        builder.setNameToken("closebrace");
+        builder.setNameToken("openbrace");
     }
 }

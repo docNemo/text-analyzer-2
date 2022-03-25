@@ -14,115 +14,156 @@ public class StateTransitionsFormatter implements IStateTransitionsFormatter {
     public StateTransitionsFormatter() {
         stateTransitions = new HashMap<>();
 
-        IState start = new State("START");
-        IState code = new State("CODE");
-        IState lineComment = new State("LINE_COMMENT");
-        IState multilineComment = new State("MULTILINE_COMMENT");
-        IState stringLiteral = new State("STRING_LITERAL");
-        IState newLine = new State("NEW_LINE");
-        IState trueNewLine = new State("TRUE_NEW_LINE");
+        // start
+        stateTransitions.put(new StatesPair<>(new State("start"), "char"), new State("char"));
+        stateTransitions.put(new StatesPair<>(new State("start"), "openbracket"), new State("openbracket"));
+        stateTransitions.put(new StatesPair<>(new State("start"), "closebracket"), new State("space"));
+        stateTransitions.put(new StatesPair<>(new State("start"), "openbrace"), new State("newline"));
+        stateTransitions.put(new StatesPair<>(new State("start"), "closebrace"), new State("newline"));
+        stateTransitions.put(new StatesPair<>(new State("start"), "closemultilinecomment"), new State("newline"));
+        stateTransitions.put(new StatesPair<>(new State("start"), "newline"), new State("truenewline"));
+        stateTransitions.put(new StatesPair<>(new State("start"), "semicolon"), new State("newline"));
+        stateTransitions.put(new StatesPair<>(new State("start"), "for"), new State("for"));
+        stateTransitions.put(new StatesPair<>(new State("start"), "onelinecomment"), new State("onelinecomment"));
+        stateTransitions.put(new StatesPair<>(new State("start"), "openmultilinecomment"), new State("multilinecomment"));
+        stateTransitions.put(new StatesPair<>(new State("start"), "quotemark"), new State("quotemark"));
+        stateTransitions.put(new StatesPair<>(new State("start"), "space"), new State("start"));
+        stateTransitions.put(new StatesPair<>(new State("start"), "spaces"), new State("start"));
 
-        //State - Start
-        stateTransitions.put(new StatesPair<>(start, "OPENING_BRACE"), newLine);
-        stateTransitions.put(new StatesPair<>(start, "CLOSING_BRACE"), newLine);
-        stateTransitions.put(new StatesPair<>(start, "SEMICOLON"), newLine);
-        stateTransitions.put(new StatesPair<>(start, "SLASH"), code);
-        stateTransitions.put(new StatesPair<>(start, "NEW_LINE"), trueNewLine);
-        stateTransitions.put(new StatesPair<>(start, "SPACE"), newLine);
-        stateTransitions.put(new StatesPair<>(start, "DOUBLE_QUOTE"), stringLiteral);
-        stateTransitions.put(new StatesPair<>(start, "COMMON"), code);
-        stateTransitions.put(new StatesPair<>(start, "WHILE"), code);
-        stateTransitions.put(new StatesPair<>(start, "LINE_COMMENT"), lineComment);
-        stateTransitions.put(new StatesPair<>(start, "OPENING_MULTILINE_COMMENT"), multilineComment);
-        stateTransitions.put(new StatesPair<>(start, "CLOSING_MULTILINE_COMMENT"), newLine);
+        // char
+        stateTransitions.put(new StatesPair<>(new State("char"), "char"), new State("char"));
+        stateTransitions.put(new StatesPair<>(new State("char"), "openbracket"), new State("openbracket"));
+        stateTransitions.put(new StatesPair<>(new State("char"), "closebracket"), new State("char"));
+        stateTransitions.put(new StatesPair<>(new State("char"), "openbrace"), new State("newline"));
+        stateTransitions.put(new StatesPair<>(new State("char"), "closebrace"), new State("newline"));
+        stateTransitions.put(new StatesPair<>(new State("char"), "closemultilinecomment"), new State("newline"));
+        stateTransitions.put(new StatesPair<>(new State("char"), "newline"), new State("char"));
+        stateTransitions.put(new StatesPair<>(new State("char"), "semicolon"), new State("newline"));
+        stateTransitions.put(new StatesPair<>(new State("char"), "for"), new State("for"));
+        stateTransitions.put(new StatesPair<>(new State("char"), "onelinecomment"), new State("onelinecomment"));
+        stateTransitions.put(new StatesPair<>(new State("char"), "openmultilinecomment"), new State("multilinecomment"));
+        stateTransitions.put(new StatesPair<>(new State("char"), "quotemark"), new State("quotemark"));
+        stateTransitions.put(new StatesPair<>(new State("char"), "space"), new State("space"));
+        stateTransitions.put(new StatesPair<>(new State("char"), "spaces"), new State("space"));
 
-        //State - Code
-        stateTransitions.put(new StatesPair<>(code, "OPENING_BRACE"), newLine);
-        stateTransitions.put(new StatesPair<>(code, "CLOSING_BRACE"), newLine);
-        stateTransitions.put(new StatesPair<>(code, "SEMICOLON"), newLine);
-        stateTransitions.put(new StatesPair<>(code, "SLASH"), code);
-        stateTransitions.put(new StatesPair<>(code, "NEW_LINE"), code);
-        stateTransitions.put(new StatesPair<>(code, "SPACE"), code);
-        stateTransitions.put(new StatesPair<>(code, "DOUBLE_QUOTE"), stringLiteral);
-        stateTransitions.put(new StatesPair<>(code, "COMMON"), code);
-        stateTransitions.put(new StatesPair<>(code, "WHILE"), code);
-        stateTransitions.put(new StatesPair<>(code, "LINE_COMMENT"), lineComment);
-        stateTransitions.put(new StatesPair<>(code, "OPENING_MULTILINE_COMMENT"), multilineComment);
-        stateTransitions.put(new StatesPair<>(code, "CLOSING_MULTILINE_COMMENT"), newLine);
+        // openbracket
+        stateTransitions.put(new StatesPair<>(new State("openbracket"), "char"), new State("char"));
+        stateTransitions.put(new StatesPair<>(new State("openbracket"), "openbracket"), new State("openbracket"));
+        stateTransitions.put(new StatesPair<>(new State("openbracket"), "closebracket"), new State("space"));
+        stateTransitions.put(new StatesPair<>(new State("openbracket"), "openbrace"), new State("newline"));
+        stateTransitions.put(new StatesPair<>(new State("openbracket"), "closebrace"), new State("newline"));
+        stateTransitions.put(new StatesPair<>(new State("openbracket"), "closemultilinecomment"), new State("newline"));
+        stateTransitions.put(new StatesPair<>(new State("openbracket"), "newline"), new State("openbracket"));
+        stateTransitions.put(new StatesPair<>(new State("openbracket"), "semicolon"), new State("newline"));
+        stateTransitions.put(new StatesPair<>(new State("openbracket"), "for"), new State("for"));
+        stateTransitions.put(new StatesPair<>(new State("openbracket"), "onelinecomment"), new State("onelinecomment"));
+        stateTransitions.put(new StatesPair<>(new State("openbracket"), "openmultilinecomment"), new State("multilinecomment"));
+        stateTransitions.put(new StatesPair<>(new State("openbracket"), "quotemark"), new State("quotemark"));
+        stateTransitions.put(new StatesPair<>(new State("openbracket"), "space"), new State("openbracket"));
+        stateTransitions.put(new StatesPair<>(new State("openbracket"), "spaces"), new State("openbracket"));
 
-        //State - LineComment
-        stateTransitions.put(new StatesPair<>(lineComment, "OPENING_BRACE"), lineComment);
-        stateTransitions.put(new StatesPair<>(lineComment, "CLOSING_BRACE"), lineComment);
-        stateTransitions.put(new StatesPair<>(lineComment, "SEMICOLON"), lineComment);
-        stateTransitions.put(new StatesPair<>(lineComment, "SLASH"), lineComment);
-        stateTransitions.put(new StatesPair<>(lineComment, "NEW_LINE"), trueNewLine);
-        stateTransitions.put(new StatesPair<>(lineComment, "SPACE"), lineComment);
-        stateTransitions.put(new StatesPair<>(lineComment, "DOUBLE_QUOTE"), lineComment);
-        stateTransitions.put(new StatesPair<>(lineComment, "COMMON"), lineComment);
-        stateTransitions.put(new StatesPair<>(lineComment, "WHILE"), lineComment);
-        stateTransitions.put(new StatesPair<>(lineComment, "LINE_COMMENT"), lineComment);
-        stateTransitions.put(new StatesPair<>(lineComment, "OPENING_MULTILINE_COMMENT"), lineComment);
-        stateTransitions.put(new StatesPair<>(lineComment, "CLOSING_MULTILINE_COMMENT"), lineComment);
+        // space
+        stateTransitions.put(new StatesPair<>(new State("space"), "char"), new State("char"));
+        stateTransitions.put(new StatesPair<>(new State("space"), "openbracket"), new State("openbracket"));
+        stateTransitions.put(new StatesPair<>(new State("space"), "closebracket"), new State("space"));
+        stateTransitions.put(new StatesPair<>(new State("space"), "openbrace"), new State("newline"));
+        stateTransitions.put(new StatesPair<>(new State("space"), "closebrace"), new State("newline"));
+        stateTransitions.put(new StatesPair<>(new State("space"), "closemultilinecomment"), new State("newline"));
+        stateTransitions.put(new StatesPair<>(new State("space"), "newline"), new State("space"));
+        stateTransitions.put(new StatesPair<>(new State("space"), "semicolon"), new State("newline"));
+        stateTransitions.put(new StatesPair<>(new State("space"), "for"), new State("for"));
+        stateTransitions.put(new StatesPair<>(new State("space"), "onelinecomment"), new State("onelinecomment"));
+        stateTransitions.put(new StatesPair<>(new State("space"), "openmultilinecomment"), new State("multilinecomment"));
+        stateTransitions.put(new StatesPair<>(new State("space"), "quotemark"), new State("quotemark"));
+        stateTransitions.put(new StatesPair<>(new State("space"), "space"), new State("space"));
+        stateTransitions.put(new StatesPair<>(new State("space"), "spaces"), new State("space"));
 
-        //State - Multiline Comment
-        stateTransitions.put(new StatesPair<>(multilineComment, "OPENING_BRACE"), multilineComment);
-        stateTransitions.put(new StatesPair<>(multilineComment, "CLOSING_BRACE"), multilineComment);
-        stateTransitions.put(new StatesPair<>(multilineComment, "SEMICOLON"), multilineComment);
-        stateTransitions.put(new StatesPair<>(multilineComment, "SLASH"), multilineComment);
-        stateTransitions.put(new StatesPair<>(multilineComment, "NEW_LINE"), multilineComment);
-        stateTransitions.put(new StatesPair<>(multilineComment, "SPACE"), multilineComment);
-        stateTransitions.put(new StatesPair<>(multilineComment, "DOUBLE_QUOTE"), multilineComment);
-        stateTransitions.put(new StatesPair<>(multilineComment, "COMMON"), multilineComment);
-        stateTransitions.put(new StatesPair<>(multilineComment, "WHILE"), multilineComment);
-        stateTransitions.put(new StatesPair<>(multilineComment, "LINE_COMMENT"), multilineComment);
-        stateTransitions.put(new StatesPair<>(multilineComment, "OPENING_MULTILINE_COMMENT"), multilineComment);
-        stateTransitions.put(new StatesPair<>(multilineComment, "CLOSING_MULTILINE_COMMENT"), newLine);
+        // new line
+        stateTransitions.put(new StatesPair<>(new State("newline"), "char"), new State("char"));
+        stateTransitions.put(new StatesPair<>(new State("newline"), "openbracket"), new State("openbracket"));
+        stateTransitions.put(new StatesPair<>(new State("newline"), "closebracket"), new State("space"));
+        stateTransitions.put(new StatesPair<>(new State("newline"), "openbrace"), new State("newline"));
+        stateTransitions.put(new StatesPair<>(new State("newline"), "closebrace"), new State("newline"));
+        stateTransitions.put(new StatesPair<>(new State("newline"), "closemultilinecomment"), new State("newline"));
+        stateTransitions.put(new StatesPair<>(new State("newline"), "newline"), new State("truenewline"));
+        stateTransitions.put(new StatesPair<>(new State("newline"), "semicolon"), new State("newline"));
+        stateTransitions.put(new StatesPair<>(new State("newline"), "for"), new State("for"));
+        stateTransitions.put(new StatesPair<>(new State("newline"), "onelinecomment"), new State("onelinecomment"));
+        stateTransitions.put(new StatesPair<>(new State("newline"), "openmultilinecomment"), new State("multilinecomment"));
+        stateTransitions.put(new StatesPair<>(new State("newline"), "quotemark"), new State("quotemark"));
+        stateTransitions.put(new StatesPair<>(new State("newline"), "space"), new State("newline"));
+        stateTransitions.put(new StatesPair<>(new State("newline"), "spaces"), new State("newline"));
 
-        //State - String Literal
-        stateTransitions.put(new StatesPair<>(stringLiteral, "OPENING_BRACE"), stringLiteral);
-        stateTransitions.put(new StatesPair<>(stringLiteral, "CLOSING_BRACE"), stringLiteral);
-        stateTransitions.put(new StatesPair<>(stringLiteral, "SEMICOLON"), stringLiteral);
-        stateTransitions.put(new StatesPair<>(stringLiteral, "SLASH"), stringLiteral);
-        stateTransitions.put(new StatesPair<>(stringLiteral, "NEW_LINE"), code);
-        stateTransitions.put(new StatesPair<>(stringLiteral, "SPACE"), stringLiteral);
-        stateTransitions.put(new StatesPair<>(stringLiteral, "DOUBLE_QUOTE"), code);
-        stateTransitions.put(new StatesPair<>(stringLiteral, "COMMON"), stringLiteral);
-        stateTransitions.put(new StatesPair<>(stringLiteral, "WHILE"), stringLiteral);
-        stateTransitions.put(new StatesPair<>(stringLiteral, "LINE_COMMENT"), stringLiteral);
-        stateTransitions.put(new StatesPair<>(stringLiteral, "OPENING_MULTILINE_COMMENT"), stringLiteral);
-        stateTransitions.put(new StatesPair<>(stringLiteral, "CLOSING_MULTILINE_COMMENT"), stringLiteral);
+        // true new line
+        stateTransitions.put(new StatesPair<>(new State("truenewline"), "char"), new State("char"));
+        stateTransitions.put(new StatesPair<>(new State("truenewline"), "openbracket"), new State("openbracket"));
+        stateTransitions.put(new StatesPair<>(new State("truenewline"), "closebracket"), new State("space"));
+        stateTransitions.put(new StatesPair<>(new State("truenewline"), "openbrace"), new State("newline"));
+        stateTransitions.put(new StatesPair<>(new State("truenewline"), "closebrace"), new State("newline"));
+        stateTransitions.put(new StatesPair<>(new State("truenewline"), "closemultilinecomment"), new State("newline"));
+        stateTransitions.put(new StatesPair<>(new State("truenewline"), "newline"), new State("secondnewline"));
+        stateTransitions.put(new StatesPair<>(new State("truenewline"), "semicolon"), new State("newline"));
+        stateTransitions.put(new StatesPair<>(new State("truenewline"), "for"), new State("for"));
+        stateTransitions.put(new StatesPair<>(new State("truenewline"), "onelinecomment"), new State("onelinecomment"));
+        stateTransitions.put(new StatesPair<>(new State("truenewline"), "openmultilinecomment"), new State("multilinecomment"));
+        stateTransitions.put(new StatesPair<>(new State("truenewline"), "quotemark"), new State("quotemark"));
+        stateTransitions.put(new StatesPair<>(new State("truenewline"), "space"), new State("truenewline"));
+        stateTransitions.put(new StatesPair<>(new State("truenewline"), "spaces"), new State("truenewline"));
 
-        //State - New line
-        stateTransitions.put(new StatesPair<>(newLine, "OPENING_BRACE"), newLine);
-        stateTransitions.put(new StatesPair<>(newLine, "CLOSING_BRACE"), newLine);
-        stateTransitions.put(new StatesPair<>(newLine, "SEMICOLON"), newLine);
-        stateTransitions.put(new StatesPair<>(newLine, "SLASH"), code);
-        stateTransitions.put(new StatesPair<>(newLine, "NEW_LINE"), trueNewLine);
-        stateTransitions.put(new StatesPair<>(newLine, "SPACE"), newLine);
-        stateTransitions.put(new StatesPair<>(newLine, "DOUBLE_QUOTE"), stringLiteral);
-        stateTransitions.put(new StatesPair<>(newLine, "COMMON"), code);
-        stateTransitions.put(new StatesPair<>(newLine, "WHILE"), code);
-        stateTransitions.put(new StatesPair<>(newLine, "LINE_COMMENT"), lineComment);
-        stateTransitions.put(new StatesPair<>(newLine, "OPENING_MULTILINE_COMMENT"), multilineComment);
-        stateTransitions.put(new StatesPair<>(newLine, "CLOSING_MULTILINE_COMMENT"), newLine);
+        // second new line
+        stateTransitions.put(new StatesPair<>(new State("secondnewline"), "char"), new State("char"));
+        stateTransitions.put(new StatesPair<>(new State("secondnewline"), "openbracket"), new State("char"));
+        stateTransitions.put(new StatesPair<>(new State("secondnewline"), "closebracket"), new State("char"));
+        stateTransitions.put(new StatesPair<>(new State("secondnewline"), "openbrace"), new State("newline"));
+        stateTransitions.put(new StatesPair<>(new State("secondnewline"), "closebrace"), new State("newline"));
+        stateTransitions.put(new StatesPair<>(new State("secondnewline"), "closemultilinecomment"), new State("newline"));
+        stateTransitions.put(new StatesPair<>(new State("secondnewline"), "newline"), new State("secondnewline"));
+        stateTransitions.put(new StatesPair<>(new State("secondnewline"), "semicolon"), new State("newline"));
+        stateTransitions.put(new StatesPair<>(new State("secondnewline"), "for"), new State("for"));
+        stateTransitions.put(new StatesPair<>(new State("secondnewline"), "onelinecomment"), new State("onelinecomment"));
+        stateTransitions.put(new StatesPair<>(new State("secondnewline"), "openmultilinecomment"), new State("multilinecomment"));
+        stateTransitions.put(new StatesPair<>(new State("secondnewline"), "quotemark"), new State("quotemark"));
+        stateTransitions.put(new StatesPair<>(new State("secondnewline"), "space"), new State("newline"));
+        stateTransitions.put(new StatesPair<>(new State("secondnewline"), "spaces"), new State("newline"));
 
-        //State - True New line
-        stateTransitions.put(new StatesPair<>(trueNewLine, "OPENING_BRACE"), newLine);
-        stateTransitions.put(new StatesPair<>(trueNewLine, "CLOSING_BRACE"), newLine);
-        stateTransitions.put(new StatesPair<>(trueNewLine, "SEMICOLON"), newLine);
-        stateTransitions.put(new StatesPair<>(trueNewLine, "SLASH"), code);
-        stateTransitions.put(new StatesPair<>(trueNewLine, "NEW_LINE"), trueNewLine);
-        stateTransitions.put(new StatesPair<>(trueNewLine, "SPACE"), trueNewLine);
-        stateTransitions.put(new StatesPair<>(trueNewLine, "DOUBLE_QUOTE"), stringLiteral);
-        stateTransitions.put(new StatesPair<>(trueNewLine, "COMMON"), code);
-        stateTransitions.put(new StatesPair<>(trueNewLine, "WHILE"), code);
-        stateTransitions.put(new StatesPair<>(trueNewLine, "LINE_COMMENT"), lineComment);
-        stateTransitions.put(new StatesPair<>(trueNewLine, "OPENING_MULTILINE_COMMENT"), multilineComment);
-        stateTransitions.put(new StatesPair<>(trueNewLine, "CLOSING_MULTILINE_COMMENT"), newLine);
+        // for
+        stateTransitions.put(new StatesPair<>(new State("for"), "char"), new State("char"));
+        stateTransitions.put(new StatesPair<>(new State("for"), "openbracket"), new State("openbracket"));
+        stateTransitions.put(new StatesPair<>(new State("for"), "closebracket"), new State("space"));
+        stateTransitions.put(new StatesPair<>(new State("for"), "openbrace"), new State("newline"));
+        stateTransitions.put(new StatesPair<>(new State("for"), "closebrace"), new State("newline"));
+        stateTransitions.put(new StatesPair<>(new State("for"), "closemultilinecomment"), new State("newline"));
+        stateTransitions.put(new StatesPair<>(new State("for"), "newline"), new State("char"));
+        stateTransitions.put(new StatesPair<>(new State("for"), "semicolon"), new State("newline"));
+        stateTransitions.put(new StatesPair<>(new State("for"), "for"), new State("for"));
+        stateTransitions.put(new StatesPair<>(new State("for"), "onelinecomment"), new State("onelinecomment"));
+        stateTransitions.put(new StatesPair<>(new State("for"), "openmultilinecomment"), new State("multilinecomment"));
+        stateTransitions.put(new StatesPair<>(new State("for"), "quotemark"), new State("quotemark"));
+        stateTransitions.put(new StatesPair<>(new State("for"), "space"), new State("space"));
+        stateTransitions.put(new StatesPair<>(new State("for"), "spaces"), new State("space"));
+
+        // one line comment
+        stateTransitions.put(new StatesPair<>(new State("onelinecomment"), null), new State("onelinecomment"));
+        stateTransitions.put(new StatesPair<>(new State("onelinecomment"), "newline"), new State("truenewline"));
+
+        // multiline comment
+        stateTransitions.put(new StatesPair<>(new State("multilinecomment"), null), new State("multilinecomment"));
+        stateTransitions.put(new StatesPair<>(new State("multilinecomment"), "closemultilinecomment"), new State("newline"));
+
+        // quotemark
+        stateTransitions.put(new StatesPair<>(new State("quotemark"), null), new State("quotemark"));
+        stateTransitions.put(new StatesPair<>(new State("quotemark"), "quotemark"), new State("char"));
+        stateTransitions.put(new StatesPair<>(new State("quotemark"), "newline"), new State("truenewline"));
     }
 
     @Override
     public IState nextState(IState currentState, IToken token) {
-        return stateTransitions.get(new StatesPair<>(currentState, token.getName()));
+        IState state = stateTransitions.get(new StatesPair<>(currentState, token.getName()));
+
+        if (state == null) {
+            state = stateTransitions.get(new StatesPair<>(currentState, (String) null));
+        }
+
+        return state;
     }
 }

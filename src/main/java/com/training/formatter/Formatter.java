@@ -27,7 +27,7 @@ public class Formatter implements IFormatter {
     public void format(ILexer lexer, IWriter writer) throws ReaderException, WriteException {
         IContextFormatter context = new ContextFormatter(writer);
 
-        IState state = new State("START");
+        IState state = new State("start");
         while (lexer.hasNextToken() && state != null) {
             IToken token = lexer.getToken();
             ICommandFormatter command = commandRepository.getCommand(state, token);

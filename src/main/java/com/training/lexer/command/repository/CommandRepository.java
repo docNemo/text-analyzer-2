@@ -50,7 +50,21 @@ public class CommandRepository implements ICommandRepository {
 
         //for o
         commands.put(new StatesPair<>(new State("forO"), null), new AppendPostpone());
-        commands.put(new StatesPair<>(new State("forO"), 'r'), new For());
+        commands.put(new StatesPair<>(new State("forO"), 'r'), new AppendLexeme());
+
+        //for r
+        commands.put(new StatesPair<>(new State("forR"), null), new Char());
+        commands.put(new StatesPair<>(new State("forR"), ';'), new For());
+        commands.put(new StatesPair<>(new State("forR"), '\n'), new For());
+        commands.put(new StatesPair<>(new State("forR"), '('), new For());
+        commands.put(new StatesPair<>(new State("forR"), ')'), new For());
+        commands.put(new StatesPair<>(new State("forR"), '}'), new For());
+        commands.put(new StatesPair<>(new State("forR"), '{'), new For());
+        commands.put(new StatesPair<>(new State("forR"), ' '), new For());
+        commands.put(new StatesPair<>(new State("forR"), '/'), new For());
+        commands.put(new StatesPair<>(new State("forR"), '*'), new For());
+        commands.put(new StatesPair<>(new State("forR"), '"'), new For());
+        commands.put(new StatesPair<>(new State("forR"), 'f'), new For());
 
         //spacing
         commands.put(new StatesPair<>(new State("spacing"), null), new AppendPostpone());

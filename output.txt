@@ -1,11 +1,9 @@
-while {
-}
-while * whiles* {
+{
     {
     }
 }
 }
-( mno, pqr ) asd;
+(mno, pqr) asd;
 {
     asdasd;
     asdasd = "sadasd";//asdasdasd{}
@@ -18,9 +16,9 @@ asdas {
     }
 }
 /* asd{}a;\
-  sdd */
-asd;
-//hhgffgh
+  sdd 
+
+asd;//hhgffgh
 
 asdasd;
 asdasd = "sadasd";//asdasdasd
@@ -31,4 +29,7 @@ asdas {
     asdsad {
         asd;//asdasd}}
     }
+}
+"     sdd
+sa" {{}
 }
