@@ -12,9 +12,8 @@ public class LexerTest {
     private IReader reader;
     private Lexer lexer;
 
-
     @Test
-    void test123123() {
+    void testOneLineComment() {
         reader = new StringReaderChar("// f\n");
         lexer = new Lexer(reader);
 
@@ -40,7 +39,7 @@ public class LexerTest {
     }
 
     @Test
-    void test112323123() {
+    void testStringLiteral() {
         reader = new StringReaderChar("\"/ \"\n");
         lexer = new Lexer(reader);
 
@@ -130,5 +129,56 @@ public class LexerTest {
 
         assertEquals("space", actual.getName());
         assertEquals(" ", actual.getLexeme());
+    }
+
+    @Test
+    void testBlock() {
+        reader = new StringReaderChar("{for(){a;}}");
+        lexer = new Lexer(reader);
+
+        IToken actual = lexer.getToken();
+
+        assertEquals("openbrace", actual.getName());
+        assertEquals("{", actual.getLexeme());
+
+        actual = lexer.getToken();
+
+        assertEquals("for", actual.getName());
+        assertEquals("for", actual.getLexeme());
+
+        actual = lexer.getToken();
+
+        assertEquals("openbracket", actual.getName());
+        assertEquals("(", actual.getLexeme());
+
+        actual = lexer.getToken();
+
+        assertEquals("closebracket", actual.getName());
+        assertEquals(")", actual.getLexeme());
+
+        actual = lexer.getToken();
+
+        assertEquals("openbrace", actual.getName());
+        assertEquals("{", actual.getLexeme());
+
+        actual = lexer.getToken();
+
+        assertEquals("char", actual.getName());
+        assertEquals("a", actual.getLexeme());
+
+        actual = lexer.getToken();
+
+        assertEquals("semicolon", actual.getName());
+        assertEquals(";", actual.getLexeme());
+
+        actual = lexer.getToken();
+
+        assertEquals("closebrace", actual.getName());
+        assertEquals("}", actual.getLexeme());
+
+        actual = lexer.getToken();
+
+        assertEquals("closebrace", actual.getName());
+        assertEquals("}", actual.getLexeme());
     }
 }
