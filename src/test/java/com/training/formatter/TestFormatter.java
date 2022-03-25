@@ -65,37 +65,37 @@ public class TestFormatter {
     }
 
 
-    @Test
-    void testFormat() {
-        String input = """
-                asd;                asd;
-                qew
-                {
-                qwer;asdasdas;}
-                                
-                qkjfj;
-                }
-                /* asd{}a;\\""";
-        reader = new StringReaderChar(input);
-        String expected = """
-                asd;
-                asd;
-                qew {
-                    qwer;
-                    asdasdas;
-                }
-                                
-                qkjfj;
-                }
-                /* asd{}a;\\""";
-
-        lexer = new Lexer(reader);
-        formatter = new Formatter();
-
-        formatter.format(lexer, writer);
-        String actual = stringInWriter.toString();
-        assertEquals(expected, actual);
-    }
+//    @Test
+//    void testFormat() {
+//        String input = """
+//                asd;                asd;
+//                qew
+//                {
+//                qwer;asdasdas;}
+//
+//                qkjfj;
+//                }
+//                /* asd{}a;\\""";
+//        reader = new StringReaderChar(input);
+//        String expected = """
+//                asd;
+//                asd;
+//                qew {
+//                    qwer;
+//                    asdasdas;
+//                }
+//
+//                qkjfj;
+//                }
+//                /* asd{}a;\\""";
+//
+//        lexer = new Lexer(reader);
+//        formatter = new Formatter();
+//
+//        formatter.format(lexer, writer);
+//        String actual = stringInWriter.toString();
+//        assertEquals(expected, actual);
+//    }
 
     @Test
     void testOpenBraceAfterChar() {
@@ -212,7 +212,7 @@ public class TestFormatter {
                 )""";
         reader = new StringReaderChar(input);
         String expected = """
-                (ad,asddas)""";
+                (ad, asddas)""";
 
         lexer = new Lexer(reader);
         formatter = new Formatter();
@@ -232,7 +232,41 @@ public class TestFormatter {
         reader = new StringReaderChar(input);
         String expected = """
                 {
-                    (ad,asddas)""";
+                    (ad, asddas)""";
+
+        lexer = new Lexer(reader);
+        formatter = new Formatter();
+
+        formatter.format(lexer, writer);
+        String actual = stringInWriter.toString();
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void testBracketsInText() {
+        String input = """
+                asd()sAas
+                
+                AADda () asdas""";
+        reader = new StringReaderChar(input);
+        String expected = """
+                asd () sAas AADda () asdas""";
+
+        lexer = new Lexer(reader);
+        formatter = new Formatter();
+
+        formatter.format(lexer, writer);
+        String actual = stringInWriter.toString();
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void testFor() {
+        String input = """
+                asd for asd""";
+        reader = new StringReaderChar(input);
+        String expected = """
+                asd for asd""";
 
         lexer = new Lexer(reader);
         formatter = new Formatter();
