@@ -23,6 +23,8 @@ import java.io.OutputStreamWriter;
 public class App {
     private static final Logger logger = LoggerFactory.getLogger(App.class);
 
+    public final static String LINE_SEPARATOR = System.lineSeparator();
+
     public static void main(String[] args) {
         final String pathToInputFile = args[0];
         final String pathToOutputFile = args[1];

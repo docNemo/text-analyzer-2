@@ -21,7 +21,7 @@ public class StateTransitionsFormatter implements IStateTransitionsFormatter {
         createTransitionsChar();
 
         // openbracket
-        createTransitionsOpenBracet();
+        createTransitionsOpenBracket();
 
         // space
         createTransitionsSpace();
@@ -44,6 +44,7 @@ public class StateTransitionsFormatter implements IStateTransitionsFormatter {
 
         // multiline comment
         stateTransitions.put(new StatesPair<>(new State("multilinecomment"), null), new State("multilinecomment"));
+        stateTransitions.put(new StatesPair<>(new State("multilinecomment"), "slashr"), new State("multilinecomment"));
         stateTransitions.put(new StatesPair<>(new State("multilinecomment"), "closemultilinecomment"), new State("newline"));
 
         // quotemark
@@ -67,6 +68,7 @@ public class StateTransitionsFormatter implements IStateTransitionsFormatter {
         stateTransitions.put(new StatesPair<>(new State("start"), "quotemark"), new State("quotemark"));
         stateTransitions.put(new StatesPair<>(new State("start"), "space"), new State("start"));
         stateTransitions.put(new StatesPair<>(new State("start"), "spaces"), new State("start"));
+        stateTransitions.put(new StatesPair<>(new State("start"), "slashr"), new State("start"));
     }
 
     private void createTransitionsChar() {
@@ -84,9 +86,10 @@ public class StateTransitionsFormatter implements IStateTransitionsFormatter {
         stateTransitions.put(new StatesPair<>(new State("char"), "quotemark"), new State("quotemark"));
         stateTransitions.put(new StatesPair<>(new State("char"), "space"), new State("space"));
         stateTransitions.put(new StatesPair<>(new State("char"), "spaces"), new State("space"));
+        stateTransitions.put(new StatesPair<>(new State("char"), "slashr"), new State("char"));
     }
 
-    private void createTransitionsOpenBracet() {
+    private void createTransitionsOpenBracket() {
         stateTransitions.put(new StatesPair<>(new State("openbracket"), "char"), new State("char"));
         stateTransitions.put(new StatesPair<>(new State("openbracket"), "openbracket"), new State("openbracket"));
         stateTransitions.put(new StatesPair<>(new State("openbracket"), "closebracket"), new State("space"));
@@ -101,6 +104,7 @@ public class StateTransitionsFormatter implements IStateTransitionsFormatter {
         stateTransitions.put(new StatesPair<>(new State("openbracket"), "quotemark"), new State("quotemark"));
         stateTransitions.put(new StatesPair<>(new State("openbracket"), "space"), new State("openbracket"));
         stateTransitions.put(new StatesPair<>(new State("openbracket"), "spaces"), new State("openbracket"));
+        stateTransitions.put(new StatesPair<>(new State("openbracket"), "slashr"), new State("openbracket"));
     }
 
     private void createTransitionsSpace() {
@@ -118,6 +122,7 @@ public class StateTransitionsFormatter implements IStateTransitionsFormatter {
         stateTransitions.put(new StatesPair<>(new State("space"), "quotemark"), new State("quotemark"));
         stateTransitions.put(new StatesPair<>(new State("space"), "space"), new State("space"));
         stateTransitions.put(new StatesPair<>(new State("space"), "spaces"), new State("space"));
+        stateTransitions.put(new StatesPair<>(new State("space"), "slashr"), new State("space"));
     }
 
     private void createTransitionsNewLine() {
@@ -135,6 +140,7 @@ public class StateTransitionsFormatter implements IStateTransitionsFormatter {
         stateTransitions.put(new StatesPair<>(new State("newline"), "quotemark"), new State("quotemark"));
         stateTransitions.put(new StatesPair<>(new State("newline"), "space"), new State("newline"));
         stateTransitions.put(new StatesPair<>(new State("newline"), "spaces"), new State("newline"));
+        stateTransitions.put(new StatesPair<>(new State("newline"), "slashr"), new State("newline"));
     }
 
     private void createTransitionsTrueNewLine() {
@@ -152,6 +158,7 @@ public class StateTransitionsFormatter implements IStateTransitionsFormatter {
         stateTransitions.put(new StatesPair<>(new State("truenewline"), "quotemark"), new State("quotemark"));
         stateTransitions.put(new StatesPair<>(new State("truenewline"), "space"), new State("truenewline"));
         stateTransitions.put(new StatesPair<>(new State("truenewline"), "spaces"), new State("truenewline"));
+        stateTransitions.put(new StatesPair<>(new State("truenewline"), "slashr"), new State("truenewline"));
     }
 
     private void createTransitionsSecondNewLine() {
@@ -169,6 +176,7 @@ public class StateTransitionsFormatter implements IStateTransitionsFormatter {
         stateTransitions.put(new StatesPair<>(new State("secondnewline"), "quotemark"), new State("quotemark"));
         stateTransitions.put(new StatesPair<>(new State("secondnewline"), "space"), new State("newline"));
         stateTransitions.put(new StatesPair<>(new State("secondnewline"), "spaces"), new State("newline"));
+        stateTransitions.put(new StatesPair<>(new State("secondnewline"), "slashr"), new State("newline"));
     }
 
     private void createTransitionsFor() {
@@ -186,6 +194,7 @@ public class StateTransitionsFormatter implements IStateTransitionsFormatter {
         stateTransitions.put(new StatesPair<>(new State("for"), "quotemark"), new State("quotemark"));
         stateTransitions.put(new StatesPair<>(new State("for"), "space"), new State("space"));
         stateTransitions.put(new StatesPair<>(new State("for"), "spaces"), new State("space"));
+        stateTransitions.put(new StatesPair<>(new State("for"), "slashr"), new State("for"));
     }
     @Override
     public IState nextState(IState currentState, IToken token) {
