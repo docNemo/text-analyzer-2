@@ -1,77 +1,63 @@
 package com.training.lexer.transitions;
 
+import com.training.exceptions.CouldNotCreateStateTransitions;
 import com.training.state.IState;
 import com.training.state.State;
 import com.training.state.StatesPair;
+import org.yaml.snakeyaml.Yaml;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class StateTransitions implements IStateTransitions {
 
-    private final Map<StatesPair<IState, Character>, IState> stateTransitions;
+    private final Map<StatesPair<IState, String>, IState> stateTransitions;
 
-    public StateTransitions() {
+    public StateTransitions(final String pathToConfig) {
         stateTransitions = new HashMap<>();
 
-        //Start
-        stateTransitions.put(new StatesPair<>(new State("start"), null), null);
-        stateTransitions.put(new StatesPair<>(new State("start"), ';'), null);
-        stateTransitions.put(new StatesPair<>(new State("start"), '\n'), null);
-        stateTransitions.put(new StatesPair<>(new State("start"), '('), null);
-        stateTransitions.put(new StatesPair<>(new State("start"), ')'), null);
-        stateTransitions.put(new StatesPair<>(new State("start"), '}'), null);
-        stateTransitions.put(new StatesPair<>(new State("start"), '{'), null);
-        stateTransitions.put(new StatesPair<>(new State("start"), ' '), new State("spacing"));
-        stateTransitions.put(new StatesPair<>(new State("start"), '/'), new State("slash"));
-        stateTransitions.put(new StatesPair<>(new State("start"), '*'), new State("asterisk"));
-        stateTransitions.put(new StatesPair<>(new State("start"), '"'), null);
-        stateTransitions.put(new StatesPair<>(new State("start"), 'f'), new State("forF"));
-        stateTransitions.put(new StatesPair<>(new State("start"), '\r'), null);
+        try (InputStream file = new FileInputStream(pathToConfig)) {
+            Yaml yaml = new Yaml();
+            List statesDefs = yaml.load(file);
 
-        //for f
-        stateTransitions.put(new StatesPair<>(new State("forF"), null), null);
-        stateTransitions.put(new StatesPair<>(new State("forF"), 'o'), new State("forO"));
+            for (Object stateDefObject : statesDefs) {
+                Map stateDef = (Map) stateDefObject;
+                String state = stateDef.get("state").toString();
+                List actionsDefs = (List) stateDef.get("actions");
 
-        //for o
-        stateTransitions.put(new StatesPair<>(new State("forO"), null), null);
-        stateTransitions.put(new StatesPair<>(new State("forO"), 'r'), new State("forR"));
+                for (Object actionDefObject : actionsDefs) {
+                    Map actionDef = (Map) actionDefObject;
+                    String stateName = (String) actionDef.get("state");
+                    String input = (String) actionDef.get("input");
+                    IState nextState;
+                    if (stateName != null) {
+                        nextState = new State(stateName);
+                    } else {
+                        nextState = null;
+                    }
+                    stateTransitions.put(new StatesPair<>(new State(state), input), nextState);
+                }
 
-        //for r
-        stateTransitions.put(new StatesPair<>(new State("forR"), null), null);
-        stateTransitions.put(new StatesPair<>(new State("forR"), ';'), null);
-        stateTransitions.put(new StatesPair<>(new State("forR"), '\n'), null);
-        stateTransitions.put(new StatesPair<>(new State("forR"), '('), null);
-        stateTransitions.put(new StatesPair<>(new State("forR"), ')'), null);
-        stateTransitions.put(new StatesPair<>(new State("forR"), '}'), null);
-        stateTransitions.put(new StatesPair<>(new State("forR"), '{'), null);
-        stateTransitions.put(new StatesPair<>(new State("forR"), ' '), null);
-        stateTransitions.put(new StatesPair<>(new State("forR"), '/'), null);
-        stateTransitions.put(new StatesPair<>(new State("forR"), '*'), null);
-        stateTransitions.put(new StatesPair<>(new State("forR"), '"'), null);
-        stateTransitions.put(new StatesPair<>(new State("forR"), '\r'), null);
+            }
 
-        //spacing
-        stateTransitions.put(new StatesPair<>(new State("spacing"), null), null);
-        stateTransitions.put(new StatesPair<>(new State("spacing"), ' '), new State("spacing"));
-
-        //slash
-        stateTransitions.put(new StatesPair<>(new State("slash"), null), null);
-        stateTransitions.put(new StatesPair<>(new State("slash"), '*'), null);
-        stateTransitions.put(new StatesPair<>(new State("slash"), '/'), null);
-
-        //asterisk
-        stateTransitions.put(new StatesPair<>(new State("asterisk"), null), null);
-        stateTransitions.put(new StatesPair<>(new State("asterisk"), '/'), null);
-
+        } catch (FileNotFoundException e) {
+            throw new CouldNotCreateStateTransitions("Not found file: " + pathToConfig, e);
+        } catch (IOException e) {
+            throw new CouldNotCreateStateTransitions("Could  not read file: " + pathToConfig, e);
+        }
     }
 
     @Override
     public IState nextState(IState currentState, char character) {
-        IState nextState = stateTransitions.get(new StatesPair<>(currentState, character));
+        IState nextState = stateTransitions.get(new StatesPair<>(currentState, String.valueOf(character)));
 
         if (nextState == null) {
-            nextState = stateTransitions.get(new StatesPair<>(currentState, (Character) null));
+            nextState = stateTransitions.get(new StatesPair<>(currentState, (String) null));
         }
 
         return nextState;

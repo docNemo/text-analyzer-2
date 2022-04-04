@@ -28,6 +28,8 @@ public class App {
     public static void main(String[] args) {
         final String pathToInputFile = args[0];
         final String pathToOutputFile = args[1];
+        final String pathToLexerConfig = args[2];
+        final String pathToFormatterConfig = args[3];
         try (
                 FileInputStream inputStream = new FileInputStream(pathToInputFile);
                 InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
@@ -40,8 +42,8 @@ public class App {
                 FileWriterChar fileWriterChar = new FileWriterChar(fileWriter)
 
         ) {
-            ILexer lexer = new Lexer(readerChar);
-            IFormatter formatter = new Formatter();
+            ILexer lexer = new Lexer(readerChar, pathToLexerConfig);
+            IFormatter formatter = new Formatter(pathToFormatterConfig);
             formatter.format(lexer, fileWriterChar);
 
         } catch (CloseException e) {

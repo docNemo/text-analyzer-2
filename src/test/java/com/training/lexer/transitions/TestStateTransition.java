@@ -8,11 +8,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class TestStateTransition {
-    IStateTransitions stateTransitions;
+    private IStateTransitions stateTransitions;
+    private final String pathToLexerConfig = "src/main/java/com/training/lexer/lexer.yaml";
 
     @BeforeEach
     void setUp() {
-        stateTransitions = new StateTransitions();
+        stateTransitions = new StateTransitions(pathToLexerConfig);
     }
 
     @Test

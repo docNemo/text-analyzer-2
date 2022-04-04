@@ -11,11 +11,12 @@ public class LexerTest {
 
     private IReader reader;
     private Lexer lexer;
+    private final String pathToLexerConfig = "src/main/java/com/training/lexer/lexer.yaml";
 
     @Test
     void testOneLineComment() {
         reader = new StringReaderChar("// f\n");
-        lexer = new Lexer(reader);
+        lexer = new Lexer(reader, pathToLexerConfig);
 
         IToken actual = lexer.getToken();
 
@@ -40,8 +41,8 @@ public class LexerTest {
 
     @Test
     void testStringLiteral() {
-        reader = new StringReaderChar("\"/ \"\n");
-        lexer = new Lexer(reader);
+        reader = new StringReaderChar("\"/ \"\r\n");
+        lexer = new Lexer(reader, pathToLexerConfig);
 
         IToken actual = lexer.getToken();
 
@@ -65,6 +66,11 @@ public class LexerTest {
 
         actual = lexer.getToken();
 
+        assertEquals("slashr", actual.getName());
+        assertEquals("\r", actual.getLexeme());
+
+        actual = lexer.getToken();
+
         assertEquals("newline", actual.getName());
         assertEquals("\n", actual.getLexeme());
     }
@@ -72,7 +78,7 @@ public class LexerTest {
     @Test
     void testFor() {
         reader = new StringReaderChar("for df ");
-        lexer = new Lexer(reader);
+        lexer = new Lexer(reader, pathToLexerConfig);
 
         IToken actual = lexer.getToken();
 
@@ -103,7 +109,7 @@ public class LexerTest {
     @Test
     void testNotFor() {
         reader = new StringReaderChar("fors df ");
-        lexer = new Lexer(reader);
+        lexer = new Lexer(reader, pathToLexerConfig);
 
         IToken actual = lexer.getToken();
 
@@ -134,7 +140,7 @@ public class LexerTest {
     @Test
     void testBlock() {
         reader = new StringReaderChar("{for(){a;}}");
-        lexer = new Lexer(reader);
+        lexer = new Lexer(reader, pathToLexerConfig);
 
         IToken actual = lexer.getToken();
 

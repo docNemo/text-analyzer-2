@@ -15,6 +15,7 @@ asdas {
         asd;
     }
 }
+
 /* asd{}a;\
   sdd */
 asd;

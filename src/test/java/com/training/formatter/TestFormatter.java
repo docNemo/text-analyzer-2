@@ -12,18 +12,20 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class TestFormatter {
-    Formatter formatter;
-    IReader reader;
-    ILexer lexer;
-    IWriter writer;
-    StringBuilder stringInWriter;
+    private Formatter formatter;
+    private IReader reader;
+    private ILexer lexer;
+    private IWriter writer;
+    private StringBuilder stringInWriter;
+    private final String pathToLexerConfig = "src/main/java/com/training/lexer/lexer.yaml";
+    private final String pathToFormatterConfig = "src/main/java/com/training/formatter/formatter.yaml";
 
     @BeforeEach
     public void createFormatter() {
         reader = new StringReaderChar("");
         stringInWriter = new StringBuilder();
         writer = new StringWriterChar(stringInWriter);
-        formatter = new Formatter();
+        formatter = new Formatter(pathToFormatterConfig);
     }
 
     @Test
@@ -56,8 +58,28 @@ public class TestFormatter {
                     }
                 }""";
 
-        lexer = new Lexer(reader);
-        formatter = new Formatter();
+        lexer = new Lexer(reader, pathToLexerConfig);
+        formatter = new Formatter(pathToFormatterConfig);
+
+        formatter.format(lexer, writer);
+        String actual = stringInWriter.toString();
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void testIndent() {
+        String input = """
+                /**/
+                    asd;
+                        a;""";
+        reader = new StringReaderChar(input);
+        String expected = """
+                /**/
+                asd;
+                a;""";
+
+        lexer = new Lexer(reader, pathToLexerConfig);
+        formatter = new Formatter(pathToFormatterConfig);
 
         formatter.format(lexer, writer);
         String actual = stringInWriter.toString();
@@ -89,8 +111,8 @@ public class TestFormatter {
 //                }
 //                /* asd{}a;\\""";
 //
-//        lexer = new Lexer(reader);
-//        formatter = new Formatter();
+//        lexer = new Lexer(reader, pathToLexerConfig);
+//        formatter = new Formatter(pathToFormatterConfig);
 //
 //        formatter.format(lexer, writer);
 //        String actual = stringInWriter.toString();
@@ -104,8 +126,8 @@ public class TestFormatter {
         reader = new StringReaderChar(input);
         String expected = """
                 asd {""";
-        lexer = new Lexer(reader);
-        formatter = new Formatter();
+        lexer = new Lexer(reader, pathToLexerConfig);
+        formatter = new Formatter(pathToFormatterConfig);
 
         formatter.format(lexer, writer);
         String actual = stringInWriter.toString();
@@ -120,8 +142,8 @@ public class TestFormatter {
         String expected = """
                 asd;
                 {""";
-        lexer = new Lexer(reader);
-        formatter = new Formatter();
+        lexer = new Lexer(reader, pathToLexerConfig);
+        formatter = new Formatter(pathToFormatterConfig);
 
         formatter.format(lexer, writer);
         String actual = stringInWriter.toString();
@@ -137,8 +159,8 @@ public class TestFormatter {
                 {
                     asd;
                     {""";
-        lexer = new Lexer(reader);
-        formatter = new Formatter();
+        lexer = new Lexer(reader, pathToLexerConfig);
+        formatter = new Formatter(pathToFormatterConfig);
 
         formatter.format(lexer, writer);
         String actual = stringInWriter.toString();
@@ -153,8 +175,8 @@ public class TestFormatter {
         String expected = """
                 asd
                 }""";
-        lexer = new Lexer(reader);
-        formatter = new Formatter();
+        lexer = new Lexer(reader, pathToLexerConfig);
+        formatter = new Formatter(pathToFormatterConfig);
 
         formatter.format(lexer, writer);
         String actual = stringInWriter.toString();
@@ -169,8 +191,8 @@ public class TestFormatter {
         String expected = """
                 asd;
                 "asdasd    {} () \\*asda *\\" asdf""";
-        lexer = new Lexer(reader);
-        formatter = new Formatter();
+        lexer = new Lexer(reader, pathToLexerConfig);
+        formatter = new Formatter(pathToFormatterConfig);
 
         formatter.format(lexer, writer);
         String actual = stringInWriter.toString();
@@ -181,22 +203,22 @@ public class TestFormatter {
     void testTwoNewLines() {
         String input = """
                 }
-                
+                                
                 asd;
-                
+                                
                 //ghjgffgh
                 asd""";
         reader = new StringReaderChar(input);
         String expected = """
                 }
-                
+                                
                 asd;
-                
+                                
                 //ghjgffgh
                 asd""";
 
-        lexer = new Lexer(reader);
-        formatter = new Formatter();
+        lexer = new Lexer(reader, pathToLexerConfig);
+        formatter = new Formatter(pathToFormatterConfig);
 
         formatter.format(lexer, writer);
         String actual = stringInWriter.toString();
@@ -214,8 +236,8 @@ public class TestFormatter {
         String expected = """
                 (ad, asddas)""";
 
-        lexer = new Lexer(reader);
-        formatter = new Formatter();
+        lexer = new Lexer(reader, pathToLexerConfig);
+        formatter = new Formatter(pathToFormatterConfig);
 
         formatter.format(lexer, writer);
         String actual = stringInWriter.toString();
@@ -234,8 +256,8 @@ public class TestFormatter {
                 {
                     (ad, asddas)""";
 
-        lexer = new Lexer(reader);
-        formatter = new Formatter();
+        lexer = new Lexer(reader, pathToLexerConfig);
+        formatter = new Formatter(pathToFormatterConfig);
 
         formatter.format(lexer, writer);
         String actual = stringInWriter.toString();
@@ -246,14 +268,14 @@ public class TestFormatter {
     void testBracketsInText() {
         String input = """
                 asd()sAas
-                
+                                
                 AADda () asdas""";
         reader = new StringReaderChar(input);
         String expected = """
                 asd () sAas AADda () asdas""";
 
-        lexer = new Lexer(reader);
-        formatter = new Formatter();
+        lexer = new Lexer(reader, pathToLexerConfig);
+        formatter = new Formatter(pathToFormatterConfig);
 
         formatter.format(lexer, writer);
         String actual = stringInWriter.toString();
@@ -268,8 +290,8 @@ public class TestFormatter {
         String expected = """
                 asd for asd""";
 
-        lexer = new Lexer(reader);
-        formatter = new Formatter();
+        lexer = new Lexer(reader, pathToLexerConfig);
+        formatter = new Formatter(pathToFormatterConfig);
 
         formatter.format(lexer, writer);
         String actual = stringInWriter.toString();

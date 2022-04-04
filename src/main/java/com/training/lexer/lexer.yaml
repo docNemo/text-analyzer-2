@@ -6,8 +6,8 @@
     - input: ';'
       command: 'Semicolon'
       state: null
-    - input: '\n'
-      command: 'NewLine'
+    - input: "\n"
+      command: 'Newline'
       state: null
     - input: '('
       command: 'OpenBracket'
@@ -36,7 +36,7 @@
     - input: 'f'
       command: 'Char'
       state: 'forF'
-    - input: '\r'
+    - input: "\r"
       command: 'SlashR'
       state: null
 
@@ -66,7 +66,7 @@
     - input: ';'
       command: 'For'
       state: null
-    - input: '\n'
+    - input: "\n"
       command: 'For'
       state: null
     - input: '('
@@ -93,7 +93,7 @@
     - input: '"'
       command: 'For'
       state: null
-    - input: '\r'
+    - input: "\r"
       command: 'For'
       state: null
 
@@ -113,7 +113,7 @@
       state: null
     - input: '*'
       command: 'OpenMultiLineComment'
-      state: 'spacing'
+      state: null
     - input: '/'
       command: 'OneLineComment'
       state: null
@@ -124,5 +124,5 @@
       command: 'AppendPostpone'
       state: null
     - input: '/'
-      command: 'OneLineComment'
-      state: 'CloseMultiLineComment'
+      command: 'CloseMultiLineComment'
+      state: null

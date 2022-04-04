@@ -19,9 +19,9 @@ public class Formatter implements IFormatter {
     private final ICommandRepositoryFormatter commandRepository;
     private final IStateTransitionsFormatter stateTransitions;
 
-    public Formatter() {
-        commandRepository = new CommandRepositoryFormatter();
-        stateTransitions = new StateTransitionsFormatter();
+    public Formatter(final String pathToConfig) {
+        commandRepository = new CommandRepositoryFormatter(pathToConfig);
+        stateTransitions = new StateTransitionsFormatter(pathToConfig);
     }
 
     public void format(ILexer lexer, IWriter writer) throws ReaderException, WriteException {

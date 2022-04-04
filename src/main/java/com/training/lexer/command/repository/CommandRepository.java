@@ -1,93 +1,78 @@
 package com.training.lexer.command.repository;
 
+import com.training.exceptions.CouldNotCreateCommand;
+import com.training.exceptions.CouldNotCreateCommandRepository;
 import com.training.lexer.command.ICommand;
-import com.training.lexer.command.implementations.AppendLexeme;
-import com.training.lexer.command.implementations.AppendPostpone;
-import com.training.lexer.command.implementations.Char;
-import com.training.lexer.command.implementations.CloseBrace;
-import com.training.lexer.command.implementations.CloseBracket;
-import com.training.lexer.command.implementations.CloseMultiLineComment;
-import com.training.lexer.command.implementations.For;
-import com.training.lexer.command.implementations.Newline;
-import com.training.lexer.command.implementations.OneLineComment;
-import com.training.lexer.command.implementations.OpenBrace;
-import com.training.lexer.command.implementations.OpenBracket;
-import com.training.lexer.command.implementations.OpenMultiLineComment;
-import com.training.lexer.command.implementations.Quotemark;
-import com.training.lexer.command.implementations.Semicolon;
-import com.training.lexer.command.implementations.SlashR;
-import com.training.lexer.command.implementations.Space;
-import com.training.lexer.command.implementations.Spaces;
 import com.training.state.IState;
 import com.training.state.State;
 import com.training.state.StatesPair;
-
+import org.yaml.snakeyaml.Yaml;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class CommandRepository implements ICommandRepository {
+    static final String COMMAND_PACKAGE = "com.training.lexer.command.implementations";
 
-    private final Map<StatesPair<IState, Character>, ICommand> commands;
+    private final Map<StatesPair<IState, String>, ICommand> commands;
 
-    public CommandRepository() {
+    public CommandRepository(String pathToConfig) {
         commands = new HashMap<>();
 
-        //Start
-        commands.put(new StatesPair<>(new State("start"), null), new Char());
-        commands.put(new StatesPair<>(new State("start"), ';'), new Semicolon());
-        commands.put(new StatesPair<>(new State("start"), '\n'), new Newline());
-        commands.put(new StatesPair<>(new State("start"), '('), new OpenBracket());
-        commands.put(new StatesPair<>(new State("start"), ')'), new CloseBracket());
-        commands.put(new StatesPair<>(new State("start"), '}'), new CloseBrace());
-        commands.put(new StatesPair<>(new State("start"), '{'), new OpenBrace());
-        commands.put(new StatesPair<>(new State("start"), ' '), new Space());
-        commands.put(new StatesPair<>(new State("start"), '/'), new Char());
-        commands.put(new StatesPair<>(new State("start"), '"'), new Quotemark());
-        commands.put(new StatesPair<>(new State("start"), 'f'), new Char());
-        commands.put(new StatesPair<>(new State("start"), '\r'), new SlashR());
+        try (InputStream file = new FileInputStream(pathToConfig)) {
+            Yaml yaml = new Yaml();
+            List statesDefs = yaml.load(file);
 
-        //for f
-        commands.put(new StatesPair<>(new State("forF"), null), new AppendPostpone());
-        commands.put(new StatesPair<>(new State("forF"), 'o'), new AppendLexeme());
+            for (Object stateDefObject : statesDefs) {
+                Map stateDef = (Map) stateDefObject;
+                String stateName = stateDef.get("state").toString();
+                List actionsDefs = (List) stateDef.get("actions");
 
-        //for o
-        commands.put(new StatesPair<>(new State("forO"), null), new AppendPostpone());
-        commands.put(new StatesPair<>(new State("forO"), 'r'), new AppendLexeme());
+                for (Object actionDefObject : actionsDefs) {
+                    Map actionDef = (Map) actionDefObject;
+                    String commandName = actionDef.get("command").toString();
+                    String input = (String) actionDef.get("input");
+                    commands.put(new StatesPair<>(new State(stateName), input), createCommand(commandName));
+                }
 
-        //for r
-        commands.put(new StatesPair<>(new State("forR"), null), new Char());
-        commands.put(new StatesPair<>(new State("forR"), ';'), new For());
-        commands.put(new StatesPair<>(new State("forR"), '\n'), new For());
-        commands.put(new StatesPair<>(new State("forR"), '('), new For());
-        commands.put(new StatesPair<>(new State("forR"), ')'), new For());
-        commands.put(new StatesPair<>(new State("forR"), '}'), new For());
-        commands.put(new StatesPair<>(new State("forR"), '{'), new For());
-        commands.put(new StatesPair<>(new State("forR"), ' '), new For());
-        commands.put(new StatesPair<>(new State("forR"), '/'), new For());
-        commands.put(new StatesPair<>(new State("forR"), '*'), new For());
-        commands.put(new StatesPair<>(new State("forR"), '"'), new For());
-        commands.put(new StatesPair<>(new State("forR"), '\r'), new For());
+            }
 
-        //spacing
-        commands.put(new StatesPair<>(new State("spacing"), null), new AppendPostpone());
-        commands.put(new StatesPair<>(new State("spacing"), ' '), new Spaces());
+        } catch (FileNotFoundException e) {
+            throw new CouldNotCreateCommandRepository("Not found file: " + pathToConfig, e);
+        } catch (IOException e) {
+            throw new CouldNotCreateCommandRepository("Could  not read file: " + pathToConfig, e);
+        }
+    }
 
-        //slash
-        commands.put(new StatesPair<>(new State("slash"), null), new AppendPostpone());
-        commands.put(new StatesPair<>(new State("slash"), '*'), new OpenMultiLineComment());
-        commands.put(new StatesPair<>(new State("slash"), '/'), new OneLineComment());
+    private ICommand createCommand(final String commandName) {
+        String fullName = COMMAND_PACKAGE + "." + commandName;
+        try {
+            return (ICommand) Class.forName(fullName).getDeclaredConstructor().newInstance();
+        } catch (ClassNotFoundException e) {
+            throw new CouldNotCreateCommand("Not found file: " + fullName, e);
+        } catch (InvocationTargetException e) {
+            throw new CouldNotCreateCommand("Exception in constructor of command: " + fullName, e);
+        } catch (InstantiationException e) {
+            throw new CouldNotCreateCommand("Can't be create instance of command: " + fullName, e);
+        } catch (IllegalAccessException e) {
+            throw new CouldNotCreateCommand("Illegal access for file: " + fullName, e);
+        } catch (NoSuchMethodException e) {
+            throw new CouldNotCreateCommand("Not found method for create command: " + fullName, e);
+        }
 
-        //asterisk
-        commands.put(new StatesPair<>(new State("asterisk"), null), new AppendPostpone());
-        commands.put(new StatesPair<>(new State("asterisk"), '/'), new CloseMultiLineComment());
     }
 
     @Override
     public ICommand getCommand(IState state, char character) {
-        ICommand command = commands.get(new StatesPair<>(state, character));
+        ICommand command = commands.get(new StatesPair<>(state, String.valueOf(character)));
 
         if (command == null) {
-            command = commands.get(new StatesPair<>(state, (Character) null));
+            command = commands.get(new StatesPair<>(state, (String) null));
         }
 
         return command;

@@ -19,11 +19,12 @@ public class Lexer implements ILexer {
     private final ICommandRepository commandRepository;
     private final IStateTransitions stateTransitions;
     private final ITokenBuilder tokenBuilder;
+    private final String pathToLexerConfig = "src/main/java/com/training/lexer/lexer.yaml";
 
-    public Lexer(IReader reader) {
+    public Lexer(IReader reader, String pathToConfig) {
         this.reader = reader;
-        commandRepository = new CommandRepository();
-        stateTransitions = new StateTransitions();
+        commandRepository = new CommandRepository(pathToConfig);
+        stateTransitions = new StateTransitions(pathToConfig);
         tokenBuilder = new TokenBuilder();
     }
 
