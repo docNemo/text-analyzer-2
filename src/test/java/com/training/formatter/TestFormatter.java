@@ -86,39 +86,6 @@ public class TestFormatter {
         assertEquals(expected, actual);
     }
 
-
-//    @Test
-//    void testFormat() {
-//        String input = """
-//                asd;                asd;
-//                qew
-//                {
-//                qwer;asdasdas;}
-//
-//                qkjfj;
-//                }
-//                /* asd{}a;\\""";
-//        reader = new StringReaderChar(input);
-//        String expected = """
-//                asd;
-//                asd;
-//                qew {
-//                    qwer;
-//                    asdasdas;
-//                }
-//
-//                qkjfj;
-//                }
-//                /* asd{}a;\\""";
-//
-//        lexer = new Lexer(reader, pathToLexerConfig);
-//        formatter = new Formatter(pathToFormatterConfig);
-//
-//        formatter.format(lexer, writer);
-//        String actual = stringInWriter.toString();
-//        assertEquals(expected, actual);
-//    }
-
     @Test
     void testOpenBraceAfterChar() {
         String input = """
