@@ -1,0 +1,128 @@
+- state: 'start'
+  actions:
+    - input: null
+      command: 'Char'
+      state: null
+    - input: ';'
+      command: 'Semicolon'
+      state: null
+    - input: '\n'
+      command: 'NewLine'
+      state: null
+    - input: '('
+      command: 'OpenBracket'
+      state: null
+    - input: ')'
+      command: 'CloseBracket'
+      state: null
+    - input: '{'
+      command: 'OpenBrace'
+      state: null
+    - input: '}'
+      command: 'CloseBrace'
+      state: null
+    - input: ' '
+      command: 'Space'
+      state: 'spacing'
+    - input: '/'
+      command: 'Char'
+      state: 'slash'
+    - input: '*'
+      command: 'Char'
+      state: 'asterisk'
+    - input: '"'
+      command: 'Quotemark'
+      state: null
+    - input: 'f'
+      command: 'Char'
+      state: 'forF'
+    - input: '\r'
+      command: 'SlashR'
+      state: null
+
+- state: 'forF'
+  actions:
+    - input: null
+      command: 'AppendPostpone'
+      state: null
+    - input: 'o'
+      command: 'AppendLexeme'
+      state: 'forO'
+
+- state: 'forO'
+  actions:
+    - input: null
+      command: 'AppendPostpone'
+      state: null
+    - input: 'r'
+      command: 'AppendLexeme'
+      state: 'forR'
+
+- state: 'forR'
+  actions:
+    - input: null
+      command: 'Char'
+      state: null
+    - input: ';'
+      command: 'For'
+      state: null
+    - input: '\n'
+      command: 'For'
+      state: null
+    - input: '('
+      command: 'For'
+      state: null
+    - input: ')'
+      command: 'For'
+      state: null
+    - input: '{'
+      command: 'For'
+      state: null
+    - input: '}'
+      command: 'For'
+      state: null
+    - input: ' '
+      command: 'For'
+      state: null
+    - input: '/'
+      command: 'For'
+      state: null
+    - input: '*'
+      command: 'For'
+      state: null
+    - input: '"'
+      command: 'For'
+      state: null
+    - input: '\r'
+      command: 'For'
+      state: null
+
+- state: 'spacing'
+  actions:
+    - input: null
+      command: 'AppendPostpone'
+      state: null
+    - input: ' '
+      command: 'Spaces'
+      state: 'spacing'
+
+- state: 'slash'
+  actions:
+    - input: null
+      command: 'AppendPostpone'
+      state: null
+    - input: '*'
+      command: 'OpenMultiLineComment'
+      state: 'spacing'
+    - input: '/'
+      command: 'OneLineComment'
+      state: null
+
+- state: 'asterisk'
+  actions:
+    - input: null
+      command: 'AppendPostpone'
+      state: null
+    - input: '/'
+      command: 'OneLineComment'
+      state: 'CloseMultiLineComment'

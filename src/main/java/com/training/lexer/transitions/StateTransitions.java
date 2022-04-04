@@ -27,6 +27,7 @@ public class StateTransitions implements IStateTransitions {
         stateTransitions.put(new StatesPair<>(new State("start"), '*'), new State("asterisk"));
         stateTransitions.put(new StatesPair<>(new State("start"), '"'), null);
         stateTransitions.put(new StatesPair<>(new State("start"), 'f'), new State("forF"));
+        stateTransitions.put(new StatesPair<>(new State("start"), '\r'), null);
 
         //for f
         stateTransitions.put(new StatesPair<>(new State("forF"), null), null);
@@ -48,7 +49,7 @@ public class StateTransitions implements IStateTransitions {
         stateTransitions.put(new StatesPair<>(new State("forR"), '/'), null);
         stateTransitions.put(new StatesPair<>(new State("forR"), '*'), null);
         stateTransitions.put(new StatesPair<>(new State("forR"), '"'), null);
-        stateTransitions.put(new StatesPair<>(new State("forR"), 'f'), null);
+        stateTransitions.put(new StatesPair<>(new State("forR"), '\r'), null);
 
         //spacing
         stateTransitions.put(new StatesPair<>(new State("spacing"), null), null);

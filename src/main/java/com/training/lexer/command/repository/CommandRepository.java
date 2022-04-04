@@ -66,7 +66,6 @@ public class CommandRepository implements ICommandRepository {
         commands.put(new StatesPair<>(new State("forR"), '/'), new For());
         commands.put(new StatesPair<>(new State("forR"), '*'), new For());
         commands.put(new StatesPair<>(new State("forR"), '"'), new For());
-        commands.put(new StatesPair<>(new State("forR"), 'f'), new For());
         commands.put(new StatesPair<>(new State("forR"), '\r'), new For());
 
         //spacing
@@ -81,8 +80,6 @@ public class CommandRepository implements ICommandRepository {
         //asterisk
         commands.put(new StatesPair<>(new State("asterisk"), null), new AppendPostpone());
         commands.put(new StatesPair<>(new State("asterisk"), '/'), new CloseMultiLineComment());
-
-
     }
 
     @Override
