@@ -1,16 +1,13 @@
 package com.training.lexer.command.repository;
 
+import com.training.configreader.ConfigReader;
+import com.training.configreader.IConfigReader;
 import com.training.exceptions.CouldNotCreateCommand;
-import com.training.exceptions.CouldNotCreateCommandRepository;
 import com.training.lexer.command.ICommand;
 import com.training.state.IState;
 import com.training.state.State;
 import com.training.state.StatesPair;
-import org.yaml.snakeyaml.Yaml;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
+
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.List;
@@ -24,28 +21,14 @@ public class CommandRepository implements ICommandRepository {
     public CommandRepository(String pathToConfig) {
         commands = new HashMap<>();
 
-        try (InputStream file = new FileInputStream(pathToConfig)) {
-            Yaml yaml = new Yaml();
-            List statesDefs = yaml.load(file);
+        IConfigReader configReader = new ConfigReader();
+        List<String[]> actions = configReader.getListActionsState(pathToConfig, true);
 
-            for (Object stateDefObject : statesDefs) {
-                Map stateDef = (Map) stateDefObject;
-                String stateName = stateDef.get("state").toString();
-                List actionsDefs = (List) stateDef.get("actions");
-
-                for (Object actionDefObject : actionsDefs) {
-                    Map actionDef = (Map) actionDefObject;
-                    String commandName = actionDef.get("command").toString();
-                    String input = (String) actionDef.get("input");
-                    commands.put(new StatesPair<>(new State(stateName), input), createCommand(commandName));
-                }
-
-            }
-
-        } catch (FileNotFoundException e) {
-            throw new CouldNotCreateCommandRepository("Not found file: " + pathToConfig, e);
-        } catch (IOException e) {
-            throw new CouldNotCreateCommandRepository("Could  not read file: " + pathToConfig, e);
+        for (String[] action : actions) {
+            String state = action[0];
+            String input = action[1];
+            String commandName = action[2];
+            commands.put(new StatesPair<>(new State(state), input), createCommand(commandName));
         }
     }
 
