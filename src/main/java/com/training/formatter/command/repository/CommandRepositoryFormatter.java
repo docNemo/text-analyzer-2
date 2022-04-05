@@ -8,7 +8,6 @@ import com.training.lexer.token.IToken;
 import com.training.state.IState;
 import com.training.state.State;
 import com.training.state.StatesPair;
-
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.List;
@@ -16,7 +15,12 @@ import java.util.Map;
 
 public class CommandRepositoryFormatter implements ICommandRepositoryFormatter {
     private static final String COMMAND_PACKAGE = "com.training.formatter.command.implementations";
-    Map<StatesPair<IState, String>, ICommandFormatter> commands;
+
+    private static final byte CURRENT_STATE = 0;
+    private static final byte INPUT = 1;
+    private static final byte NAME_COMMAND = 2;
+
+    private final Map<StatesPair<IState, String>, ICommandFormatter> commands;
 
     public CommandRepositoryFormatter(final String pathToConfig) {
         commands = new HashMap<>();
@@ -25,9 +29,9 @@ public class CommandRepositoryFormatter implements ICommandRepositoryFormatter {
         List<String[]> actions = configReader.getListActionsState(pathToConfig, true);
 
         for (String[] action : actions) {
-            String state = action[0];
-            String input = action[1];
-            String commandName = action[2];
+            String state = action[CURRENT_STATE];
+            String input = action[INPUT];
+            String commandName = action[NAME_COMMAND];
             commands.put(new StatesPair<>(new State(state), input), createCommand(commandName));
         }
     }

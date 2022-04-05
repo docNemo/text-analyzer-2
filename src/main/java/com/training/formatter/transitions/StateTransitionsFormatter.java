@@ -12,7 +12,11 @@ import java.util.List;
 import java.util.Map;
 
 public class StateTransitionsFormatter implements IStateTransitionsFormatter {
-    Map<StatesPair<IState, String>, IState> stateTransitions;
+    private static final byte CURRENT_STATE = 0;
+    private static final byte INPUT = 1;
+    private static final byte NEXT_STATE = 2;
+
+    private final Map<StatesPair<IState, String>, IState> stateTransitions;
 
     public StateTransitionsFormatter(final String pathToConfig) {
         stateTransitions = new HashMap<>();
@@ -21,10 +25,11 @@ public class StateTransitionsFormatter implements IStateTransitionsFormatter {
         List<String[]> actions = configReader.getListActionsState(pathToConfig, false);
 
         for (String[] action : actions) {
-            String state = action[0];
-            String input = action[1];
-            String nextStateName = action[2];
+            String state = action[CURRENT_STATE];
+            String input = action[INPUT];
+            String nextStateName = action[NEXT_STATE];
             IState nextState;
+
             if (nextStateName != null) {
                 nextState = new State(nextStateName);
             } else {

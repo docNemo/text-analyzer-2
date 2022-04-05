@@ -12,6 +12,10 @@ import java.util.List;
 import java.util.Map;
 
 public class ConfigReader implements IConfigReader {
+    private static final byte CURRENT_STATE = 0;
+    private static final byte INPUT = 1;
+    private static final byte OUTPUT = 2;
+
     @Override
     public List<String[]> getListActionsState(final String pathToConfig, final boolean isGettingCommand) {
         try (InputStream file = new FileInputStream(pathToConfig)) {
@@ -30,13 +34,13 @@ public class ConfigReader implements IConfigReader {
                     String input = (String) actionDef.get("input");
 
                     String[] action = new String[3];
-                    action[0] = stateName;
-                    action[1] = input;
+                    action[CURRENT_STATE] = stateName;
+                    action[INPUT] = input;
 
                     if (isGettingCommand) {
-                        action[2] = actionDef.get("command").toString();
+                        action[OUTPUT] = actionDef.get("command").toString();
                     } else {
-                        action[2] = (String) actionDef.get("state");
+                        action[OUTPUT] = (String) actionDef.get("state");
                     }
 
                     actions.add(action);
